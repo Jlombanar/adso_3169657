@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía: Panel Administrativo Helados Mimos · SENA ADSO</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;900&family=Syne:wght@700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#39a900;--verde-dark:#2d8400;
+  --verde-glow:rgba(57,169,0,0.10);--verde-border:rgba(57,169,0,0.28);
+  --naranja:#ff6b00;--amarillo:#f7df1e;--azul:#0ea5e9;--rojo:#dc2626;
+  --fondo:#f4f7f2;--card:#ffffff;
+  --texto:#1a2714;--dim:rgba(26,39,20,0.62);--dimmer:rgba(26,39,20,0.38);
+  --code-bg:#0f172a;--code-text:#e2e8f0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--texto);}
+code{font-family:'Fira Code',monospace;font-size:.86em;background:var(--verde-glow);padding:1px 6px;border-radius:5px;}
+
+.topbar{position:sticky;top:0;z-index:99;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:2px solid var(--verde);display:flex;align-items:center;justify-content:space-between;padding:10px 28px;box-shadow:0 2px 12px rgba(57,169,0,0.08);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.sena-logo{background:var(--verde);color:#fff;font-weight:900;font-size:17px;padding:7px 14px;border-radius:8px;}
+.topbar-brand{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--verde-dark);}
+.topbar-sub{font-size:11px;color:var(--dimmer);}
+
+.pagina{max-width:960px;margin:0 auto;padding:50px 28px 80px;}
+
+.portada{background:linear-gradient(135deg,#f4f7f2,#fffef0);border-radius:24px;padding:44px 40px;margin-bottom:32px;border:1px solid #e2eadd;position:relative;overflow:hidden;}
+.portada::before{content:'';position:absolute;width:380px;height:380px;border-radius:50%;background:var(--amarillo);filter:blur(90px);opacity:.11;bottom:-100px;right:-80px;pointer-events:none;}
+.portada::after{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:var(--verde);filter:blur(80px);opacity:.09;top:-80px;left:-60px;pointer-events:none;}
+.port-tag{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--verde-dark);background:var(--verde-glow);border:1px solid var(--verde-border);padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:16px;}
+.port-titulo{font-family:'Syne',sans-serif;font-size:clamp(26px,5vw,40px);font-weight:800;line-height:1.15;margin-bottom:14px;}
+.port-titulo span{background:linear-gradient(135deg,var(--verde),#c8b800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.port-desc{font-size:15px;color:var(--dim);max-width:680px;line-height:1.75;margin-bottom:24px;}
+.port-chips{display:flex;gap:10px;flex-wrap:wrap;}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid #e2eadd;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;color:var(--dim);}
+
+.objetivo{background:var(--card);border-radius:20px;padding:26px 30px;margin-bottom:20px;border:1.5px solid var(--verde-border);box-shadow:0 3px 14px rgba(0,0,0,0.05);}
+.objetivo-label{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--verde-dark);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.objetivo-texto{font-size:15px;line-height:1.75;color:var(--texto);}
+
+.seccion-titulo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin:44px 0 4px;display:flex;align-items:center;gap:10px;}
+.seccion-sub{font-size:13.5px;color:var(--dimmer);margin-bottom:24px;}
+
+.step-card{background:var(--card);border-radius:18px;padding:26px 28px;margin-bottom:22px;border:1px solid #e2eadd;box-shadow:0 3px 14px rgba(0,0,0,0.05);}
+.step-header{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap;}
+.step-number{background:var(--verde);color:#fff;font-family:'Syne',sans-serif;font-weight:800;min-width:34px;height:34px;padding:0 6px;border-radius:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem;}
+.step-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;flex:1;min-width:180px;}
+.step-description{color:var(--dim);margin-bottom:14px;font-size:0.92rem;line-height:1.65;}
+.step-file{font-family:'Fira Code',monospace;font-size:11.5px;color:var(--verde-dark);background:var(--verde-glow);border:1px solid var(--verde-border);padding:3px 10px;border-radius:8px;display:inline-block;margin:6px 0 10px;word-break:break-all;}
+
+.code-block{background-color:var(--code-bg);border-radius:12px;padding:16px;font-family:'Fira Code',monospace;font-size:0.74rem;color:var(--code-text);overflow-x:auto;border:1px solid rgba(255,255,255,0.08);white-space:pre;max-height:560px;overflow-y:auto;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;position:relative;margin-bottom:12px;}
+.code-block::before{content:'🔒 Solo lectura · escríbelo a mano';position:absolute;top:8px;right:14px;font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.3px;color:rgba(255,255,255,0.35);text-transform:uppercase;pointer-events:none;}
+.aviso-copia{background:#fff1f0;border:1.5px solid #f3a6a6;border-radius:16px;padding:18px 22px;margin-bottom:24px;font-size:13.5px;color:#7a1f1f;line-height:1.7;display:flex;gap:12px;align-items:flex-start;}
+.aviso-copia-icon{font-size:22px;flex-shrink:0;}
+.code-lang{color:#38bdf8;font-size:0.7rem;text-transform:uppercase;font-weight:bold;margin-bottom:8px;display:block;position:sticky;left:0;}
+
+.nota{background:#fff8e6;border:1px solid #f3d98a;border-radius:12px;padding:14px 18px;font-size:13px;color:#7a5c00;margin-bottom:14px;line-height:1.6;}
+.nota code{background:rgba(122,92,0,0.08);}
+
+.tabla-wrap{overflow-x:auto;margin-bottom:16px;border-radius:12px;border:1px solid #e2eadd;}
+.tabla{width:100%;border-collapse:collapse;font-size:13px;}
+.tabla th{background:var(--verde-glow);color:var(--verde-dark);font-family:'Syne',sans-serif;font-weight:700;text-align:left;padding:10px 14px;border-bottom:1px solid var(--verde-border);}
+.tabla td{padding:9px 14px;border-bottom:1px solid #eef2eb;vertical-align:top;line-height:1.5;}
+.tabla tr:last-child td{border-bottom:none;}
+
+.revision{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:16px;padding:22px 24px;margin:24px 0;}
+.revision-titulo{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#991b1b;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.revision-texto{font-size:13.5px;line-height:1.7;color:var(--texto);margin-bottom:12px;}
+.revision-fix{background:#f0fdf4;border:1.5px solid var(--verde-border);border-radius:16px;padding:22px 24px;margin:12px 0 24px;}
+.revision-fix-titulo{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--verde-dark);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+
+.check-list{list-style:none;}
+.check-list li{font-size:13px;line-height:1.7;padding-left:22px;position:relative;color:var(--texto);margin-bottom:4px;}
+.check-list li::before{content:'✓';position:absolute;left:0;color:var(--verde-dark);font-weight:700;}
+
+.indice{background:var(--card);border-radius:18px;padding:22px 28px;margin-bottom:20px;border:1px solid #e2eadd;}
+.indice-titulo{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--verde-dark);text-transform:uppercase;margin-bottom:10px;}
+.indice ol{columns:2;column-gap:28px;padding-left:20px;font-size:13.5px;line-height:1.9;color:var(--dim);}
+@media(max-width:600px){.indice ol{columns:1;}}
+
+.cierre{text-align:center;margin-top:56px;padding:36px;background:var(--card);border-radius:20px;border:2px solid rgba(57,169,0,0.28);}
+.cierre-icon{font-size:38px;margin-bottom:10px;}
+.cierre-titulo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:10px;}
+.cierre-texto{font-size:14px;color:var(--dim);line-height:1.75;max-width:760px;margin:0 auto;}
+.cierre-foot{font-size:12.5px;color:var(--dimmer);margin-top:16px;}
+
+@media(max-width:600px){.pagina{padding:28px 14px 60px;}.portada{padding:28px 20px;}.step-card{padding:20px;}.topbar{padding:10px 14px;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="sena-logo">SENA</div>
+    <div>
+      <div class="topbar-brand">Análisis y Desarrollo de Software</div>
+      <div class="topbar-sub">Guía Paso a Paso · Panel Administrativo · Helados Mimos · ADSO Mañana</div>
+    </div>
+  </div>
+</div>
+
+<div class="pagina">
+
+  <div class="portada">
+    <div class="port-tag">🍦 GUÍA PASO A PASO · FLUTTER</div>
+    <h1 class="port-titulo">Panel Administrativo<br><span>Helados Mimos</span></h1>
+    <p class="port-desc">Desde los modelos de usuario y producto hasta las pantallas del administrador y la carta del cliente, conectados al backend (Node + Express + Supabase + Cloudinary). Todo el código es el del proyecto real.</p>
+    <div class="port-chips">
+      <div class="chip">📦 7 librerías</div>
+      <div class="chip">🧱 2 modelos · 4 servicios</div>
+      <div class="chip">🧩 4 componentes</div>
+      <div class="chip">📄 2 páginas</div>
+      <div class="chip">🔄 Carta conectada al backend</div>
+    </div>
+  </div>
+
+  <div class="objetivo">
+    <div class="objetivo-label">🎯 Objetivo</div>
+    <div class="objetivo-texto">Construir el panel administrativo de Helados Mimos: menú lateral (<em>Drawer</em>) con los datos reales del admin, formulario de producto en <em>bottom sheet</em> con foto (galería, cámara, arrastrar y soltar, y encuadre), el servicio que crea/edita/elimina en el backend con el token del admin, la pantalla que lista los productos, y la carta del cliente leyendo esos mismos productos del servidor.</div>
+  </div>
+
+  <div class="indice">
+    <div class="indice-titulo">📚 Contenido</div>
+    <ol>
+      <li>Librerías</li><li>ApiConfig</li><li>UserModel</li><li>ProductoModel</li>
+      <li>UserService</li><li>Guardar la sesión</li><li>ProductoService</li><li>AdminProductService</li>
+      <li>AdminDrawer</li><li>AdminImageSelector (+ Android)</li><li>ProductFormSheet</li><li>ProductoCard</li>
+      <li>AdminProductListPage</li><li>MenuPage</li>
+    </ol>
+  </div>
+
+  <div class="aviso-copia">
+    <div class="aviso-copia-icon">✍️</div>
+    <div>El código de esta guía <strong>no se puede seleccionar ni copiar</strong> a propósito. La idea no es pegarlo en tu proyecto: es que lo escribas tú mismo, línea por línea, para entender de verdad qué hace cada parte. Usa la guía como referencia mientras escribes en tu editor.</div>
+  </div>
+
+  <div class="seccion-titulo">🗺️ Antes de empezar</div>
+  <div class="seccion-sub">Así quedan organizadas las carpetas y así se conectan las pantallas.</div>
+  <div class="step-card">
+    <div class="step-header"><div class="step-number">0</div><div class="step-title">Estructura del proyecto y flujo</div></div>
+    <div class="step-description">Escribe los archivos <strong>en el orden de los pasos</strong>: cada uno usa lo que se creó en los anteriores.</div>
+    <div class="code-block"><span class="code-lang">estructura</span>lib/
+├── main.dart
+├── models/
+│   ├── user_model.dart
+│   └── producto_model.dart
+├── services/
+│   ├── api_config.dart
+│   ├── user_service.dart
+│   ├── producto_service.dart
+│   └── admin_product_service.dart
+├── components/
+│   ├── login.dart
+│   ├── admin_drawer.dart
+│   ├── admin_image_selector.dart
+│   ├── product_form_sheet.dart
+│   └── producto_card.dart
+└── pages/
+    ├── admin_product_list_page.dart
+    └── menu_page.dart</div>
+    <div class="code-block"><span class="code-lang">flujo</span>Login ──(rol = admin)──► AdminProductListPage ──► ProductFormSheet (crear / editar)
+  │                           │                        └─ AdminImageSelector (foto)
+  │                           └─ AdminDrawer (menú lateral)
+  └──(rol = usuario)──► Home ──► MenuPage (carta: lee los mismos productos del backend)</div>
+  </div>
+  <div class="seccion-titulo">🧱 Base: librerías, modelos y servicios</div>
+  <div class="seccion-sub">Lo que necesita la app para hablar con el backend.</div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">Instalar las librerías</div>
+    </div>
+    <div class="step-description">Agrega estas dependencias y ejecuta <code>flutter pub get</code>.</div>
+    <div class="tabla-wrap"><table class="tabla"><thead><tr><th>Librería</th><th>Para qué sirve</th></tr></thead><tbody><tr><td><code>http</code></td><td>Hacer peticiones al backend</td></tr><tr><td><code>shared_preferences</code></td><td>Guardar la sesión (token, nombre, correo, rol) en el dispositivo</td></tr><tr><td><code>image_picker</code></td><td>Elegir la foto desde la galería o la cámara</td></tr><tr><td><code>image_picker_android</code> + <code>image_picker_platform_interface</code></td><td>Activar el selector de fotos moderno de Android</td></tr><tr><td><code>desktop_drop</code></td><td>Arrastrar y soltar la foto cuando la app corre en macOS / Windows / Linux</td></tr><tr><td><code>photo_manager</code></td><td>Detectar la foto que se arrastra al <strong>emulador</strong> de Android</td></tr><tr><td><code>http_parser</code></td><td>Indicar el tipo de archivo (<code>image/jpeg</code>, <code>image/png</code>…) al subir la foto</td></tr></tbody></table></div>
+    <div class="step-file">pubspec.yaml</div><div class="code-block"><span class="code-lang">yaml</span>dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.0
+  shared_preferences: ^2.5.5
+  google_sign_in: ^6.2.2
+  cupertino_icons: ^1.0.8
+  image_picker: ^1.2.4
+  image_picker_android: ^0.8.13+25
+  image_picker_platform_interface: ^2.11.2
+  desktop_drop: ^0.7.1
+  photo_manager: ^3.12.0
+  http_parser: ^4.1.2</div><div class="code-block"><span class="code-lang">terminal</span>flutter pub get</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">ApiConfig: URL del backend</div>
+    </div>
+    <div class="step-description">El emulador de Android no reconoce <code>localhost</code> como el computador: usa <code>10.0.2.2</code>. En web, iOS y escritorio se usa <code>localhost</code>.</div>
+    
+    <div class="step-file">lib/services/api_config.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:io&#x27; show Platform;
+import &#x27;package:flutter/foundation.dart&#x27; show kIsWeb;
+
+class ApiConfig {
+  static String get baseUrl {
+    // 1. Evaluar Web primero para evitar que Platform.isX genere un error en JS
+    if (kIsWeb) {
+      return &#x27;http://localhost:3000/api&#x27;;
+    }
+    
+    // 2. Evaluaciones para dispositivos móviles / desktop
+    if (Platform.isAndroid) {
+      // Emulador de Android
+      return &#x27;http://10.0.2.2:3000/api&#x27;;
+    } else if (Platform.isIOS) {
+      // Simulador de iOS
+      return &#x27;http://localhost:3000/api&#x27;;
+    }
+    
+    // Fallback para macOS, Windows, Linux, etc.
+    return &#x27;http://localhost:3000/api&#x27;;
+  }
+
+  static const Map&lt;String, String&gt; headers = {
+    &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+    &#x27;Accept&#x27;: &#x27;application/json&#x27;,
+  };
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">UserModel: modelo de usuario</div>
+    </div>
+    <div class="step-description">Representa al usuario que devuelve el backend. El getter <code>esAdmin</code> facilita saber si tiene permisos de administrador.</div>
+    
+    <div class="step-file">lib/models/user_model.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>class UserModel {
+  final String? id; // Nulo al crear, asignado por la BD al responder
+  final String nombre;
+  final String email;
+  final String password;
+  final String rol;
+
+  UserModel({
+    this.id,
+    required this.nombre,
+    required this.email,
+    required this.password,
+    this.rol = &#x27;usuario&#x27;, // Por defecto &#x27;usuario&#x27;
+  });
+// Getter útil para verificar si tiene permisos de administrador
+  bool get esAdmin =&gt; rol.toLowerCase() == &#x27;admin&#x27;;
+
+  
+  // Mapear la respuesta de la base de datos (con el ID ya autocompletado)
+  factory UserModel.fromJson(Map&lt;String, dynamic&gt; json) {
+    return UserModel(
+      id: json[&#x27;id&#x27;]?.toString(), // Lee el ID retornado por Supabase/Backend
+      nombre: json[&#x27;nombre&#x27;] ?? &#x27;&#x27;,
+      email: json[&#x27;email&#x27;] ?? &#x27;&#x27;,
+      password: json[&#x27;password&#x27;] ?? &#x27;&#x27;,
+      rol: json[&#x27;rol&#x27;] ?? &#x27;usuario&#x27;,
+    );
+  }
+
+  // Convertir a Map para enviar en el POST
+  Map&lt;String, dynamic&gt; toJson() {
+    return {
+      &#x27;nombre&#x27;: nombre,
+      &#x27;email&#x27;: email,
+      &#x27;password&#x27;: password,
+      &#x27;rol&#x27;: rol,
+    };
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">ProductoModel: modelo de producto</div>
+    </div>
+    <div class="step-description">Representa un helado de la tabla <code>helados</code>. <code>fromJson</code> acepta <code>id</code> o <code>_id</code> y <code>imagenUrl</code>, <code>imagen_url</code> o <code>imagen</code>, para no romperse si el backend cambia el nombre del campo.</div>
+    
+    <div class="step-file">lib/models/producto_model.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>class ProductoModel {
+  final String id;
+  final String nombre;
+  final double precio;
+  final String descripcion;
+  final String? imagenUrl; // Puede ser URL de red o ruta local (File path)
+
+  ProductoModel({
+    required this.id,
+    required this.nombre,
+    required this.precio,
+    required this.descripcion,
+    this.imagenUrl,
+  });
+  // Mapear la respuesta que viene del backend/BD
+  factory ProductoModel.fromJson(Map&lt;String, dynamic&gt; json) {
+    return ProductoModel(
+      id: json[&#x27;id&#x27;]?.toString() ?? json[&#x27;_id&#x27;]?.toString() ?? &#x27;&#x27;,
+      nombre: json[&#x27;nombre&#x27;] ?? &#x27;&#x27;,
+      precio: (json[&#x27;precio&#x27;] as num?)?.toDouble() ?? 0.0,
+      descripcion: json[&#x27;descripcion&#x27;] ?? &#x27;&#x27;,
+      imagenUrl: json[&#x27;imagenUrl&#x27;] ?? json[&#x27;imagen_url&#x27;] ?? json[&#x27;imagen&#x27;],
+    );
+  }
+
+  // Convertir a Map para enviar datos al backend
+  Map&lt;String, dynamic&gt; toJson() {
+    return {
+      &#x27;id&#x27;: id,
+      &#x27;nombre&#x27;: nombre,
+      &#x27;precio&#x27;: precio,
+      &#x27;descripcion&#x27;: descripcion,
+      if (imagenUrl != null) &#x27;imagenUrl&#x27;: imagenUrl,
+    };
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <div class="step-title">UserService: registro y login</div>
+    </div>
+    <div class="step-description">Registro, login con correo y login con Google. Si el servidor responde con error, se lanza una <code>Exception</code> con el mensaje del backend para mostrarlo en pantalla.</div>
+    
+    <div class="step-file">lib/services/user_service.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:convert&#x27;;
+import &#x27;package:http/http.dart&#x27; as http;
+import &#x27;../models/user_model.dart&#x27;;
+import &#x27;api_config.dart&#x27;;
+
+class UserService {
+  // Petición POST para registrar un nuevo usuario
+  Future&lt;UserModel&gt; registrarUsuario(UserModel usuario) async {
+    final url = Uri.parse(&#x27;${ApiConfig.baseUrl}/register&#x27;);
+
+    try {
+      final response = await http.post(
+        url,
+        headers: ApiConfig.headers,
+        body: jsonEncode(usuario.toJson()),
+      );
+
+      final contentType = response.headers[&#x27;content-type&#x27;] ?? &#x27;&#x27;;
+
+      // Si el servidor responde 201 (Created) o 200 (OK)
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final Map&lt;String, dynamic&gt; responseData = jsonDecode(response.body);
+        
+        // Retorna la instancia de UserModel con los datos guardados en Supabase
+        return UserModel.fromJson(responseData);
+      } else {
+        // Verifica si el servidor devolvió una respuesta en formato JSON
+        if (contentType.contains(&#x27;application/json&#x27;)) {
+          final Map&lt;String, dynamic&gt; errorData = jsonDecode(response.body);
+          final String mensajeError = errorData[&#x27;error&#x27;] ?? errorData[&#x27;message&#x27;] ?? &#x27;Error desconocido en el servidor&#x27;;
+          throw Exception(mensajeError);
+        } else {
+          // Si respondió HTML (Ej: 404 por ruta mal escrita o 500 por servidor caído)
+          throw Exception(&#x27;Servidor no disponible o ruta no encontrada (Código ${response.statusCode})&#x27;);
+        }
+      }
+    } catch (e) {
+      // Retorna el mensaje de la excepción formateado limpiamente
+      throw Exception(e.toString().replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;));
+    }
+  }
+
+  // Petición POST para iniciar sesión
+  Future&lt;Map&lt;String, dynamic&gt;&gt; loginUsuario(String email, String password) async {
+    final url = Uri.parse(&#x27;${ApiConfig.baseUrl}/login&#x27;);
+
+    try {
+      final response = await http.post(
+        url,
+        headers: ApiConfig.headers,
+        body: jsonEncode({
+          &#x27;email&#x27;: email,
+          &#x27;password&#x27;: password,
+        }),
+      );
+
+      final contentType = response.headers[&#x27;content-type&#x27;] ?? &#x27;&#x27;;
+
+      if (response.statusCode == 200) {
+        final Map&lt;String, dynamic&gt; responseData = jsonDecode(response.body);
+        
+        // Devuelve el mapa completo con &#x27;token&#x27; y &#x27;usuario&#x27; tal como responde tu backend
+        return responseData;
+      } else {
+        if (contentType.contains(&#x27;application/json&#x27;)) {
+          final Map&lt;String, dynamic&gt; errorData = jsonDecode(response.body);
+          final String mensajeError = errorData[&#x27;error&#x27;] ?? errorData[&#x27;message&#x27;] ?? &#x27;Credenciales incorrectas&#x27;;
+          throw Exception(mensajeError);
+        } else {
+          throw Exception(&#x27;Servidor no disponible o ruta no encontrada (Código ${response.statusCode})&#x27;);
+        }
+      }
+    } catch (e) {
+      throw Exception(e.toString().replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;));
+    }
+  }
+
+  // Petición POST para autenticar con Google (Login / Registro unificado)
+  Future&lt;Map&lt;String, dynamic&gt;&gt; autenticarConGoogleBackend(String idToken) async {
+    final url = Uri.parse(&#x27;${ApiConfig.baseUrl}/auth/google&#x27;);
+
+    try {
+      final response = await http.post(
+        url,
+        headers: ApiConfig.headers,
+        body: jsonEncode({
+          &#x27;idToken&#x27;: idToken,
+        }),
+      );
+
+      final contentType = response.headers[&#x27;content-type&#x27;] ?? &#x27;&#x27;;
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final Map&lt;String, dynamic&gt; responseData = jsonDecode(response.body);
+        // Retorna { message, token, usuario }
+        return responseData;
+      } else {
+        if (contentType.contains(&#x27;application/json&#x27;)) {
+          final Map&lt;String, dynamic&gt; errorData = jsonDecode(response.body);
+          final String mensajeError = errorData[&#x27;error&#x27;] ?? errorData[&#x27;message&#x27;] ?? &#x27;Error al autenticar con Google&#x27;;
+          throw Exception(mensajeError);
+        } else {
+          throw Exception(&#x27;Servidor no disponible o ruta no encontrada (Código ${response.statusCode})&#x27;);
+        }
+      }
+    } catch (e) {
+      throw Exception(e.toString().replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;));
+    }
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">6</div>
+      <div class="step-title">Guardar la sesión al iniciar sesión</div>
+    </div>
+    <div class="step-description">Después del login se guardan en el dispositivo el <strong>token</strong>, el <strong>nombre</strong>, el <strong>correo</strong> y el <strong>rol</strong>. El panel los lee para mostrar los datos del admin y enviar el token al backend. Si el rol es <code>admin</code>, va directo al panel.</div>
+    
+    <div class="step-file">lib/components/login.dart · método dentro de _LoginScreenState</div><div class="code-block"><span class="code-lang">dart</span>  Future&lt;void&gt; _guardarSesionYNavegar(Map&lt;String, dynamic&gt; respuesta) async {
+    final String token = respuesta[&#x27;token&#x27;];
+    final UserModel usuario = UserModel.fromJson(respuesta[&#x27;usuario&#x27;]);
+
+    // Extrae el rol (&#x27;admin&#x27; o &#x27;usuario&#x27;)
+    final String rol = (respuesta[&#x27;usuario&#x27;]?[&#x27;rol&#x27;] ?? &#x27;usuario&#x27;).toString().toLowerCase();
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(&#x27;jwt_token&#x27;, token);
+    await prefs.setString(&#x27;user_name&#x27;, usuario.nombre);
+    await prefs.setString(&#x27;user_email&#x27;, usuario.email);
+    await prefs.setString(&#x27;user_role&#x27;, rol);
+
+    if (!mounted) return;
+
+    _mostrarMensaje(&#x27;¡Bienvenido, ${usuario.nombre}!&#x27;);
+
+    // Si es administrador, va directo al panel; si no, a HomeScreen()
+    if (rol == &#x27;admin&#x27;) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) =&gt; const AdminProductListPage()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) =&gt; const HomeScreen()),
+      );
+    }
+  }</div>
+    <div class="nota">📌 Importa la página del panel arriba del archivo: <code>import '../pages/admin_product_list_page.dart';</code></div>
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">7</div>
+      <div class="step-title">ProductoService: consultar productos</div>
+    </div>
+    <div class="step-description">Solo <strong>consulta</strong> los productos (<code>GET /api/helados</code>). Lo usan tanto la carta del cliente como el panel, así ambos muestran siempre lo mismo.</div>
+    
+    <div class="step-file">lib/services/producto_service.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:convert&#x27;;
+import &#x27;package:http/http.dart&#x27; as http;
+import &#x27;../models/producto_model.dart&#x27;;
+import &#x27;api_config.dart&#x27;;
+
+class ProductoService {
+  // 1. Obtener la lista de productos para renderizar en el menú
+  Future&lt;List&lt;ProductoModel&gt;&gt; obtenerProductos() async {
+    final url = Uri.parse(&#x27;${ApiConfig.baseUrl}/helados&#x27;);
+
+    try {
+      final response = await http.get(url, headers: ApiConfig.headers);
+      final contentType = response.headers[&#x27;content-type&#x27;] ?? &#x27;&#x27;;
+
+      if (response.statusCode == 200) {
+        final List&lt;dynamic&gt; datos = jsonDecode(response.body);
+        return datos.map((item) =&gt; ProductoModel.fromJson(item)).toList();
+      } else {
+        if (contentType.contains(&#x27;application/json&#x27;)) {
+          final errorData = jsonDecode(response.body);
+          throw Exception(errorData[&#x27;message&#x27;] ?? errorData[&#x27;error&#x27;] ?? &#x27;Error al cargar productos&#x27;);
+        } else {
+          throw Exception(&#x27;Error del servidor (Código ${response.statusCode})&#x27;);
+        }
+      }
+    } catch (e) {
+      throw Exception(e.toString().replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;));
+    }
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">8</div>
+      <div class="step-title">AdminProductService: crear, editar y eliminar</div>
+    </div>
+    <div class="step-description">Estas rutas están protegidas en el backend, así que se envía el token en el header <code>Authorization: Bearer &lt;token&gt;</code>. La foto viaja como <code>multipart/form-data</code> en el campo <strong><code>imagen</code></strong> (el que espera Multer) y con su tipo real, porque Cloudinary rechaza archivos que no reconoce como imagen.</div>
+    <div class="tabla-wrap"><table class="tabla"><thead><tr><th>Acción</th><th>Método</th><th>Ruta</th><th>Respuesta</th></tr></thead><tbody><tr><td>Crear</td><td><code>POST</code></td><td><code>/api/helados</code></td><td><code>201</code></td></tr><tr><td>Editar</td><td><code>PUT</code></td><td><code>/api/helados/:id</code></td><td><code>200</code></td></tr><tr><td>Eliminar</td><td><code>DELETE</code></td><td><code>/api/helados/:id</code></td><td><code>200</code></td></tr></tbody></table></div>
+    <div class="step-file">lib/services/admin_product_service.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:convert&#x27;;
+import &#x27;dart:io&#x27;;
+import &#x27;package:http/http.dart&#x27; as http;
+import &#x27;package:http_parser/http_parser.dart&#x27;;
+import &#x27;package:shared_preferences/shared_preferences.dart&#x27;;
+import &#x27;api_config.dart&#x27;;
+
+// Operaciones del panel administrativo sobre /helados (requieren token de admin)
+class AdminProductService {
+  static Future&lt;String?&gt; _obtenerToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(&#x27;jwt_token&#x27;);
+  }
+
+  static String _mensajeError(http.Response response) {
+    try {
+      final data = jsonDecode(response.body);
+      return (data[&#x27;message&#x27;] ?? data[&#x27;error&#x27;] ?? &#x27;Error del servidor (código ${response.statusCode})&#x27;)
+          .toString();
+    } catch (_) {
+      return &#x27;El servidor no respondió con JSON válido (código ${response.statusCode}). &#x27;
+          &#x27;Verifica que el backend esté corriendo y que la URL en api_config.dart sea correcta.&#x27;;
+    }
+  }
+
+  // Arma la parte &quot;imagen&quot; de la petición multipart con Content-Type explícito:
+  // Cloudinary rechaza el archivo si no se reconoce como imagen
+  static Future&lt;http.MultipartFile&gt; _archivoImagen(File imagen) async {
+    final bytes = await imagen.readAsBytes();
+    final ext = imagen.path.split(&#x27;.&#x27;).last.toLowerCase();
+    final subtipo = switch (ext) {
+      &#x27;png&#x27; =&gt; &#x27;png&#x27;,
+      &#x27;webp&#x27; =&gt; &#x27;webp&#x27;,
+      &#x27;avif&#x27; =&gt; &#x27;avif&#x27;,
+      _ =&gt; &#x27;jpeg&#x27;,
+    };
+    return http.MultipartFile.fromBytes(
+      &#x27;imagen&#x27;, // Nombre del campo que espera Multer en el backend
+      bytes,
+      contentType: MediaType(&#x27;image&#x27;, subtipo),
+      filename: &#x27;producto_${DateTime.now().millisecondsSinceEpoch}.${subtipo == &#x27;jpeg&#x27; ? &#x27;jpg&#x27; : subtipo}&#x27;,
+    );
+  }
+
+  static Future&lt;void&gt; crearProducto({
+    required String nombre,
+    required String descripcion,
+    required double precio,
+    required File imagen,
+  }) async {
+    final token = await _obtenerToken();
+
+    final request = http.MultipartRequest(&#x27;POST&#x27;, Uri.parse(&#x27;${ApiConfig.baseUrl}/helados&#x27;));
+    request.headers[&#x27;Authorization&#x27;] = &#x27;Bearer $token&#x27;;
+    request.fields[&#x27;nombre&#x27;] = nombre;
+    request.fields[&#x27;descripcion&#x27;] = descripcion;
+    request.fields[&#x27;precio&#x27;] = precio.toString();
+    request.files.add(await _archivoImagen(imagen));
+
+    final response = await http.Response.fromStream(await request.send());
+    if (response.statusCode != 201) {
+      throw Exception(_mensajeError(response));
+    }
+  }
+
+  static Future&lt;void&gt; actualizarProducto({
+    required String id,
+    required String nombre,
+    required String descripcion,
+    required double precio,
+    File? imagen, // opcional: solo si el admin cambió la foto
+  }) async {
+    final token = await _obtenerToken();
+
+    final request = http.MultipartRequest(&#x27;PUT&#x27;, Uri.parse(&#x27;${ApiConfig.baseUrl}/helados/$id&#x27;));
+    request.headers[&#x27;Authorization&#x27;] = &#x27;Bearer $token&#x27;;
+    request.fields[&#x27;nombre&#x27;] = nombre;
+    request.fields[&#x27;descripcion&#x27;] = descripcion;
+    request.fields[&#x27;precio&#x27;] = precio.toString();
+    if (imagen != null) {
+      request.files.add(await _archivoImagen(imagen));
+    }
+
+    final response = await http.Response.fromStream(await request.send());
+    if (response.statusCode != 200) {
+      throw Exception(_mensajeError(response));
+    }
+  }
+
+  static Future&lt;void&gt; eliminarProducto(String id) async {
+    final token = await _obtenerToken();
+
+    final response = await http.delete(
+      Uri.parse(&#x27;${ApiConfig.baseUrl}/helados/$id&#x27;),
+      headers: {&#x27;Authorization&#x27;: &#x27;Bearer $token&#x27;},
+    );
+    if (response.statusCode != 200) {
+      throw Exception(_mensajeError(response));
+    }
+  }
+}</div>
+    
+  </div>
+  <div class="seccion-titulo">🧩 Componentes del panel</div>
+  <div class="seccion-sub">Piezas reutilizables: menú lateral, recuadro de foto, formulario y tarjeta.</div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">9</div>
+      <div class="step-title">AdminDrawer: menú lateral del panel</div>
+    </div>
+    <div class="step-description">Header con la inicial, el nombre y el correo del admin (los recibe la página del panel). Accesos a <strong>Productos</strong>, <strong>Usuarios</strong> y <strong>Pedidos</strong> (los dos últimos muestran "próximamente" hasta que exista su backend), <strong>Ver carta (cliente)</strong> y <strong>Cerrar Sesión</strong> al final: borra la sesión guardada y regresa al login sin permitir volver atrás.</div>
+    
+    <div class="step-file">lib/components/admin_drawer.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:shared_preferences/shared_preferences.dart&#x27;;
+import &#x27;../pages/menu_page.dart&#x27;;
+import &#x27;login.dart&#x27;;
+
+// AdminDrawer — menú lateral del panel administrativo
+class AdminDrawer extends StatelessWidget {
+  static const Color _colorPrincipal = Color(0xFFBF285D);
+
+  final String adminName;
+  final String adminEmail;
+
+  const AdminDrawer({
+    super.key,
+    required this.adminName,
+    required this.adminEmail,
+  });
+
+  Future&lt;void&gt; _cerrarSesion(BuildContext context) async {
+    // 1. Limpiar datos de sesión guardados en el dispositivo (token, nombre, correo, rol)
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+
+    if (!context.mounted) return;
+
+    // 2. Ir al login y eliminar el historial de navegación
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) =&gt; const LoginScreen()),
+      (route) =&gt; false,
+    );
+  }
+
+  // Usuarios y Pedidos aún no tienen pantalla ni endpoint en el backend
+  void _proximamente(BuildContext context, String seccion) {
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(&#x27;$seccion: próximamente&#x27;)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final String inicial = adminName.isNotEmpty ? adminName[0].toUpperCase() : &#x27;A&#x27;;
+
+    return Drawer(
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                // Header con nombre y correo del administrador
+                UserAccountsDrawerHeader(
+                  margin: EdgeInsets.zero,
+                  decoration: const BoxDecoration(color: _colorPrincipal),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      inicial,
+                      style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: _colorPrincipal),
+                    ),
+                  ),
+                  accountName: Text(
+                    adminName.isNotEmpty ? adminName : &#x27;Administrador&#x27;,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  accountEmail: Text(adminEmail.isNotEmpty ? adminEmail : &#x27;Sin correo registrado&#x27;),
+                ),
+                // Opción Productos (es la pantalla actual del panel)
+                _drawerItem(
+                  icon: Icons.icecream_outlined,
+                  title: &#x27;Productos&#x27;,
+                  onTap: () =&gt; Navigator.pop(context),
+                ),
+                // Opción Usuarios
+                _drawerItem(
+                  icon: Icons.people_alt_outlined,
+                  title: &#x27;Usuarios&#x27;,
+                  onTap: () =&gt; _proximamente(context, &#x27;Usuarios&#x27;),
+                ),
+                // Opción Pedidos
+                _drawerItem(
+                  icon: Icons.receipt_long_outlined,
+                  title: &#x27;Pedidos&#x27;,
+                  onTap: () =&gt; _proximamente(context, &#x27;Pedidos&#x27;),
+                ),
+                const Divider(),
+                // Ver la carta tal como la ve el cliente
+                _drawerItem(
+                  icon: Icons.menu_book_outlined,
+                  title: &#x27;Ver carta (cliente)&#x27;,
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (_) =&gt; const MenuPage()));
+                  },
+                ),
+              ],
+            ),
+          ),
+
+          // Separador visual
+          const Divider(height: 1),
+
+          // Botón Cerrar Sesión en la parte inferior
+          SafeArea(
+            top: false,
+            child: _drawerItem(
+              icon: Icons.logout_rounded,
+              title: &#x27;Cerrar Sesión&#x27;,
+              color: Colors.red,
+              onTap: () =&gt; _cerrarSesion(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _drawerItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    Color? color,
+  }) {
+    return ListTile(
+      leading: Icon(icon, color: color ?? _colorPrincipal),
+      title: Text(
+        title,
+        style: TextStyle(color: color, fontWeight: FontWeight.w500),
+      ),
+      onTap: onTap,
+    );
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">10</div>
+      <div class="step-title">AdminImageSelector: recuadro de la foto</div>
+    </div>
+    <div class="step-description">El recuadro donde va la foto del producto. Permite:
+    <ul class="check-list" style="margin-top:8px;">
+      <li><strong>Tocar</strong> para elegir de la galería o tomar con la cámara.</li>
+      <li><strong>Arrastrar y soltar</strong> una imagen desde el escritorio (app en macOS / Windows / Linux) con <code>DropTarget</code>.</li>
+      <li><strong>Emulador de Android:</strong> al soltar una foto sobre el emulador, este la copia a <em>Descargas</em>; el componente la detecta y la pone sola en el recuadro (solo en modo debug).</li>
+      <li><strong>Acomodar la foto:</strong> arrastrarla dentro del recuadro y pellizcar para hacer zoom. Al guardar se sube el recorte tal como quedó.</li>
+    </ul></div>
+    
+    <div class="step-file">lib/components/admin_image_selector.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:async&#x27;;
+import &#x27;dart:io&#x27;;
+import &#x27;dart:ui&#x27; as ui;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:flutter/rendering.dart&#x27;;
+import &#x27;package:image_picker/image_picker.dart&#x27;;
+import &#x27;package:desktop_drop/desktop_drop.dart&#x27;;
+import &#x27;package:flutter/foundation.dart&#x27; show kDebugMode;
+import &#x27;package:flutter/services.dart&#x27; show MethodCall, MethodChannel;
+import &#x27;package:photo_manager/photo_manager.dart&#x27;;
+
+class AdminImageSelector extends StatefulWidget {
+  final File? imagen;
+  final String? imagenUrl; // Foto actual del producto (modo edición)
+  final bool habilitado;
+  final Function(File) onImagenSeleccionada;
+
+  // Permiten arrastrar/hacer zoom a la foto y luego recortar el encuadre visible
+  final GlobalKey capturaKey;
+  final TransformationController encuadreController;
+
+  const AdminImageSelector({
+    super.key,
+    required this.imagen,
+    required this.onImagenSeleccionada,
+    required this.capturaKey,
+    required this.encuadreController,
+    this.imagenUrl,
+    this.habilitado = true,
+  });
+
+  // true si el admin movió o hizo zoom a la foto
+  static bool encuadreModificado(TransformationController controller) =&gt;
+      controller.value != Matrix4.identity();
+
+  // Convierte lo que se ve en el recuadro en un archivo PNG listo para subir
+  static Future&lt;File&gt; capturarEncuadre(GlobalKey capturaKey) async {
+    final boundary = capturaKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    final ui.Image imagen = await boundary.toImage(pixelRatio: 3.0);
+    final bytes = await imagen.toByteData(format: ui.ImageByteFormat.png);
+    final archivo = File(
+      &#x27;${Directory.systemTemp.path}/producto_${DateTime.now().millisecondsSinceEpoch}.png&#x27;,
+    );
+    await archivo.writeAsBytes(bytes!.buffer.asUint8List());
+    return archivo;
+  }
+
+  @override
+  State&lt;AdminImageSelector&gt; createState() =&gt; _AdminImageSelectorState();
+}
+
+class _AdminImageSelectorState extends State&lt;AdminImageSelector&gt; {
+  static const _extensionesImagen = [&#x27;jpg&#x27;, &#x27;jpeg&#x27;, &#x27;png&#x27;, &#x27;webp&#x27;, &#x27;avif&#x27;];
+
+  bool _arrastrando = false; // true mientras hay un archivo encima del recuadro
+
+  // Emulador Android: al soltar una foto sobre el emulador, este la copia a Descargas.
+  // La app detecta esa foto nueva y la pone sola en el recuadro (solo en modo debug).
+  static const _canalMedia = MethodChannel(&#x27;mimos/media&#x27;);
+  bool _vigilando = false;
+  Timer? _esperaAviso; // agrupa los varios avisos que Android manda por una sola foto
+
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isAndroid &amp;&amp; kDebugMode) _iniciarVigilancia();
+  }
+
+  @override
+  void dispose() {
+    _esperaAviso?.cancel();
+    if (_vigilando) {
+      PhotoManager.removeChangeCallback(_alCambiarGaleria);
+      PhotoManager.stopChangeNotify();
+    }
+    super.dispose();
+  }
+
+  Future&lt;void&gt; _iniciarVigilancia() async {
+    const opcion = PermissionRequestOption(
+      androidPermission: AndroidPermission(type: RequestType.image, mediaLocation: false),
+    );
+    // Primero se consulta; solo se pide si aún no está concedido
+    var permiso = await PhotoManager.getPermissionState(requestOption: opcion);
+    if (!permiso.hasAccess) {
+      permiso = await PhotoManager.requestPermissionExtend(requestOption: opcion)
+          .timeout(const Duration(seconds: 30), onTimeout: () =&gt; PermissionState.denied);
+    }
+    if (!permiso.hasAccess || !mounted) return;
+
+    // El permiso ya se verificó arriba; evita que el plugin lo vuelva a pedir en cada consulta
+    await PhotoManager.setIgnorePermissionCheck(true);
+    PhotoManager.addChangeCallback(_alCambiarGaleria);
+    await PhotoManager.startChangeNotify();
+    _vigilando = true;
+  }
+
+  // Al soltar una foto, el emulador borra y vuelve a crear el archivo en Descargas
+  // (si ya existía uno con el mismo nombre conserva el mismo id). Android avisa en medio
+  // de ese proceso, a veces como &quot;delete&quot;, así que se espera un momento y se revisa el id.
+  void _alCambiarGaleria(MethodCall llamada) {
+    final datos = llamada.arguments as Map?;
+    final id = datos?[&#x27;id&#x27;]?.toString();
+    if (id == null || datos?[&#x27;mediaType&#x27;] != 1) return; // 1 = imagen
+
+    _esperaAviso?.cancel();
+    _esperaAviso = Timer(const Duration(milliseconds: 1200), () =&gt; _cargarFotoArrastrada(id));
+  }
+
+  Future&lt;void&gt; _cargarFotoArrastrada(String id) async {
+    if (!mounted || !habilitado) return;
+
+    // En el emulador la foto queda &quot;pendiente&quot; hasta que Android la escanea
+    try {
+      await _canalMedia.invokeMethod(&#x27;escanearDescargas&#x27;);
+    } catch (_) {}
+    if (!mounted) return;
+
+    final foto = await AssetEntity.fromId(id);
+    if (foto == null || foto.type != AssetType.image) return; // se borró de verdad
+
+    // Leer los bytes directamente (sin caché) y guardarlos con un nombre único
+    final bytes = await foto.originBytes;
+    if (bytes == null || !mounted) return;
+    final archivo = File(&#x27;${Directory.systemTemp.path}/arrastrada_${DateTime.now().millisecondsSinceEpoch}.jpg&#x27;);
+    await archivo.writeAsBytes(bytes);
+    if (!mounted) return;
+
+    _usarImagen(archivo);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text(&#x27;Foto recibida desde el escritorio&#x27;), backgroundColor: Colors.green),
+    );
+  }
+
+  File? get imagen =&gt; widget.imagen;
+  String? get imagenUrl =&gt; widget.imagenUrl;
+  bool get habilitado =&gt; widget.habilitado;
+  TransformationController get encuadreController =&gt; widget.encuadreController;
+
+  void _usarImagen(File archivo) {
+    encuadreController.value = Matrix4.identity(); // Foto nueva: encuadre desde cero
+    widget.onImagenSeleccionada(archivo);
+  }
+
+  // Archivo soltado desde el escritorio (macOS / Windows / Linux)
+  void _alSoltarArchivo(DropDoneDetails detalles) {
+    setState(() =&gt; _arrastrando = false);
+    if (!habilitado) return;
+
+    final imagenes = detalles.files.where((f) {
+      final nombre = f.name.toLowerCase();
+      return _extensionesImagen.any((ext) =&gt; nombre.endsWith(&#x27;.$ext&#x27;));
+    });
+
+    if (imagenes.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(&#x27;Solo se permiten imágenes (jpg, png, webp, avif)&#x27;), backgroundColor: Colors.red),
+      );
+      return;
+    }
+    _usarImagen(File(imagenes.first.path));
+  }
+
+  // Modal inferior para elegir Galería o Cámara
+  Future&lt;void&gt; _elegirOrigen(BuildContext context) async {
+    final picker = ImagePicker();
+
+    final source = await showModalBottomSheet&lt;ImageSource&gt;(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) =&gt; SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                &#x27;Seleccionar foto del producto&#x27;,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              ListTile(
+                leading: const Icon(Icons.photo_library, color: Color(0xFFBF285D)),
+                title: const Text(&#x27;Elegir de la Galería&#x27;),
+                onTap: () =&gt; Navigator.pop(context, ImageSource.gallery),
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt, color: Color(0xFFBF285D)),
+                title: const Text(&#x27;Tomar con la Cámara&#x27;),
+                onTap: () =&gt; Navigator.pop(context, ImageSource.camera),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (source != null) {
+      final XFile? foto = await picker.pickImage(
+        source: source,
+        imageQuality: 80,
+      );
+
+      if (foto != null) _usarImagen(File(foto.path));
+    }
+  }
+
+  Widget _botonFlotante({required IconData icono, required VoidCallback? onTap}) {
+    return Material(
+      color: Colors.black54,
+      shape: const CircleBorder(),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Icon(icono, size: 18, color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropTarget(
+      enable: habilitado,
+      onDragEntered: (_) =&gt; setState(() =&gt; _arrastrando = true),
+      onDragExited: (_) =&gt; setState(() =&gt; _arrastrando = false),
+      onDragDone: _alSoltarArchivo,
+      child: _construirRecuadro(context),
+    );
+  }
+
+  Widget _construirRecuadro(BuildContext context) {
+    final bool tieneFoto = imagen != null || (imagenUrl != null &amp;&amp; imagenUrl!.isNotEmpty);
+
+    if (!tieneFoto) {
+      return GestureDetector(
+        onTap: habilitado ? () =&gt; _elegirOrigen(context) : null,
+        child: Container(
+          height: 180,
+          decoration: BoxDecoration(
+            color: _arrastrando ? const Color(0xFFFCE4EC) : Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: _arrastrando ? const Color(0xFFBF285D) : Colors.grey.shade300,
+              width: 2,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                _arrastrando ? Icons.file_download_rounded : Icons.add_a_photo_rounded,
+                size: 48,
+                color: const Color(0xFFBF285D),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                _arrastrando ? &#x27;Suelta la imagen aquí&#x27; : &#x27;Toca o arrastra aquí la foto del producto&#x27;,
+                style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    final Widget foto = imagen != null
+        ? Image.file(imagen!, fit: BoxFit.contain)
+        : Image.network(
+            imagenUrl!,
+            fit: BoxFit.contain,
+            errorBuilder: (_, _, _) =&gt; const Icon(Icons.broken_image_rounded, size: 40, color: Colors.grey),
+          );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          height: 180,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFBF285D), width: _arrastrando ? 4 : 2),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(14),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Solo esta parte se recorta al guardar (sin los botones)
+                RepaintBoundary(
+                  key: widget.capturaKey,
+                  child: Container(
+                    color: Colors.white,
+                    child: InteractiveViewer(
+                      transformationController: encuadreController,
+                      panEnabled: habilitado,
+                      scaleEnabled: habilitado,
+                      minScale: 0.5,
+                      maxScale: 4,
+                      // Margen infinito: la foto se queda donde el admin la suelte
+                      boundaryMargin: const EdgeInsets.all(double.infinity),
+                      child: SizedBox.expand(child: foto),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Row(
+                    children: [
+                      _botonFlotante(
+                        icono: Icons.center_focus_strong,
+                        onTap: habilitado ? () =&gt; encuadreController.value = Matrix4.identity() : null,
+                      ),
+                      const SizedBox(width: 6),
+                      _botonFlotante(
+                        icono: Icons.photo_camera,
+                        onTap: habilitado ? () =&gt; _elegirOrigen(context) : null,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        const Text(
+          &#x27;Arrastra la foto para acomodarla · pellizca para hacer zoom&#x27;,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12, color: Colors.black54),
+        ),
+      ],
+    );
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">10.1</div>
+      <div class="step-title">Configuración de Android para las fotos</div>
+    </div>
+    <div class="step-description">Tres ajustes para que el selector de fotos y la detección en el emulador funcionen. Las fotos que se arrastran al emulador quedan "pendientes" (invisibles para las apps) hasta que Android las escanea; el canal nativo de <code>MainActivity</code> fuerza ese escaneo.</div>
+    
+    <div class="step-file">lib/main.dart · selector de fotos moderno</div><div class="code-block"><span class="code-lang">dart</span>import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:shared_preferences/shared_preferences.dart&#x27;;
+import &#x27;package:image_picker_android/image_picker_android.dart&#x27;;
+import &#x27;package:image_picker_platform_interface/image_picker_platform_interface.dart&#x27;;
+import &#x27;pages/home.dart&#x27;;
+import &#x27;components/login.dart&#x27;; // O components/login.dart según tu estructura
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Android: usar el Photo Picker moderno, que muestra todas las imágenes del
+  // dispositivo (incluidas las de Descargas, donde llegan las fotos arrastradas al emulador)
+  final ImagePickerPlatform picker = ImagePickerPlatform.instance;
+  if (picker is ImagePickerAndroid) {
+    picker.useAndroidPhotoPicker = true;
+  }
+
+  runApp(const MyApp());
+}
+
+// ... clase MyApp sin cambios</div><div class="step-file">android/app/src/debug/AndroidManifest.xml · permiso solo en debug</div><div class="code-block"><span class="code-lang">xml</span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;!-- The INTERNET permission is required for development. Specifically,
+         the Flutter tool needs it to communicate with the running application
+         to allow setting breakpoints, to provide hot reload, etc.
+    --&gt;
+    &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+    &lt;!-- Solo en debug: detectar fotos arrastradas al emulador (llegan a Descargas) --&gt;
+    &lt;uses-permission android:name=&quot;android.permission.READ_MEDIA_IMAGES&quot;/&gt;
+    &lt;uses-permission android:name=&quot;android.permission.READ_MEDIA_VISUAL_USER_SELECTED&quot;/&gt;
+&lt;/manifest&gt;</div><div class="step-file">android/app/src/main/kotlin/com/example/login/MainActivity.kt</div><div class="code-block"><span class="code-lang">kotlin · código completo</span>package com.mimos.login
+
+import android.media.MediaScannerConnection
+import android.os.Environment
+import android.os.Handler
+import android.os.Looper
+import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.MethodChannel
+
+class MainActivity : FlutterActivity() {
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        super.configureFlutterEngine(flutterEngine)
+
+        // Las fotos arrastradas al emulador llegan a Descargas pero quedan &quot;pendientes&quot;
+        // (invisibles para las apps) hasta que Android las escanea; esto fuerza ese escaneo.
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, &quot;mimos/media&quot;)
+            .setMethodCallHandler { call, result -&gt;
+                if (call.method == &quot;escanearDescargas&quot;) {
+                    val descargas = Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+                    MediaScannerConnection.scanFile(this, arrayOf(descargas), null) { _, _ -&gt;
+                        Handler(Looper.getMainLooper()).post { result.success(null) }
+                    }
+                } else {
+                    result.notImplemented()
+                }
+            }
+    }
+}</div>
+    <div class="nota">⚠️ Después de tocar código nativo (Kotlin, manifest o agregar librerías) <strong>no basta con Hot Reload/Restart</strong>: detén la app con <code>q</code> y vuelve a ejecutar <code>flutter run</code>.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">11</div>
+      <div class="step-title">ProductFormSheet: formulario de crear / editar</div>
+    </div>
+    <div class="step-description">Se abre como <em>bottom sheet</em> sobre el panel. Sin producto → <strong>Nuevo producto</strong> (la foto es obligatoria). Con producto → <strong>Editar producto</strong> (campos ya llenos; si no cambias la foto, se conserva la actual). Al guardar devuelve <code>true</code> para que la lista se recargue.</div>
+    
+    <div class="step-file">lib/components/product_form_sheet.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:io&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;../models/producto_model.dart&#x27;;
+import &#x27;../services/admin_product_service.dart&#x27;;
+import &#x27;admin_image_selector.dart&#x27;;
+
+// Formulario de crear/editar producto; se abre como bottom sheet sobre el panel
+class ProductFormSheet extends StatefulWidget {
+  final ProductoModel? producto; // null = crear, con valor = editar
+
+  const ProductFormSheet({super.key, this.producto});
+
+  // Abre el formulario y devuelve true si se guardó algo
+  static Future&lt;bool&gt; abrir(BuildContext context, {ProductoModel? producto}) async {
+    final guardado = await showModalBottomSheet&lt;bool&gt;(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) =&gt; ProductFormSheet(producto: producto),
+    );
+    return guardado == true;
+  }
+
+  @override
+  State&lt;ProductFormSheet&gt; createState() =&gt; _ProductFormSheetState();
+}
+
+class _ProductFormSheetState extends State&lt;ProductFormSheet&gt; {
+  static const Color _colorPrincipal = Color(0xFFBF285D);
+
+  final _formKey = GlobalKey&lt;FormState&gt;();
+  late final _nombreCtrl = TextEditingController(text: widget.producto?.nombre ?? &#x27;&#x27;);
+  late final _descCtrl = TextEditingController(text: widget.producto?.descripcion ?? &#x27;&#x27;);
+  late final _precioCtrl = TextEditingController(text: widget.producto?.precio.toString() ?? &#x27;&#x27;);
+
+  // Encuadre de la foto (arrastrar / zoom)
+  final _capturaKey = GlobalKey();
+  final _encuadreCtrl = TransformationController();
+
+  File? _imagen;
+  bool _guardando = false;
+  bool get _esEdicion =&gt; widget.producto != null;
+
+  @override
+  void dispose() {
+    _nombreCtrl.dispose();
+    _descCtrl.dispose();
+    _precioCtrl.dispose();
+    _encuadreCtrl.dispose();
+    super.dispose();
+  }
+
+  // Si el admin movió la foto, se sube el recorte tal como lo dejó en el recuadro
+  Future&lt;File?&gt; _imagenParaSubir() async {
+    final bool hayFoto = _imagen != null || (widget.producto?.imagenUrl?.isNotEmpty ?? false);
+    if (hayFoto &amp;&amp; AdminImageSelector.encuadreModificado(_encuadreCtrl)) {
+      return AdminImageSelector.capturarEncuadre(_capturaKey);
+    }
+    return _imagen;
+  }
+
+  Future&lt;void&gt; _guardar() async {
+    if (!_formKey.currentState!.validate()) return;
+    if (!_esEdicion &amp;&amp; _imagen == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(&#x27;Selecciona una imagen&#x27;), backgroundColor: Colors.red),
+      );
+      return;
+    }
+
+    setState(() =&gt; _guardando = true);
+    try {
+      final precio = double.parse(_precioCtrl.text.trim());
+      final imagen = await _imagenParaSubir();
+
+      if (_esEdicion) {
+        await AdminProductService.actualizarProducto(
+          id: widget.producto!.id,
+          nombre: _nombreCtrl.text.trim(),
+          descripcion: _descCtrl.text.trim(),
+          precio: precio,
+          imagen: imagen, // null = conserva la foto actual
+        );
+      } else {
+        await AdminProductService.crearProducto(
+          nombre: _nombreCtrl.text.trim(),
+          descripcion: _descCtrl.text.trim(),
+          precio: precio,
+          imagen: imagen!,
+        );
+      }
+      if (mounted) Navigator.pop(context, true);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(&#x27;$e&#x27;.replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;)), backgroundColor: Colors.red),
+        );
+      }
+    } finally {
+      if (mounted) setState(() =&gt; _guardando = false);
+    }
+  }
+
+  Widget _campo(TextEditingController ctrl, String etiqueta, {int maxLines = 1, bool esNumero = false}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: TextFormField(
+        controller: ctrl,
+        maxLines: maxLines,
+        keyboardType: esNumero ? const TextInputType.numberWithOptions(decimal: true) : TextInputType.text,
+        decoration: InputDecoration(
+          labelText: etiqueta,
+          prefixText: esNumero ? &#x27;\$ &#x27; : null,
+          border: const OutlineInputBorder(),
+        ),
+        validator: (v) {
+          if (v == null || v.trim().isEmpty) return &#x27;Campo obligatorio&#x27;;
+          if (esNumero &amp;&amp; double.tryParse(v.trim()) == null) return &#x27;Ingresa un número válido&#x27;;
+          return null;
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      // Sube el formulario cuando aparece el teclado
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
+        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.9),
+        decoration: const BoxDecoration(
+          color: Color(0xFFF6F4F0),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Barrita para indicar que se puede deslizar hacia abajo
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.only(bottom: 12),
+                    decoration: BoxDecoration(color: Colors.black26, borderRadius: BorderRadius.circular(2)),
+                  ),
+                ),
+                Text(
+                  _esEdicion ? &#x27;Editar producto&#x27; : &#x27;Nuevo producto&#x27;,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _colorPrincipal),
+                ),
+                const SizedBox(height: 16),
+                AdminImageSelector(
+                  imagen: _imagen,
+                  imagenUrl: widget.producto?.imagenUrl,
+                  habilitado: !_guardando,
+                  capturaKey: _capturaKey,
+                  encuadreController: _encuadreCtrl,
+                  onImagenSeleccionada: (file) =&gt; setState(() =&gt; _imagen = file),
+                ),
+                const SizedBox(height: 16),
+                _campo(_nombreCtrl, &#x27;Nombre del producto&#x27;),
+                _campo(_descCtrl, &#x27;Descripción&#x27;, maxLines: 2),
+                _campo(_precioCtrl, &#x27;Precio&#x27;, esNumero: true),
+                const SizedBox(height: 6),
+                ElevatedButton(
+                  onPressed: _guardando ? null : _guardar,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _colorPrincipal,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: _guardando
+                      ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                      : Text(_esEdicion ? &#x27;GUARDAR CAMBIOS&#x27; : &#x27;CREAR PRODUCTO&#x27;),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">12</div>
+      <div class="step-title">ProductoCard: tarjeta de la carta</div>
+    </div>
+    <div class="step-description">Tarjeta de cada helado en la carta del cliente. Los botones ✏️ y 🗑️ solo aparecen si se le pasan <code>onEditar</code> / <code>onEliminar</code>, es decir, cuando quien mira es admin.</div>
+    
+    <div class="step-file">lib/components/producto_card.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:io&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;../models/producto_model.dart&#x27;;
+
+class ProductoCard extends StatelessWidget {
+  final ProductoModel producto;
+  final VoidCallback onComprar;
+  final VoidCallback onVerMas;
+  // Solo se muestran si se pasan (admin)
+  final VoidCallback? onEditar;
+  final VoidCallback? onEliminar;
+
+  const ProductoCard({
+    super.key,
+    required this.producto,
+    required this.onComprar,
+    required this.onVerMas,
+    this.onEditar,
+    this.onEliminar,
+  });
+
+  Widget _botonAdmin({required IconData icono, required Color color, required VoidCallback onTap}) {
+    return Material(
+      color: Colors.white,
+      shape: const CircleBorder(),
+      elevation: 2,
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(7),
+          child: Icon(icono, size: 18, color: color),
+        ),
+      ),
+    );
+  }
+
+  Widget _construirImagen() {
+    final String? imagen = producto.imagenUrl;
+    const double alturaFoto = 110.0;
+
+    if (imagen == null || imagen.isEmpty) {
+      return Container(
+        height: alturaFoto,
+        width: double.infinity,
+        color: Colors.pink.shade50,
+        child: const Icon(
+          Icons.icecream_rounded,
+          size: 46,
+          color: Color(0xFFE91E63),
+        ),
+      );
+    }
+
+    final bool esUrlWeb = imagen.startsWith(&#x27;http://&#x27;) || imagen.startsWith(&#x27;https://&#x27;);
+
+    return Container(
+      height: alturaFoto,
+      width: double.infinity,
+      color: Colors.grey.shade50,
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: esUrlWeb
+          ? Image.network(
+              imagen,
+              fit: BoxFit.contain,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Container(
+                  color: Colors.pink.shade50,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Color(0xFFE91E63),
+                    ),
+                  ),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) =&gt; Container(
+                color: Colors.pink.shade50,
+                child: const Icon(
+                  Icons.broken_image_rounded,
+                  size: 40,
+                  color: Colors.grey,
+                ),
+              ),
+            )
+          : Image.file(
+              File(imagen),
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) =&gt; Container(
+                color: Colors.pink.shade50,
+                child: const Icon(
+                  Icons.broken_image_rounded,
+                  size: 40,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.black.withValues(alpha: 0.06)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                child: _construirImagen(),
+              ),
+              if (onEditar != null || onEliminar != null)
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Row(
+                    children: [
+                      if (onEditar != null)
+                        _botonAdmin(icono: Icons.edit, color: const Color(0xFFBF285D), onTap: onEditar!),
+                      if (onEditar != null &amp;&amp; onEliminar != null) const SizedBox(width: 6),
+                      if (onEliminar != null)
+                        _botonAdmin(icono: Icons.delete_outline, color: Colors.red, onTap: onEliminar!),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        producto.nombre,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      &#x27;\$${producto.precio.toStringAsFixed(2)}&#x27;,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFFE91E63),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  producto.descripcion,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.black54,
+                    height: 1.3,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: const Color(0xFFE91E63),
+                          side: const BorderSide(color: Color(0xFFE91E63)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        onPressed: onVerMas,
+                        child: const Text(&#x27;Ver más&#x27;),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFE91E63),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        onPressed: onComprar,
+                        child: const Text(&#x27;Comprar&#x27;),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}</div>
+    
+  </div>
+  <div class="seccion-titulo">📄 Páginas</div>
+  <div class="seccion-sub">Las pantallas que ve el administrador y el cliente.</div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">13</div>
+      <div class="step-title">AdminProductListPage: pantalla del panel</div>
+    </div>
+    <div class="step-description">Lista los productos con el <strong>mismo endpoint</strong> que usa la carta, abre el <code>AdminDrawer</code> con los datos guardados en la sesión, y permite crear (➕), editar (✏️) y eliminar (🗑️ con confirmación). Deslizar hacia abajo recarga. También define <code>confirmarEliminacion</code>, que se reutiliza en la carta.</div>
+    
+    <div class="step-file">lib/pages/admin_product_list_page.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:shared_preferences/shared_preferences.dart&#x27;;
+import &#x27;../models/producto_model.dart&#x27;;
+import &#x27;../services/producto_service.dart&#x27;;
+import &#x27;../services/admin_product_service.dart&#x27;;
+import &#x27;../components/admin_drawer.dart&#x27;;
+import &#x27;../components/product_form_sheet.dart&#x27;;
+
+// Diálogo de confirmación reutilizable antes de borrar un producto
+Future&lt;bool&gt; confirmarEliminacion(BuildContext context, String nombre) async {
+  final resultado = await showDialog&lt;bool&gt;(
+    context: context,
+    builder: (ctx) =&gt; AlertDialog(
+      title: const Text(&#x27;Eliminar producto&#x27;),
+      content: Text(&#x27;¿Eliminar &quot;$nombre&quot;? Esta acción no se puede deshacer.&#x27;),
+      actions: [
+        TextButton(onPressed: () =&gt; Navigator.pop(ctx, false), child: const Text(&#x27;Cancelar&#x27;)),
+        TextButton(
+          onPressed: () =&gt; Navigator.pop(ctx, true),
+          style: TextButton.styleFrom(foregroundColor: Colors.red),
+          child: const Text(&#x27;Eliminar&#x27;),
+        ),
+      ],
+    ),
+  );
+  return resultado ?? false;
+}
+
+// Pantalla principal del panel administrativo: lista, crea, edita y elimina productos
+class AdminProductListPage extends StatefulWidget {
+  const AdminProductListPage({super.key});
+
+  @override
+  State&lt;AdminProductListPage&gt; createState() =&gt; _AdminProductListPageState();
+}
+
+class _AdminProductListPageState extends State&lt;AdminProductListPage&gt; {
+  static const Color _colorPrincipal = Color(0xFFBF285D);
+
+  final ProductoService _productoService = ProductoService();
+  late Future&lt;List&lt;ProductoModel&gt;&gt; _productosFuture;
+
+  String _adminNombre = &#x27;Cargando...&#x27;;
+  String _adminEmail = &#x27;&#x27;;
+
+  @override
+  void initState() {
+    super.initState();
+    // Mismo endpoint que usa la carta del cliente
+    _productosFuture = _productoService.obtenerProductos();
+    _cargarDatosAdmin();
+  }
+
+  void _cargarProductos() {
+    setState(() {
+      _productosFuture = _productoService.obtenerProductos();
+    });
+  }
+
+  // Lee los datos reales del usuario logueado (guardados en el login)
+  Future&lt;void&gt; _cargarDatosAdmin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      _adminNombre = prefs.getString(&#x27;user_name&#x27;) ?? &#x27;Administrador&#x27;;
+      _adminEmail = prefs.getString(&#x27;user_email&#x27;) ?? &#x27;&#x27;;
+    });
+  }
+
+  Future&lt;void&gt; _abrirFormulario({ProductoModel? producto}) async {
+    final guardado = await ProductFormSheet.abrir(context, producto: producto);
+    if (!guardado || !mounted) return;
+    _cargarProductos();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(producto == null ? &#x27;Producto publicado en la carta&#x27; : &#x27;Cambios guardados&#x27;),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
+  Future&lt;void&gt; _eliminar(ProductoModel producto) async {
+    final confirmar = await confirmarEliminacion(context, producto.nombre);
+    if (!confirmar) return;
+
+    try {
+      await AdminProductService.eliminarProducto(producto.id);
+      _cargarProductos();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(&#x27;$e&#x27;.replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;)), backgroundColor: Colors.red),
+        );
+      }
+    }
+  }
+
+  Widget _imagenProducto(String? url) {
+    if (url == null || url.isEmpty) {
+      return Container(
+        color: Colors.pink.shade50,
+        child: const Icon(Icons.icecream_rounded, color: Color(0xFFE91E63)),
+      );
+    }
+    return Image.network(
+      url,
+      fit: BoxFit.cover,
+      errorBuilder: (_, _, _) =&gt; const Icon(Icons.broken_image, color: Colors.grey),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF6F4F0),
+      appBar: AppBar(
+        title: const Text(&#x27;Panel de Administración&#x27;, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: _colorPrincipal,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      drawer: AdminDrawer(adminName: _adminNombre, adminEmail: _adminEmail),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: _colorPrincipal,
+        foregroundColor: Colors.white,
+        tooltip: &#x27;Nuevo producto&#x27;,
+        onPressed: () =&gt; _abrirFormulario(),
+        child: const Icon(Icons.add),
+      ),
+      body: RefreshIndicator(
+        color: _colorPrincipal,
+        onRefresh: () async =&gt; _cargarProductos(),
+        child: FutureBuilder&lt;List&lt;ProductoModel&gt;&gt;(
+          future: _productosFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator(color: _colorPrincipal));
+            }
+            final productos = snapshot.data ?? [];
+            if (snapshot.hasError || productos.isEmpty) {
+              // ListView para que el &quot;deslizar para recargar&quot; funcione también aquí
+              return ListView(
+                children: [
+                  const SizedBox(height: 160),
+                  Center(
+                    child: Text(
+                      snapshot.hasError ? &#x27;Error: ${snapshot.error}&#x27; : &#x27;No hay productos registrados.&#x27;,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.black54),
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            return ListView.builder(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 90),
+              itemCount: productos.length,
+              itemBuilder: (_, i) {
+                final p = productos[i];
+                return Card(
+                  color: Colors.white,
+                  margin: const EdgeInsets.only(bottom: 12),
+                  child: ListTile(
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: SizedBox(width: 50, height: 50, child: _imagenProducto(p.imagenUrl)),
+                    ),
+                    title: Text(p.nombre.isEmpty ? &#x27;Sin nombre&#x27; : p.nombre, style: const TextStyle(fontWeight: FontWeight.w600)),
+                    subtitle: Text(&#x27;\$${p.precio.toStringAsFixed(2)}&#x27;, style: const TextStyle(color: _colorPrincipal)),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          tooltip: &#x27;Editar&#x27;,
+                          icon: const Icon(Icons.edit, color: _colorPrincipal),
+                          onPressed: () =&gt; _abrirFormulario(producto: p),
+                        ),
+                        IconButton(
+                          tooltip: &#x27;Eliminar&#x27;,
+                          icon: const Icon(Icons.delete_outline, color: Colors.red),
+                          onPressed: () =&gt; _eliminar(p),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">14</div>
+      <div class="step-title">MenuPage: la carta conectada al backend</div>
+    </div>
+    <div class="step-description">La carta <strong>no tiene productos escritos en el código</strong>: los pide al backend con un <code>FutureBuilder</code>. Por eso todo lo que el admin crea, edita o elimina en el panel aparece aquí. Si quien entra es admin, ve el ícono 🛡️ para ir al panel (al volver, la carta se recarga) y los botones de editar/eliminar en cada tarjeta.</div>
+    
+    <div class="step-file">lib/pages/menu_page.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:shared_preferences/shared_preferences.dart&#x27;;
+import &#x27;../models/producto_model.dart&#x27;;
+import &#x27;../services/producto_service.dart&#x27;;
+import &#x27;../components/producto_card.dart&#x27;;
+import &#x27;../components/chat_mimos_modal.dart&#x27;;
+import &#x27;../components/detalle_producto_modal.dart&#x27;;
+import &#x27;../services/admin_product_service.dart&#x27;;
+import &#x27;../components/product_form_sheet.dart&#x27;;
+import &#x27;admin_product_list_page.dart&#x27;;
+
+class MenuPage extends StatefulWidget {
+  const MenuPage({super.key});
+
+  @override
+  State&lt;MenuPage&gt; createState() =&gt; _MenuPageState();
+}
+
+class _MenuPageState extends State&lt;MenuPage&gt; {
+  final ProductoService _service = ProductoService();
+  late Future&lt;List&lt;ProductoModel&gt;&gt; _productosFuture;
+  bool _esAdmin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Asignación directa en el inicio (SIN setState)
+    _productosFuture = _service.obtenerProductos();
+    _cargarRol();
+  }
+
+  // Se usa solo para actualizar la vista tras un cambio
+  void _recargar() {
+    setState(() {
+      _productosFuture = _service.obtenerProductos();
+    });
+  }
+
+  Future&lt;void&gt; _cargarRol() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String rol = prefs.getString(&#x27;user_role&#x27;) ?? &#x27;&#x27;;
+    
+    if (!mounted) return;
+    setState(() {
+      _esAdmin = rol.toLowerCase() == &#x27;admin&#x27;;
+    });
+  }
+
+  Future&lt;void&gt; _editarProducto(ProductoModel producto) async {
+    final guardado = await ProductFormSheet.abrir(context, producto: producto);
+    if (guardado) _recargar();
+  }
+
+  Future&lt;void&gt; _eliminarProducto(ProductoModel producto) async {
+    final confirmar = await confirmarEliminacion(context, producto.nombre);
+    if (!confirmar) return;
+
+    try {
+      await AdminProductService.eliminarProducto(producto.id);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(&#x27;&quot;${producto.nombre}&quot; eliminado&#x27;), backgroundColor: Colors.green),
+      );
+      _recargar();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString().replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;)), backgroundColor: Colors.red),
+      );
+    }
+  }
+
+  Widget _construirLista(List&lt;ProductoModel&gt; productos) {
+    if (productos.isEmpty) {
+      return const Center(child: Text(&#x27;No hay productos disponibles por el momento.&#x27;));
+    }
+    return ListView.builder(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 90),
+      itemCount: productos.length,
+      itemBuilder: (_, i) =&gt; ProductoCard(
+        producto: productos[i],
+        onVerMas: () =&gt; DetalleProductoModal.mostrar(context, productos[i]),
+        onEditar: _esAdmin ? () =&gt; _editarProducto(productos[i]) : null,
+        onEliminar: _esAdmin ? () =&gt; _eliminarProducto(productos[i]) : null,
+        onComprar: () =&gt; ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(&#x27;Comprando: ${productos[i].nombre}&#x27;),
+            backgroundColor: const Color(0xFFE91E63),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF6F4F0),
+      appBar: AppBar(
+        title: const Text(&#x27;Nuestra Carta&#x27;, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        backgroundColor: const Color(0xFFBF285D),
+        actions: [
+          if (_esAdmin)
+            IconButton(
+              tooltip: &#x27;Panel de Administración&#x27;,
+              icon: const Icon(Icons.admin_panel_settings, size: 28, color: Colors.white),
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) =&gt; const AdminProductListPage()),
+                );
+                _recargar(); // refresca la carta al volver del panel admin
+              },
+            ),
+        ],
+      ),
+      body: RefreshIndicator(
+        color: const Color(0xFFE91E63),
+        onRefresh: () async =&gt; _recargar(),
+        child: FutureBuilder&lt;List&lt;ProductoModel&gt;&gt;(
+          future: _productosFuture,
+          builder: (context, snap) {
+            if (snap.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator(color: Color(0xFFE91E63)));
+            }
+            if (snap.hasError) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(&#x27;Error: ${snap.error}&#x27;, textAlign: TextAlign.center),
+                      const SizedBox(height: 12),
+                      ElevatedButton(
+                        onPressed: _recargar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFBF285D),
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text(&#x27;Reintentar&#x27;),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+            return _construirLista(snap.data ?? []);
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: const Color(0xFFBC2552),
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.support_agent_rounded),
+        label: const Text(&#x27;Asesor Mimos&#x27;, style: TextStyle(fontWeight: FontWeight.bold)),
+        onPressed: () =&gt; showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (_) =&gt; const ChatMimosModal(),
+        ),
+      ),
+    );
+  }
+}</div>
+    
+  </div>
+  <div class="revision">
+    <div class="revision-titulo">⚠️ Error común: la carta con productos "quemados"</div>
+    <div class="revision-texto">Si la carta tiene una lista de productos escrita directamente en el código, todo lo que el admin cree, edite o elimine <strong>nunca se refleja</strong>, porque la carta ni siquiera le pregunta al servidor.</div>
+    <div class="code-block"><span class="code-lang">dart · señal de alerta (mal)</span>// Si ves algo así en menu_page.dart, NO está conectada al backend:
+final List&lt;ProductoModel&gt; productos = [
+  ProductoModel(id: &#x27;1&#x27;, nombre: &#x27;Cono de vainilla&#x27;, precio: 5000, descripcion: &#x27;...&#x27;),
+  ProductoModel(id: &#x27;2&#x27;, nombre: &#x27;Malteada&#x27;, precio: 9000, descripcion: &#x27;...&#x27;),
+];</div>
+  </div>
+  <div class="seccion-titulo">🔧 Anexo: backend</div>
+  <div class="seccion-sub">Un ajuste necesario en el servidor.</div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">+</div>
+      <div class="step-title">Editar con foto nueva</div>
+    </div>
+    <div class="step-description">Para que <strong>editar</strong> también cambie la foto, el controlador debe leer <code>req.file</code> (la URL que deja Cloudinary). Además, solo actualiza los campos permitidos y responde 404 si el helado no existe.</div>
+    
+    <div class="step-file">backend/controllers/heladoController.js · función editar</div><div class="code-block"><span class="code-lang">javascript</span>// editar 
+export const editar = async (req, res) =&gt; {
+  try {
+    const { id } = req.params;
+    const { nombre, descripcion, precio, stock, categoria, sabor } = req.body;
+
+    // Solo se actualizan los campos que llegan en la petición
+    const actualizaciones = {};
+    if (nombre !== undefined) actualizaciones.nombre = nombre;
+    if (descripcion !== undefined) actualizaciones.descripcion = descripcion;
+    if (precio !== undefined) actualizaciones.precio = Number(precio);
+    if (stock !== undefined) actualizaciones.stock = Number(stock);
+    if (categoria !== undefined) actualizaciones.categoria = categoria;
+    if (sabor !== undefined) actualizaciones.sabor = sabor;
+
+    // Si se envió una imagen nueva, Cloudinary deja la URL en req.file.path
+    if (req.file) actualizaciones.imagen_url = req.file.path;
+
+    if (Object.keys(actualizaciones).length === 0) {
+      return res.status(400).json({ error: &#x27;No se enviaron datos para actualizar&#x27; });
+    }
+
+    const { data, error } = await actualizarHelado(id, actualizaciones);
+    if (error) return res.status(500).json({ error: &#x27;Error al actualizar&#x27; });
+    if (!data || data.length === 0) return res.status(404).json({ error: &#x27;Helado no encontrado&#x27; });
+    return res.status(200).json({ message: &#x27;Actualizado&#x27;, helado: data[0] });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};</div>
+    
+  </div>
+  <div class="seccion-titulo">📋 Para revisar</div>
+  <div class="seccion-sub">Antes de dar por terminado el panel, prueben esto.</div>
+  <div class="revision-fix">
+    <div class="revision-fix-titulo">✓ Lista de pruebas</div>
+    <ul class="check-list" style="margin-top:6px;">
+      <li>Entrar con un usuario <strong>admin</strong> lleva directo al <strong>Panel de Administración</strong>.</li>
+      <li>El menú lateral muestra el <strong>nombre y correo</strong> del admin.</li>
+      <li>Crear un producto con foto desde ➕ y verlo en la lista del panel.</li>
+      <li>El producto creado aparece en la <strong>carta del cliente</strong> (Ver carta).</li>
+      <li>Editar el <strong>precio</strong> desde ✏️ y confirmar que cambia en la carta.</li>
+      <li>Editar la <strong>foto</strong> y confirmar que cambia en la carta.</li>
+      <li>Eliminar un producto (con confirmación) y confirmar que desaparece de la carta.</li>
+      <li><strong>Cerrar Sesión</strong> vuelve al login y el botón atrás no regresa al panel.</li>
+      <li>Con un usuario <strong>normal</strong> no se ve el ícono 🛡️ ni los botones ✏️/🗑️ en la carta.</li>
+    </ul>
+  </div>
+  <div class="step-card">
+    <div class="step-header"><div class="step-number">?</div><div class="step-title">Problemas frecuentes</div></div>
+    <div class="tabla-wrap"><table class="tabla"><thead><tr><th>Síntoma</th><th>Causa probable</th></tr></thead><tbody><tr><td><code>Token no proporcionado</code> / <code>No tienes permisos de administrador</code></td><td>No hay sesión guardada o el usuario no tiene rol <code>admin</code></td></tr><tr><td><code>El servidor no respondió con JSON válido</code></td><td>El backend está apagado o la URL de <code>api_config.dart</code> está mal</td></tr><tr><td><code>nombre, precio e imagen son obligatorios</code></td><td>Se intentó crear un producto sin foto</td></tr><tr><td>La foto arrastrada al emulador no aparece</td><td>Se usó Hot Restart después de agregar código nativo, o la foto es <code>.avif</code> (usa JPG o PNG)</td></tr><tr><td>Pantalla roja <code>type 'Null' is not a subtype of type 'bool'</code></td><td>Se agregó una variable al <code>State</code> con Hot Reload: haz <strong>Hot Restart</strong> (<code>R</code>)</td></tr></tbody></table></div>
+  </div>
+
+  <div class="cierre">
+    <div class="cierre-icon">🍦</div>
+    <div class="cierre-titulo">Resumen</div>
+    <div class="cierre-texto">Con estos archivos, Helados Mimos tiene su panel administrativo completo: modelos y servicios conectados al backend, menú lateral con los datos reales del admin, formulario para crear y editar con foto, pantalla de administración y una carta del cliente que refleja al instante todo lo que el admin cambia.</div>
+    <div class="cierre-foot">SENA · Análisis y Desarrollo de Software (ADSO) · Guía Paso a Paso · Helados Mimos · 2026</div>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.code-block').forEach(function (bloque) {
+  bloque.addEventListener('copy', function (e) { e.preventDefault(); });
+  bloque.addEventListener('cut', function (e) { e.preventDefault(); });
+  bloque.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+  bloque.setAttribute('oncopy', 'return false');
+});
+</script>
+</body>
+</html>
