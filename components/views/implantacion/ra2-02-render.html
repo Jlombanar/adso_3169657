@@ -1,0 +1,122 @@
+<div class="slide alt" id="render"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">RENDER · 3</div>
+    <h2 class="sec-titulo">¿Qué es Render y qué tipo de servicio usamos?</h2>
+    <p class="sec-desc">Render es una plataforma en la nube (PaaS) donde se conecta un repositorio de GitHub y la plataforma construye y ejecuta la aplicación. En el menú <b>New</b> aparecen varios tipos de servicio.</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Tipo de servicio</th><th>Para qué sirve</th><th>¿Es el nuestro?</th></tr></thead>
+    <tbody>
+    <tr><td><b>Web Service</b></td><td>Aplicación que recibe peticiones HTTP: APIs, sitios con servidor.</td><td>✅ <b>Sí</b>: nuestro backend Express.</td></tr>
+    <tr><td>Static Site</td><td>Sitios HTML/CSS/JS sin servidor (por ejemplo, un frontend web compilado).</td><td>No para el backend.</td></tr>
+    <tr><td>Private Service</td><td>Servicio accesible solo desde otros servicios internos.</td><td>No.</td></tr>
+    <tr><td>Background Worker / Cron Job</td><td>Tareas en segundo plano o programadas.</td><td>No por ahora.</td></tr>
+    <tr><td>Postgres / Key Value</td><td>Bases de datos administradas por Render.</td><td>No: usamos Supabase.</td></tr>
+    </tbody></table></div>
+  <div class="alert"><div class="alert-icon">⚠️</div><div><div class="alert-titulo">Limitaciones del plan gratuito (según la documentación de Render)</div>
+    <div class="alert-desc">• El servicio se <b>duerme tras 15 minutos sin tráfico</b> y tarda cerca de un minuto en despertar en la siguiente petición.<br>
+    • El sistema de archivos es <b>efímero</b>: lo que se guarde en disco se pierde al reiniciar o redesplegar. Por eso las imágenes van en <b>Cloudinary</b> y no en la carpeta uploads.<br>
+    • No permite tráfico saliente por los puertos SMTP (25, 465, 587). Por eso el correo se envía con la <b>API de Brevo</b> y no con Nodemailer/Gmail.<br>
+    • Hay 750 horas gratuitas al mes por workspace. No se recomienda para producción.</div></div></div>
+  <p style="font-size:12px;color:var(--dimmer);margin-top:12px;">Fuente: render.com/docs/free</p>
+</div></div>
+
+<div class="slide" id="preparar"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">PASO 1 · PREPARAR EL BACKEND</div>
+    <h2 class="sec-titulo">Antes de subir: dejar el proyecto listo</h2>
+    <p class="sec-desc">Render ejecuta <code>npm start</code> y le asigna el puerto por una variable de entorno. Hay tres cosas que revisar.</p></div>
+  <div class="aviso-copia"><div style="font-size:20px">✍️</div><div>El código de esta guía <b>no se puede copiar</b> a propósito: escríbanlo ustedes mismos.</div></div>
+
+  <div class="code-title">📄 backend/package.json — script start</div>
+  <div class="code-block">{
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  }
+}</div>
+  <div class="code-title">📄 backend/server.js — usar el puerto que entrega Render</div>
+  <div class="code-block">const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
+});</div>
+  <div class="code-title">📄 .gitignore (en la raíz o en backend/)</div>
+  <div class="code-block">node_modules/
+.env
+uploads/</div>
+  <div class="pasos">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-text"><b>start vs dev:</b> en el servidor no se usa nodemon; Render ejecuta <code>npm start</code>.</div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-text"><b>process.env.PORT:</b> Render decide el puerto; si se deja fijo en 3000 el servicio puede no responder.</div></div>
+    <div class="paso"><div class="paso-num">3</div><div class="paso-text"><b>.gitignore:</b> el <code>.env</code> y <code>node_modules</code> nunca se suben. Verifiquen con <code>git status</code> antes de hacer push.</div></div>
+    <div class="paso"><div class="paso-num">4</div><div class="paso-text"><b>Subir a GitHub:</b> <code>git add .</code> → <code>git commit -m "listo para render"</code> → <code>git push origin main</code>.</div></div>
+  </div>
+</div></div>
+
+<div class="slide alt" id="crear"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">PASO 2 · CREAR EL WEB SERVICE</div>
+    <h2 class="sec-titulo">Configuración en el panel de Render</h2>
+    <p class="sec-desc">En el panel: <b>New → Web Service</b>, y conectar el repositorio de GitHub del proyecto.</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Campo en Render</th><th>Valor</th><th>Explicación</th></tr></thead>
+    <tbody>
+    <tr><td><b>Source</b></td><td><code>usuario-github / helados_mimos</code></td><td>Repositorio de GitHub desde donde Render descarga el código.</td></tr>
+    <tr><td><b>Branch</b></td><td><code>main</code></td><td>Rama que se construye y despliega. Cada push a esta rama redespliega automáticamente.</td></tr>
+    <tr><td><b>Root Directory</b></td><td><code>backend</code></td><td>Como el repositorio tiene backend y frontend (monorepo), se le indica en qué carpeta está el servidor. Los cambios fuera de ella no disparan despliegue.</td></tr>
+    <tr><td><b>Build Command</b></td><td><code>npm install --legacy-peer-deps</code></td><td>Instala las dependencias. La opción <code>--legacy-peer-deps</code> evita errores por conflictos de versiones entre paquetes.</td></tr>
+    <tr><td><b>Pre-Deploy Command</b></td><td>(vacío)</td><td>Opcional: migraciones o tareas previas al arranque. No lo necesitamos.</td></tr>
+    <tr><td><b>Start Command</b></td><td><code>npm start</code></td><td>Comando que arranca el servidor en cada despliegue.</td></tr>
+    <tr><td><b>Instance Type</b></td><td>Free</td><td>Plan gratuito para aprendizaje, con las limitaciones vistas arriba.</td></tr>
+    </tbody></table></div>
+  <div class="pasos">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-text">Iniciar sesión en Render con GitHub y autorizar el acceso al repositorio.
+      <div class="btn-fila paso-btn"><a href="https://dashboard.render.com/" target="_blank" rel="noopener" class="btn-link">🔗 Ir al panel de Render</a></div></div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-text">Abrir el menú <b>New</b>, elegir <b>Web Service</b> y seleccionar el repositorio.
+      <figure class="captura chica"><img src="{{raiz}}assets/img/render-menu-new.png" loading="lazy" alt="Menú New de Render con los tipos de servicio"><figcaption>Menú <b>New</b> del panel de Render: elegimos <b>Web Service</b>.</figcaption></figure></div></div>
+    <div class="paso"><div class="paso-num">3</div><div class="paso-text">En la sección <b>Build</b>, completar Branch, Root Directory y Build Command según la tabla.
+      <figure class="captura"><img src="{{raiz}}assets/img/render-build.png" loading="lazy" alt="Sección Build de Render"><figcaption>Sección <b>Build</b>: repositorio, rama main, Root Directory <code>backend</code> y Build Command.</figcaption></figure></div></div>
+    <div class="paso"><div class="paso-num">4</div><div class="paso-text">En la sección <b>Deploy</b>, escribir el Start Command <code>npm start</code>.
+      <figure class="captura"><img src="{{raiz}}assets/img/render-deploy.png" loading="lazy" alt="Sección Deploy de Render"><figcaption>Sección <b>Deploy</b>: Start Command <code>npm start</code>.</figcaption></figure></div></div>
+    <div class="paso"><div class="paso-num">5</div><div class="paso-text">Agregar las variables de entorno (siguiente paso) <b>antes</b> de crear el servicio, y entonces presionar <b>Deploy Web Service</b>.</div></div>
+  </div>
+</div></div>
+
+<div class="slide" id="env"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">PASO 3 · VARIABLES DE ENTORNO (.env)</div>
+    <h2 class="sec-titulo">Cargar el .env en Render</h2>
+    <p class="sec-desc">El archivo <code>.env</code> no se sube a GitHub, así que Render no lo tiene. Cada variable se registra en el panel, en <b>Environment → Add Environment Variable</b> (Key y Value).</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Key (nombre)</th><th>Value (de dónde sale)</th><th>Se usa en</th></tr></thead>
+    <tbody>
+    <tr><td><code>SUPABASE_URL</code><br><code>SUPABASE_KEY</code></td><td>Supabase → Project Settings → API.</td><td>Conexión a la base de datos (helados, usuarios)</td></tr>
+    <tr><td><code>JWT_SECRET</code></td><td>Texto largo y secreto que ustedes definen.</td><td>Firmar los tokens de sesión</td></tr>
+    <tr><td><code>CLOUDINARY_CLOUD_NAME</code><br><code>CLOUDINARY_API_KEY</code><br><code>CLOUDINARY_API_SECRET</code></td><td>Panel de Cloudinary (Dashboard).</td><td>Subida de imágenes de productos</td></tr>
+    <tr><td><code>GOOGLE_CLIENT_ID</code></td><td>Google Cloud Console (cliente web).</td><td>Login con Google</td></tr>
+    <tr><td><code>BREVO_API_KEY</code></td><td>Panel de Brevo (SMTP &amp; API → API Keys). Solo si el proyecto envía correos.</td><td>Correos de verificación y recuperación</td></tr>
+    </tbody></table></div>
+  <div class="code-title">📄 Ejemplo de cómo se ve el .env local (valores ficticios)</div>
+  <div class="code-block">SUPABASE_URL=https://xxxxxxxx.supabase.co
+SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6...
+JWT_SECRET=un_texto_largo_y_secreto
+CLOUDINARY_CLOUD_NAME=mi_cloud
+CLOUDINARY_API_KEY=123456789012345
+CLOUDINARY_API_SECRET=secreto_de_cloudinary
+GOOGLE_CLIENT_ID=xxxx.apps.googleusercontent.com</div>
+  <div class="alert"><div class="alert-icon">🔐</div><div><div class="alert-titulo">Reglas de oro</div>
+    <div class="alert-desc">• Los nombres (Key) deben ser <b>idénticos</b> a los que el código lee con <code>process.env.NOMBRE</code>.<br>
+    • Los valores se escriben sin comillas ni espacios sobrantes.<br>
+    • Nunca pegar llaves reales en chats, capturas, documentos ni repositorios. Si una llave se expone, hay que regenerarla.<br>
+    • Si agregan o cambian una variable después, hay que redesplegar para que el servidor la tome.</div></div></div>
+</div></div>
+
+<div class="slide alt" id="probar"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">PASO 4 · DESPLEGAR Y PROBAR</div>
+    <h2 class="sec-titulo">Verificar que el servidor quedó arriba</h2></div>
+  <div class="pasos">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-text">Render muestra los <b>Logs</b> del build: debe terminar con "Build successful" y luego imprimir el mensaje de arranque del servidor.</div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-text">En la parte superior aparece la URL pública, con la forma <code>https://nombre-del-servicio.onrender.com</code>. Estado <b>Live</b> = en línea.</div></div>
+    <div class="paso"><div class="paso-num">3</div><div class="paso-text">En <b>Postman</b>, cambien <code>http://localhost:3000</code> por la URL de Render y prueben, por ejemplo, <code>GET https://nombre-del-servicio.onrender.com/api/productos</code>.</div></div>
+    <div class="paso"><div class="paso-num">4</div><div class="paso-text">Prueben también login y crear producto con imagen (Cloudinary) para confirmar que todas las variables quedaron bien.</div></div>
+    <div class="paso"><div class="paso-num">5</div><div class="paso-text">Si la primera petición tarda cerca de un minuto, no es un error: es el servicio gratuito despertando.</div></div>
+  </div>
+  <div class="alert verde"><div class="alert-icon">🔁</div><div><div class="alert-titulo">Despliegue continuo</div>
+    <div class="alert-desc">Cada vez que hagan <code>git push</code> a la rama main (con cambios dentro de <code>backend/</code>), Render vuelve a construir y desplegar solo.</div></div></div>
+</div></div>

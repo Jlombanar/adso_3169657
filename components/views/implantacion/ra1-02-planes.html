@@ -1,0 +1,33 @@
+<section class="slide" id="ra1-instalacion"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">RA 01 · PLAN DE INSTALACIÓN</div>
+    <h2 class="sec-titulo">El paso a paso de la puesta en producción</h2>
+    <p class="sec-desc">El plan de instalación ordena las tareas, dice quién las hace, cuánto tardan y cómo se comprueba cada una. Este es el que vamos a ejecutar en el RA 02.</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>#</th><th>Actividad</th><th>Responsable</th><th>Tiempo</th><th>Cómo se verifica</th></tr></thead>
+    <tbody>
+    <tr><td>1</td><td>Crear o verificar cuentas: GitHub, Render, Supabase, Cloudinary, UptimeRobot.</td><td>Líder del equipo</td><td>30 min</td><td>Todos los integrantes entran a cada panel.</td></tr>
+    <tr><td>2</td><td>Preparar el backend: script <code>start</code>, <code>process.env.PORT</code>, <code>.gitignore</code>, push a GitHub.</td><td>Backend</td><td>30 min</td><td><code>git status</code> limpio y <code>.env</code> fuera del repositorio.</td></tr>
+    <tr><td>3</td><td>Crear el Web Service en Render y registrar las variables de entorno (<a href="desplegar.html#crear">paso a paso con capturas</a>).</td><td>Backend</td><td>30 min</td><td>Estado <b>Live</b> y logs sin errores.</td></tr>
+    <tr><td>4</td><td>Probar la API con Postman (listar, login, crear con foto).</td><td>Pruebas</td><td>30 min</td><td>Todas las peticiones responden 200 o 201.</td></tr>
+    <tr><td>5</td><td>Apuntar Flutter a la URL pública, generar el APK e instalarlo.</td><td>Móvil</td><td>45 min</td><td>La app funciona en un celular sin el computador.</td></tr>
+    <tr><td>6</td><td>Configurar el monitor de UptimeRobot.</td><td>Backend</td><td>15 min</td><td>Monitor en verde <b>Up</b>.</td></tr>
+    </tbody></table></div>
+  <div class="alert verde"><div class="alert-icon">🛟</div><div><div class="alert-titulo">Plan de contingencia</div>
+    <div class="alert-desc">Escriban también qué hacer si algo falla: por ejemplo, si el despliegue no arranca se revisan los logs en Render y se vuelve al último commit de GitHub que funcionaba.</div></div></div>
+</div></section>
+
+<section class="slide alt" id="ra1-evidencia"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">RA 01 · EVIDENCIA</div>
+    <h2 class="sec-titulo">Entregable: Plan de implantación de Helados Mimos</h2>
+    <p class="sec-desc">Un documento (PDF) por equipo, con normas APA o ICONTEC, que reúna todo lo trabajado en este resultado.</p></div>
+  <div class="pasos">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-text"><b>Portada e introducción:</b> proyecto, equipo, ficha y propósito del documento.</div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-text"><b>Plataforma tecnológica:</b> tipo de servidor, sistema operativo, proveedores y por qué se eligieron. Expliquen dónde vive cada parte: la base de datos en Supabase (ya en línea, no requiere migración), el código en GitHub y las fotos en Cloudinary.</div></div>
+    <div class="paso"><div class="paso-num">3</div><div class="paso-text"><b>Requisitos mínimos:</b> la tabla de verificación con la columna ¿Cumple? diligenciada.</div></div>
+    <div class="paso"><div class="paso-num">4</div><div class="paso-text"><b>Plan de instalación y contingencia:</b> actividades, responsables, tiempos y verificación.</div></div>
+  </div>
+  <div class="reflexion"><b>🧠 Cierre del RA 01</b>
+    <ul><li>Planear es decidir antes: plataforma, requisitos e instalación.</li>
+    <li>Cada parte de Helados Mimos vive en un servicio en la nube: Supabase, GitHub y Cloudinary.</li>
+    <li>Con el plan listo, el siguiente paso es ejecutarlo: desplegar en Render (RA 02).</li></ul></div>
+</div></section>

@@ -1,0 +1,73 @@
+<div class="slide" id="servidores"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">SERVIDORES · 1</div>
+    <h2 class="sec-titulo">¿Qué es un servidor?</h2>
+    <p class="sec-desc">Un servidor es un computador (o un programa que corre en uno) cuya función es <b>atender peticiones de otros equipos llamados clientes</b> y entregarles una respuesta: una página, datos, un archivo, un correo.</p></div>
+  <div class="flujo"><div>📱 Cliente<br>(app Flutter, navegador)</div><span>→ petición →</span><div>🖥️ Servidor<br>procesa la solicitud</div><span>→ respuesta →</span><div>📱 Cliente<br>muestra el resultado</div></div>
+  <div class="grid-cards">
+    <div class="card"><div class="card-icon">🍽️</div><div class="card-title">Analogía del restaurante</div><div class="card-text">El cliente es el comensal, la petición es el pedido, el servidor es la cocina y la respuesta es el plato. El comensal no entra a la cocina: solo recibe lo que pidió.</div></div>
+    <div class="card"><div class="card-icon">🔁</div><div class="card-title">Modelo cliente-servidor</div><div class="card-text">El cliente siempre inicia la conversación (por ejemplo un <code>GET /api/productos</code>) y el servidor siempre espera, escucha en un puerto y responde.</div></div>
+    <div class="card"><div class="card-icon">🌍</div><div class="card-title">Dirección y puerto</div><div class="card-text">Para que lo encuentren necesita una dirección (IP o dominio) y un puerto. En local es <code>localhost:3000</code>; en Render es una URL pública con HTTPS.</div></div>
+    <div class="card"><div class="card-icon">⏱️</div><div class="card-title">Siempre disponible</div><div class="card-text">Un servidor debe estar encendido y conectado las 24 horas. Su computador de clase no lo cumple: se apaga, cambia de red y no tiene IP pública.</div></div>
+  </div>
+  <div class="alert verde"><div class="alert-icon">💡</div><div><div class="alert-titulo">Servidor = rol, no solo un equipo</div>
+    <div class="alert-desc">Cuando ejecutan <code>npm run dev</code>, su computador ya está actuando como servidor, pero solo para ustedes. Desplegar es llevar ese mismo rol a un equipo que siempre está en línea y es accesible desde internet.</div></div></div>
+</div></div>
+
+<div class="slide alt" id="tipos-funcion"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">SERVIDORES · 2</div>
+    <h2 class="sec-titulo">Tipos de servidores según su función</h2>
+    <p class="sec-desc">Un mismo sistema suele usar varios servidores, cada uno con una tarea distinta.</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Tipo</th><th>Qué hace</th><th>Ejemplos</th><th>En nuestro proyecto</th></tr></thead>
+    <tbody>
+    <tr><td><b>Servidor web</b></td><td>Entrega páginas y archivos estáticos por HTTP/HTTPS.</td><td>Nginx, Apache</td><td>Render lo usa por delante de nuestra app.</td></tr>
+    <tr><td><b>Servidor de aplicaciones</b></td><td>Ejecuta la lógica de negocio: valida, calcula, consulta datos y arma respuestas (normalmente JSON).</td><td>Node.js + Express, Tomcat, Django, Spring</td><td>Nuestro backend de Helados Mimos.</td></tr>
+    <tr><td><b>Servidor de base de datos</b></td><td>Guarda y consulta los datos de forma organizada y segura.</td><td>MongoDB, PostgreSQL, MySQL</td><td>Supabase (PostgreSQL).</td></tr>
+    <tr><td><b>Servidor de archivos / multimedia</b></td><td>Almacena y sirve archivos como imágenes, videos y documentos.</td><td>Cloudinary, Amazon S3</td><td>Imágenes de productos.</td></tr>
+    <tr><td><b>Servidor de correo</b></td><td>Envía y recibe correos electrónicos.</td><td>Brevo, Gmail (SMTP)</td><td>Solo si el proyecto envía correos (verificación, recuperación).</td></tr>
+    <tr><td><b>Servidor de autenticación</b></td><td>Verifica la identidad del usuario.</td><td>Google OAuth, Firebase Auth</td><td>Login con Google.</td></tr>
+    <tr><td><b>Servidor DNS</b></td><td>Traduce nombres de dominio a direcciones IP.</td><td>DNS de Google, Cloudflare</td><td>Convierte <code>onrender.com</code> en una IP.</td></tr>
+    <tr><td><b>Servidor proxy / balanceador</b></td><td>Intermedia o reparte el tráfico entre varios servidores.</td><td>Nginx, HAProxy</td><td>Lo gestiona Render.</td></tr>
+    <tr><td><b>Servidor de transferencia (FTP/SFTP)</b></td><td>Transferencia de archivos entre equipos.</td><td>FileZilla Server, vsftpd</td><td>No lo usamos.</td></tr>
+    </tbody></table></div>
+  <div class="alert"><div class="alert-icon">🧱</div><div><div class="alert-titulo">Servidor web vs. servidor de aplicaciones</div>
+    <div class="alert-desc">El servidor web entrega contenido ya hecho (un HTML, una imagen). El servidor de aplicaciones <b>ejecuta código</b> para generar la respuesta en cada petición. Express es un servidor de aplicaciones: cada ruta ejecuta una función que consulta la base de datos y responde.</div></div></div>
+</div></div>
+
+<div class="slide" id="tipos-despliegue"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">SERVIDORES · 3</div>
+    <h2 class="sec-titulo">Tipos de servidores según dónde y cómo se alojan</h2>
+    <p class="sec-desc">La otra forma de clasificarlos es por quién administra el equipo y cuánto trabajo queda para el desarrollador.</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Modelo</th><th>Cómo funciona</th><th>Quién administra</th><th>Ventajas / desventajas</th><th>Ejemplos</th></tr></thead>
+    <tbody>
+    <tr><td><b>Servidor físico propio (on-premise)</b></td><td>Equipo dentro de la empresa: torre, rack o blade.</td><td>La empresa, todo.</td><td>Control total y datos en casa; costo alto, energía, enfriamiento y mantenimiento.</td><td>Sala de servidores de una empresa</td></tr>
+    <tr><td><b>Colocation / hosting dedicado</b></td><td>Equipo propio o alquilado dentro de un centro de datos.</td><td>Cliente el software, proveedor la infraestructura física.</td><td>Buena conectividad; sigue siendo costoso.</td><td>Centros de datos regionales</td></tr>
+    <tr><td><b>Servidor virtual (VPS / IaaS)</b></td><td>Máquina virtual alquilada en la nube.</td><td>El desarrollador instala y administra el sistema operativo, Node, firewall y actualizaciones.</td><td>Flexible y escalable; exige conocimientos de administración.</td><td>AWS EC2, DigitalOcean, Google Compute Engine</td></tr>
+    <tr><td><b>Plataforma como servicio (PaaS)</b></td><td>Se conecta el repositorio y la plataforma construye y ejecuta la app.</td><td>La plataforma administra el servidor; el desarrollador entrega código y variables.</td><td>Muy rápido para desplegar; menos control fino.</td><td><b>Render</b>, Heroku, Railway</td></tr>
+    <tr><td><b>Serverless / funciones</b></td><td>Se sube una función que se ejecuta solo cuando llega una petición.</td><td>El proveedor; se paga por uso.</td><td>Escala sola; menos adecuado para procesos largos.</td><td>AWS Lambda, Vercel Functions</td></tr>
+    <tr><td><b>Backend como servicio (BaaS)</b></td><td>Base de datos, autenticación y almacenamiento ya hechos, consumidos por API.</td><td>El proveedor.</td><td>Menos código de servidor; dependencia del proveedor.</td><td>Supabase, Firebase</td></tr>
+    </tbody></table></div>
+  <div class="grid-cards">
+    <div class="card"><div class="card-icon">🎯</div><div class="card-title">Dónde estamos nosotros</div><div class="card-text">Backend en <b>Render (PaaS)</b>, base de datos en <b>Supabase</b>, imágenes en <b>Cloudinary</b> y login con <b>Google</b>: la solución usa varios servidores especializados conectados por API.</div></div>
+    <div class="card"><div class="card-icon">📈</div><div class="card-title">Escalabilidad</div><div class="card-text">Vertical: darle más CPU o memoria al mismo servidor. Horizontal: agregar más servidores y repartir el tráfico entre ellos.</div></div>
+    <div class="card"><div class="card-icon">🛡️</div><div class="card-title">Requisitos de operación</div><div class="card-text">Al elegir dónde desplegar se consideran disponibilidad, costo, seguridad (HTTPS y secretos), copias de seguridad y capacidad para crecer.</div></div>
+  </div>
+</div></div>
+
+<div class="slide alt" id="backend-movil"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">CONCEPTOS · 2</div>
+    <h2 class="sec-titulo">Servidor para el backend vs. publicar la app móvil</h2>
+    <p class="sec-desc">Son dos cosas distintas: el backend se ejecuta en un servidor; la app móvil se distribuye a los teléfonos.</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Aspecto</th><th>Backend (Node.js / Express)</th><th>Aplicación móvil (Flutter)</th></tr></thead>
+    <tbody>
+    <tr><td><b>Dónde corre</b></td><td>En un servidor siempre encendido (Render, VPS, etc.).</td><td>En el teléfono de cada usuario.</td></tr>
+    <tr><td><b>Cómo se entrega</b></td><td>Se despliega desde un repositorio (GitHub) y se ejecuta con <code>npm start</code>.</td><td>Se compila a APK / AAB (Android) o IPA (iOS) y se publica en las tiendas o se instala directamente.</td></tr>
+    <tr><td><b>Quién lo actualiza</b></td><td>El desarrollador, con un nuevo despliegue: todos los usuarios ven el cambio al instante.</td><td>El usuario debe actualizar la app para recibir cambios.</td></tr>
+    <tr><td><b>Secretos (.env)</b></td><td>Viven aquí: llaves de base de datos, JWT, Cloudinary, Brevo.</td><td>Nunca deben ir dentro de la app: cualquiera podría extraerlos del instalador.</td></tr>
+    <tr><td><b>Qué necesita del otro</b></td><td>Una URL pública con HTTPS y CORS configurado.</td><td>La URL del backend (<code>baseUrl</code>) apuntando al servidor, no a localhost.</td></tr>
+    </tbody></table></div>
+  <div class="alert verde"><div class="alert-icon">💡</div><div><div class="alert-titulo">Idea clave</div>
+    <div class="alert-desc">La app móvil es solo el cliente. Toda la lógica y los secretos están en el servidor de aplicaciones; por eso desplegar bien el backend es lo que hace que la app funcione para cualquier persona.</div></div></div>
+</div></div>

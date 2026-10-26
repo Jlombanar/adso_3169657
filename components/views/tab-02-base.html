@@ -1,0 +1,461 @@
+  <div class="seccion-titulo">🧱 Base: librerías, modelos y servicios</div>
+  <div class="seccion-sub">Lo que necesita la app para hablar con el backend.</div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">Instalar las librerías</div>
+    </div>
+    <div class="step-description">Agrega estas dependencias y ejecuta <code>flutter pub get</code>.</div>
+    <div class="tabla-wrap"><table class="tabla"><thead><tr><th>Librería</th><th>Para qué sirve</th></tr></thead><tbody><tr><td><code>http</code></td><td>Hacer peticiones al backend</td></tr><tr><td><code>shared_preferences</code></td><td>Guardar la sesión (token, nombre, correo, rol) en el dispositivo</td></tr><tr><td><code>image_picker</code></td><td>Elegir la foto desde la galería o la cámara</td></tr><tr><td><code>image_picker_android</code> + <code>image_picker_platform_interface</code></td><td>Activar el selector de fotos moderno de Android</td></tr><tr><td><code>desktop_drop</code></td><td>Arrastrar y soltar la foto cuando la app corre en macOS / Windows / Linux</td></tr><tr><td><code>photo_manager</code></td><td>Detectar la foto que se arrastra al <strong>emulador</strong> de Android</td></tr><tr><td><code>http_parser</code></td><td>Indicar el tipo de archivo (<code>image/jpeg</code>, <code>image/png</code>…) al subir la foto</td></tr></tbody></table></div>
+    <div class="step-file">pubspec.yaml</div><div class="code-block"><span class="code-lang">yaml</span>dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.0
+  shared_preferences: ^2.5.5
+  google_sign_in: ^6.2.2
+  cupertino_icons: ^1.0.8
+  image_picker: ^1.2.4
+  image_picker_android: ^0.8.13+25
+  image_picker_platform_interface: ^2.11.2
+  desktop_drop: ^0.7.1
+  photo_manager: ^3.12.0
+  http_parser: ^4.1.2</div><div class="code-block"><span class="code-lang">terminal</span>flutter pub get</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">ApiConfig: URL del backend</div>
+    </div>
+    <div class="step-description">El emulador de Android no reconoce <code>localhost</code> como el computador: usa <code>10.0.2.2</code>. En web, iOS y escritorio se usa <code>localhost</code>.</div>
+    
+    <div class="step-file">lib/services/api_config.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:io&#x27; show Platform;
+import &#x27;package:flutter/foundation.dart&#x27; show kIsWeb;
+
+class ApiConfig {
+  static String get baseUrl {
+    // 1. Evaluar Web primero para evitar que Platform.isX genere un error en JS
+    if (kIsWeb) {
+      return &#x27;http://localhost:3000/api&#x27;;
+    }
+    
+    // 2. Evaluaciones para dispositivos móviles / desktop
+    if (Platform.isAndroid) {
+      // Emulador de Android
+      return &#x27;http://10.0.2.2:3000/api&#x27;;
+    } else if (Platform.isIOS) {
+      // Simulador de iOS
+      return &#x27;http://localhost:3000/api&#x27;;
+    }
+    
+    // Fallback para macOS, Windows, Linux, etc.
+    return &#x27;http://localhost:3000/api&#x27;;
+  }
+
+  static const Map&lt;String, String&gt; headers = {
+    &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+    &#x27;Accept&#x27;: &#x27;application/json&#x27;,
+  };
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">UserModel: modelo de usuario</div>
+    </div>
+    <div class="step-description">Representa al usuario que devuelve el backend. El getter <code>esAdmin</code> facilita saber si tiene permisos de administrador.</div>
+    
+    <div class="step-file">lib/models/user_model.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>class UserModel {
+  final String? id; // Nulo al crear, asignado por la BD al responder
+  final String nombre;
+  final String email;
+  final String password;
+  final String rol;
+
+  UserModel({
+    this.id,
+    required this.nombre,
+    required this.email,
+    required this.password,
+    this.rol = &#x27;usuario&#x27;, // Por defecto &#x27;usuario&#x27;
+  });
+// Getter útil para verificar si tiene permisos de administrador
+  bool get esAdmin =&gt; rol.toLowerCase() == &#x27;admin&#x27;;
+
+  
+  // Mapear la respuesta de la base de datos (con el ID ya autocompletado)
+  factory UserModel.fromJson(Map&lt;String, dynamic&gt; json) {
+    return UserModel(
+      id: json[&#x27;id&#x27;]?.toString(), // Lee el ID retornado por Supabase/Backend
+      nombre: json[&#x27;nombre&#x27;] ?? &#x27;&#x27;,
+      email: json[&#x27;email&#x27;] ?? &#x27;&#x27;,
+      password: json[&#x27;password&#x27;] ?? &#x27;&#x27;,
+      rol: json[&#x27;rol&#x27;] ?? &#x27;usuario&#x27;,
+    );
+  }
+
+  // Convertir a Map para enviar en el POST
+  Map&lt;String, dynamic&gt; toJson() {
+    return {
+      &#x27;nombre&#x27;: nombre,
+      &#x27;email&#x27;: email,
+      &#x27;password&#x27;: password,
+      &#x27;rol&#x27;: rol,
+    };
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">ProductoModel: modelo de producto</div>
+    </div>
+    <div class="step-description">Representa un helado de la tabla <code>helados</code>. <code>fromJson</code> acepta <code>id</code> o <code>_id</code> y <code>imagenUrl</code>, <code>imagen_url</code> o <code>imagen</code>, para no romperse si el backend cambia el nombre del campo.</div>
+    
+    <div class="step-file">lib/models/producto_model.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>class ProductoModel {
+  final String id;
+  final String nombre;
+  final double precio;
+  final String descripcion;
+  final String? imagenUrl; // Puede ser URL de red o ruta local (File path)
+
+  ProductoModel({
+    required this.id,
+    required this.nombre,
+    required this.precio,
+    required this.descripcion,
+    this.imagenUrl,
+  });
+  // Mapear la respuesta que viene del backend/BD
+  factory ProductoModel.fromJson(Map&lt;String, dynamic&gt; json) {
+    return ProductoModel(
+      id: json[&#x27;id&#x27;]?.toString() ?? json[&#x27;_id&#x27;]?.toString() ?? &#x27;&#x27;,
+      nombre: json[&#x27;nombre&#x27;] ?? &#x27;&#x27;,
+      precio: (json[&#x27;precio&#x27;] as num?)?.toDouble() ?? 0.0,
+      descripcion: json[&#x27;descripcion&#x27;] ?? &#x27;&#x27;,
+      imagenUrl: json[&#x27;imagenUrl&#x27;] ?? json[&#x27;imagen_url&#x27;] ?? json[&#x27;imagen&#x27;],
+    );
+  }
+
+  // Convertir a Map para enviar datos al backend
+  Map&lt;String, dynamic&gt; toJson() {
+    return {
+      &#x27;id&#x27;: id,
+      &#x27;nombre&#x27;: nombre,
+      &#x27;precio&#x27;: precio,
+      &#x27;descripcion&#x27;: descripcion,
+      if (imagenUrl != null) &#x27;imagenUrl&#x27;: imagenUrl,
+    };
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <div class="step-title">UserService: registro y login</div>
+    </div>
+    <div class="step-description">Registro, login con correo y login con Google. Si el servidor responde con error, se lanza una <code>Exception</code> con el mensaje del backend para mostrarlo en pantalla.</div>
+    
+    <div class="step-file">lib/services/user_service.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:convert&#x27;;
+import &#x27;package:http/http.dart&#x27; as http;
+import &#x27;../models/user_model.dart&#x27;;
+import &#x27;api_config.dart&#x27;;
+
+class UserService {
+  // Petición POST para registrar un nuevo usuario
+  Future&lt;UserModel&gt; registrarUsuario(UserModel usuario) async {
+    final url = Uri.parse(&#x27;${ApiConfig.baseUrl}/register&#x27;);
+
+    try {
+      final response = await http.post(
+        url,
+        headers: ApiConfig.headers,
+        body: jsonEncode(usuario.toJson()),
+      );
+
+      final contentType = response.headers[&#x27;content-type&#x27;] ?? &#x27;&#x27;;
+
+      // Si el servidor responde 201 (Created) o 200 (OK)
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final Map&lt;String, dynamic&gt; responseData = jsonDecode(response.body);
+        
+        // Retorna la instancia de UserModel con los datos guardados en Supabase
+        return UserModel.fromJson(responseData);
+      } else {
+        // Verifica si el servidor devolvió una respuesta en formato JSON
+        if (contentType.contains(&#x27;application/json&#x27;)) {
+          final Map&lt;String, dynamic&gt; errorData = jsonDecode(response.body);
+          final String mensajeError = errorData[&#x27;error&#x27;] ?? errorData[&#x27;message&#x27;] ?? &#x27;Error desconocido en el servidor&#x27;;
+          throw Exception(mensajeError);
+        } else {
+          // Si respondió HTML (Ej: 404 por ruta mal escrita o 500 por servidor caído)
+          throw Exception(&#x27;Servidor no disponible o ruta no encontrada (Código ${response.statusCode})&#x27;);
+        }
+      }
+    } catch (e) {
+      // Retorna el mensaje de la excepción formateado limpiamente
+      throw Exception(e.toString().replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;));
+    }
+  }
+
+  // Petición POST para iniciar sesión
+  Future&lt;Map&lt;String, dynamic&gt;&gt; loginUsuario(String email, String password) async {
+    final url = Uri.parse(&#x27;${ApiConfig.baseUrl}/login&#x27;);
+
+    try {
+      final response = await http.post(
+        url,
+        headers: ApiConfig.headers,
+        body: jsonEncode({
+          &#x27;email&#x27;: email,
+          &#x27;password&#x27;: password,
+        }),
+      );
+
+      final contentType = response.headers[&#x27;content-type&#x27;] ?? &#x27;&#x27;;
+
+      if (response.statusCode == 200) {
+        final Map&lt;String, dynamic&gt; responseData = jsonDecode(response.body);
+        
+        // Devuelve el mapa completo con &#x27;token&#x27; y &#x27;usuario&#x27; tal como responde tu backend
+        return responseData;
+      } else {
+        if (contentType.contains(&#x27;application/json&#x27;)) {
+          final Map&lt;String, dynamic&gt; errorData = jsonDecode(response.body);
+          final String mensajeError = errorData[&#x27;error&#x27;] ?? errorData[&#x27;message&#x27;] ?? &#x27;Credenciales incorrectas&#x27;;
+          throw Exception(mensajeError);
+        } else {
+          throw Exception(&#x27;Servidor no disponible o ruta no encontrada (Código ${response.statusCode})&#x27;);
+        }
+      }
+    } catch (e) {
+      throw Exception(e.toString().replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;));
+    }
+  }
+
+  // Petición POST para autenticar con Google (Login / Registro unificado)
+  Future&lt;Map&lt;String, dynamic&gt;&gt; autenticarConGoogleBackend(String idToken) async {
+    final url = Uri.parse(&#x27;${ApiConfig.baseUrl}/auth/google&#x27;);
+
+    try {
+      final response = await http.post(
+        url,
+        headers: ApiConfig.headers,
+        body: jsonEncode({
+          &#x27;idToken&#x27;: idToken,
+        }),
+      );
+
+      final contentType = response.headers[&#x27;content-type&#x27;] ?? &#x27;&#x27;;
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final Map&lt;String, dynamic&gt; responseData = jsonDecode(response.body);
+        // Retorna { message, token, usuario }
+        return responseData;
+      } else {
+        if (contentType.contains(&#x27;application/json&#x27;)) {
+          final Map&lt;String, dynamic&gt; errorData = jsonDecode(response.body);
+          final String mensajeError = errorData[&#x27;error&#x27;] ?? errorData[&#x27;message&#x27;] ?? &#x27;Error al autenticar con Google&#x27;;
+          throw Exception(mensajeError);
+        } else {
+          throw Exception(&#x27;Servidor no disponible o ruta no encontrada (Código ${response.statusCode})&#x27;);
+        }
+      }
+    } catch (e) {
+      throw Exception(e.toString().replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;));
+    }
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">6</div>
+      <div class="step-title">Guardar la sesión al iniciar sesión</div>
+    </div>
+    <div class="step-description">Después del login se guardan en el dispositivo el <strong>token</strong>, el <strong>nombre</strong>, el <strong>correo</strong> y el <strong>rol</strong>. El panel los lee para mostrar los datos del admin y enviar el token al backend. Si el rol es <code>admin</code>, va directo al panel.</div>
+    
+    <div class="step-file">lib/components/login.dart · método dentro de _LoginScreenState</div><div class="code-block"><span class="code-lang">dart</span>  Future&lt;void&gt; _guardarSesionYNavegar(Map&lt;String, dynamic&gt; respuesta) async {
+    final String token = respuesta[&#x27;token&#x27;];
+    final UserModel usuario = UserModel.fromJson(respuesta[&#x27;usuario&#x27;]);
+
+    // Extrae el rol (&#x27;admin&#x27; o &#x27;usuario&#x27;)
+    final String rol = (respuesta[&#x27;usuario&#x27;]?[&#x27;rol&#x27;] ?? &#x27;usuario&#x27;).toString().toLowerCase();
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(&#x27;jwt_token&#x27;, token);
+    await prefs.setString(&#x27;user_name&#x27;, usuario.nombre);
+    await prefs.setString(&#x27;user_email&#x27;, usuario.email);
+    await prefs.setString(&#x27;user_role&#x27;, rol);
+
+    if (!mounted) return;
+
+    _mostrarMensaje(&#x27;¡Bienvenido, ${usuario.nombre}!&#x27;);
+
+    // Si es administrador, va directo al panel; si no, a HomeScreen()
+    if (rol == &#x27;admin&#x27;) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) =&gt; const AdminProductListPage()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) =&gt; const HomeScreen()),
+      );
+    }
+  }</div>
+    <div class="nota">📌 Importa la página del panel arriba del archivo: <code>import '../pages/admin_product_list_page.dart';</code></div>
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">7</div>
+      <div class="step-title">ProductoService: consultar productos</div>
+    </div>
+    <div class="step-description">Solo <strong>consulta</strong> los productos (<code>GET /api/helados</code>). Lo usan tanto la carta del cliente como el panel, así ambos muestran siempre lo mismo.</div>
+    
+    <div class="step-file">lib/services/producto_service.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:convert&#x27;;
+import &#x27;package:http/http.dart&#x27; as http;
+import &#x27;../models/producto_model.dart&#x27;;
+import &#x27;api_config.dart&#x27;;
+
+class ProductoService {
+  // 1. Obtener la lista de productos para renderizar en el menú
+  Future&lt;List&lt;ProductoModel&gt;&gt; obtenerProductos() async {
+    final url = Uri.parse(&#x27;${ApiConfig.baseUrl}/helados&#x27;);
+
+    try {
+      final response = await http.get(url, headers: ApiConfig.headers);
+      final contentType = response.headers[&#x27;content-type&#x27;] ?? &#x27;&#x27;;
+
+      if (response.statusCode == 200) {
+        final List&lt;dynamic&gt; datos = jsonDecode(response.body);
+        return datos.map((item) =&gt; ProductoModel.fromJson(item)).toList();
+      } else {
+        if (contentType.contains(&#x27;application/json&#x27;)) {
+          final errorData = jsonDecode(response.body);
+          throw Exception(errorData[&#x27;message&#x27;] ?? errorData[&#x27;error&#x27;] ?? &#x27;Error al cargar productos&#x27;);
+        } else {
+          throw Exception(&#x27;Error del servidor (Código ${response.statusCode})&#x27;);
+        }
+      }
+    } catch (e) {
+      throw Exception(e.toString().replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;));
+    }
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">8</div>
+      <div class="step-title">AdminProductService: crear, editar y eliminar</div>
+    </div>
+    <div class="step-description">Estas rutas están protegidas en el backend, así que se envía el token en el header <code>Authorization: Bearer &lt;token&gt;</code>. La foto viaja como <code>multipart/form-data</code> en el campo <strong><code>imagen</code></strong> (el que espera Multer) y con su tipo real, porque Cloudinary rechaza archivos que no reconoce como imagen.</div>
+    <div class="tabla-wrap"><table class="tabla"><thead><tr><th>Acción</th><th>Método</th><th>Ruta</th><th>Respuesta</th></tr></thead><tbody><tr><td>Crear</td><td><code>POST</code></td><td><code>/api/helados</code></td><td><code>201</code></td></tr><tr><td>Editar</td><td><code>PUT</code></td><td><code>/api/helados/:id</code></td><td><code>200</code></td></tr><tr><td>Eliminar</td><td><code>DELETE</code></td><td><code>/api/helados/:id</code></td><td><code>200</code></td></tr></tbody></table></div>
+    <div class="step-file">lib/services/admin_product_service.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;dart:convert&#x27;;
+import &#x27;dart:io&#x27;;
+import &#x27;package:http/http.dart&#x27; as http;
+import &#x27;package:http_parser/http_parser.dart&#x27;;
+import &#x27;package:shared_preferences/shared_preferences.dart&#x27;;
+import &#x27;api_config.dart&#x27;;
+
+// Operaciones del panel administrativo sobre /helados (requieren token de admin)
+class AdminProductService {
+  static Future&lt;String?&gt; _obtenerToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(&#x27;jwt_token&#x27;);
+  }
+
+  static String _mensajeError(http.Response response) {
+    try {
+      final data = jsonDecode(response.body);
+      return (data[&#x27;message&#x27;] ?? data[&#x27;error&#x27;] ?? &#x27;Error del servidor (código ${response.statusCode})&#x27;)
+          .toString();
+    } catch (_) {
+      return &#x27;El servidor no respondió con JSON válido (código ${response.statusCode}). &#x27;
+          &#x27;Verifica que el backend esté corriendo y que la URL en api_config.dart sea correcta.&#x27;;
+    }
+  }
+
+  // Arma la parte &quot;imagen&quot; de la petición multipart con Content-Type explícito:
+  // Cloudinary rechaza el archivo si no se reconoce como imagen
+  static Future&lt;http.MultipartFile&gt; _archivoImagen(File imagen) async {
+    final bytes = await imagen.readAsBytes();
+    final ext = imagen.path.split(&#x27;.&#x27;).last.toLowerCase();
+    final subtipo = switch (ext) {
+      &#x27;png&#x27; =&gt; &#x27;png&#x27;,
+      &#x27;webp&#x27; =&gt; &#x27;webp&#x27;,
+      &#x27;avif&#x27; =&gt; &#x27;avif&#x27;,
+      _ =&gt; &#x27;jpeg&#x27;,
+    };
+    return http.MultipartFile.fromBytes(
+      &#x27;imagen&#x27;, // Nombre del campo que espera Multer en el backend
+      bytes,
+      contentType: MediaType(&#x27;image&#x27;, subtipo),
+      filename: &#x27;producto_${DateTime.now().millisecondsSinceEpoch}.${subtipo == &#x27;jpeg&#x27; ? &#x27;jpg&#x27; : subtipo}&#x27;,
+    );
+  }
+
+  static Future&lt;void&gt; crearProducto({
+    required String nombre,
+    required String descripcion,
+    required double precio,
+    required File imagen,
+  }) async {
+    final token = await _obtenerToken();
+
+    final request = http.MultipartRequest(&#x27;POST&#x27;, Uri.parse(&#x27;${ApiConfig.baseUrl}/helados&#x27;));
+    request.headers[&#x27;Authorization&#x27;] = &#x27;Bearer $token&#x27;;
+    request.fields[&#x27;nombre&#x27;] = nombre;
+    request.fields[&#x27;descripcion&#x27;] = descripcion;
+    request.fields[&#x27;precio&#x27;] = precio.toString();
+    request.files.add(await _archivoImagen(imagen));
+
+    final response = await http.Response.fromStream(await request.send());
+    if (response.statusCode != 201) {
+      throw Exception(_mensajeError(response));
+    }
+  }
+
+  static Future&lt;void&gt; actualizarProducto({
+    required String id,
+    required String nombre,
+    required String descripcion,
+    required double precio,
+    File? imagen, // opcional: solo si el admin cambió la foto
+  }) async {
+    final token = await _obtenerToken();
+
+    final request = http.MultipartRequest(&#x27;PUT&#x27;, Uri.parse(&#x27;${ApiConfig.baseUrl}/helados/$id&#x27;));
+    request.headers[&#x27;Authorization&#x27;] = &#x27;Bearer $token&#x27;;
+    request.fields[&#x27;nombre&#x27;] = nombre;
+    request.fields[&#x27;descripcion&#x27;] = descripcion;
+    request.fields[&#x27;precio&#x27;] = precio.toString();
+    if (imagen != null) {
+      request.files.add(await _archivoImagen(imagen));
+    }
+
+    final response = await http.Response.fromStream(await request.send());
+    if (response.statusCode != 200) {
+      throw Exception(_mensajeError(response));
+    }
+  }
+
+  static Future&lt;void&gt; eliminarProducto(String id) async {
+    final token = await _obtenerToken();
+
+    final response = await http.delete(
+      Uri.parse(&#x27;${ApiConfig.baseUrl}/helados/$id&#x27;),
+      headers: {&#x27;Authorization&#x27;: &#x27;Bearer $token&#x27;},
+    );
+    if (response.statusCode != 200) {
+      throw Exception(_mensajeError(response));
+    }
+  }
+}</div>
+    
+  </div>

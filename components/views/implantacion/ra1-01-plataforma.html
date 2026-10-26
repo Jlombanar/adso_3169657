@@ -1,0 +1,72 @@
+<section class="slide" id="ra1"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">RA 01 · PLANEAR LA IMPLANTACIÓN · OBJETIVO</div>
+    <h2 class="sec-titulo">Antes de desplegar, se planea</h2>
+    <p class="sec-desc">Un despliegue sin plan es improvisar con los datos del cliente. En este resultado definimos dónde va a correr Helados Mimos, qué necesita para funcionar y cómo se instala.</p></div>
+  <div class="grid-cards">
+    <div class="card"><div class="card-icon">🧱</div><div class="card-title">1. Plataforma</div><div class="card-text">Conocer el hardware y el software de servidores para elegir dónde se instala la solución.</div></div>
+    <div class="card"><div class="card-icon">📏</div><div class="card-title">2. Requisitos</div><div class="card-text">Verificar que la plataforma cumple las características mínimas que pide el software.</div></div>
+    <div class="card"><div class="card-icon">📋</div><div class="card-title">3. Instalación</div><div class="card-text">Escribir, paso a paso, cómo se instala todo y cómo se comprueba que quedó bien.</div></div>
+  </div>
+  <div class="reflexion"><b>💭 Reflexión inicial</b>
+    <ul><li>¿Dónde vive hoy cada parte de Helados Mimos: el código, la base de datos y las fotos?</li>
+    <li>¿Qué pasaría si se despliega y los productos de prueba ("Helado de prueba 123") aparecen en la carta del cliente?</li>
+    <li>¿Quién más, además de ustedes, debería poder instalar el sistema leyendo solo su documentación?</li></ul></div>
+</div></section>
+
+<section class="slide alt" id="ra1-hardware"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">RA 01 · PLATAFORMA · 1</div>
+    <h2 class="sec-titulo">Hardware de servidores</h2>
+    <p class="sec-desc">Aunque usemos la nube, detrás siempre hay equipos físicos en un centro de datos. Conocerlos ayuda a entender qué se está alquilando y por qué cuesta lo que cuesta.</p></div>
+  <div class="grid-cards">
+    <div class="card"><div class="card-icon">🗄️</div><div class="card-title">Servidor torre</div><div class="card-text">Parece un computador de escritorio grande. Barato y fácil de instalar en una oficina; ocupa espacio y no escala bien. Ideal para un negocio pequeño.</div></div>
+    <div class="card"><div class="card-icon">🧰</div><div class="card-title">Servidor rack</div><div class="card-text">Equipos planos que se atornillan en un armario (rack) estándar de 19 pulgadas. Se miden en unidades (1U, 2U). Ahorran espacio y se administran juntos.</div></div>
+    <div class="card"><div class="card-icon">🔲</div><div class="card-title">Servidor blade</div><div class="card-text">Tarjetas delgadas que comparten un chasis con energía, ventilación y red. Máxima densidad: muchos servidores en poco espacio. Típico en centros de datos.</div></div>
+    <div class="card"><div class="card-icon">🖥️</div><div class="card-title">Máquinas virtuales</div><div class="card-text">Un hipervisor (VMware, Hyper-V, VirtualBox) divide un servidor físico en varios servidores virtuales. Así funcionan los VPS y la mayoría de servicios en la nube.</div></div>
+  </div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Arreglo de discos (RAID)</th><th>Cómo funciona</th><th>Si falla un disco…</th><th>Uso típico</th></tr></thead>
+    <tbody>
+    <tr><td><b>RAID 0</b></td><td>Reparte los datos entre dos o más discos.</td><td>Se pierde todo.</td><td>Velocidad, nunca para datos importantes.</td></tr>
+    <tr><td><b>RAID 1</b></td><td>Copia espejo: los mismos datos en dos discos.</td><td>Sigue funcionando con el otro disco.</td><td>Sistema operativo, bases de datos pequeñas.</td></tr>
+    <tr><td><b>RAID 5</b></td><td>Reparte datos y paridad entre tres o más discos.</td><td>Sigue funcionando y se reconstruye.</td><td>Servidores de archivos.</td></tr>
+    <tr><td><b>RAID 10</b></td><td>Combina espejo (1) y reparto (0), mínimo cuatro discos.</td><td>Sigue funcionando, con buen rendimiento.</td><td>Bases de datos con mucho tráfico.</td></tr>
+    </tbody></table></div>
+  <div class="alert verde"><div class="alert-icon">☁️</div><div><div class="alert-titulo">¿Y en la nube?</div>
+    <div class="alert-desc">Con Supabase, Cloudinary y Render no tenemos que comprar discos ni armar RAID: el proveedor administra el hardware por nosotros. Por eso aquí solo necesitamos conocerlo para entender qué estamos alquilando.</div></div></div>
+</div></section>
+
+<section class="slide" id="ra1-plataforma"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">RA 01 · PLATAFORMA · 2</div>
+    <h2 class="sec-titulo">Sistema operativo, licencias, hosting y dominio</h2>
+    <p class="sec-desc">Preparar la plataforma tecnológica es decidir sobre qué sistema operativo y en qué tipo de alojamiento va a correr el software.</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Sistema operativo de servidor</th><th>Características</th><th>Licenciamiento</th><th>Cuándo se elige</th></tr></thead>
+    <tbody>
+    <tr><td><b>Linux</b> (Ubuntu Server, Debian, Red Hat)</td><td>Liviano, estable, se administra por terminal. Es el más usado para servidores web y en la nube.</td><td>Libre en su mayoría (GPL). Red Hat cobra suscripción por soporte.</td><td>Aplicaciones Node.js, Python, PHP. <b>Render ejecuta nuestro backend sobre Linux.</b></td></tr>
+    <tr><td><b>Windows Server</b></td><td>Interfaz gráfica, integración con Active Directory y tecnologías Microsoft.</td><td>De pago, por núcleos del procesador y licencias de acceso de cliente.</td><td>Empresas con aplicaciones .NET, SQL Server o directorio de usuarios Microsoft.</td></tr>
+    </tbody></table></div>
+  <div class="grid-cards">
+    <div class="card"><div class="card-icon">🏠</div><div class="card-title">Hosting compartido</div><div class="card-text">Muchos sitios en un mismo servidor. Barato y sencillo, pero pensado para páginas web y PHP, no para un backend Node.js propio.</div></div>
+    <div class="card"><div class="card-icon">☁️</div><div class="card-title">VPS y nube</div><div class="card-text">Servidor virtual propio (AWS, Azure, DigitalOcean) o plataforma administrada (Render, Heroku). En el RA 02 se comparan a fondo.</div></div>
+    <div class="card"><div class="card-icon">🌐</div><div class="card-title">Dominio</div><div class="card-text">Nombre fácil de recordar (por ejemplo <code>heladosmimos.com.co</code>) que el DNS traduce a la IP del servidor. Se compra a un registrador y se renueva cada año. Render entrega gratis un subdominio <code>.onrender.com</code>.</div></div>
+    <div class="card"><div class="card-icon">📤</div><div class="card-title">FTP / SFTP</div><div class="card-text">Protocolo para subir archivos a un servidor (FTP puerto 21, SFTP puerto 22 y cifrado), con programas como FileZilla. En Render no se usa: el código llega desde GitHub.</div></div>
+  </div>
+</div></section>
+
+<section class="slide alt" id="ra1-requisitos"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">RA 01 · REQUISITOS MÍNIMOS</div>
+    <h2 class="sec-titulo">¿La plataforma alcanza para Helados Mimos?</h2>
+    <p class="sec-desc">Verificar requisitos es comparar lo que el software necesita con lo que la plataforma ofrece. Si algo no alcanza, se cambia de plan o de plataforma antes de desplegar, no después.</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Componente</th><th>Qué necesita</th><th>Dónde se revisa</th><th>¿Cumple?</th></tr></thead>
+    <tbody>
+    <tr><td><b>Backend Node.js + Express</b></td><td>Versión de Node compatible con las dependencias; memoria suficiente para arrancar.</td><td><code>node -v</code> en su equipo y el campo <code>engines</code> del <code>package.json</code>. Render ofrece 512 MB de RAM y 0,1 CPU en el plan gratuito.</td><td>☐</td></tr>
+    <tr><td><b>Base de datos</b></td><td>Tablas de helados y usuarios, con espacio para crecer.</td><td>Panel de Supabase → uso del proyecto y límites del plan.</td><td>☐</td></tr>
+    <tr><td><b>Imágenes</b></td><td>Almacenamiento y ancho de banda para las fotos de productos.</td><td>Panel de Cloudinary → uso del plan gratuito.</td><td>☐</td></tr>
+    <tr><td><b>App Android</b></td><td>Versión mínima de Android soportada.</td><td><code>minSdkVersion</code> en <code>android/app/build.gradle</code> comparada con los celulares de los usuarios.</td><td>☐</td></tr>
+    <tr><td><b>Conectividad</b></td><td>Internet en los celulares y HTTPS en el servidor.</td><td>Render entrega HTTPS automáticamente.</td><td>☐</td></tr>
+    </tbody></table></div>
+  <p style="font-size:12px;color:var(--dimmer);margin-top:12px;">Fuente de los recursos del plan gratuito: render.com/pricing. Los límites de los proveedores cambian; verifiquen el valor vigente el día que hagan la tabla.</p>
+  <div class="alert verde"><div class="alert-icon">✍️</div><div><div class="alert-titulo">Actividad</div>
+    <div class="alert-desc">Copien esta tabla en su plan de implantación, llenen la columna <b>¿Cumple?</b> con los datos reales de su proyecto y escriban qué harían si alguna fila no se cumple.</div></div></div>
+</div></section>

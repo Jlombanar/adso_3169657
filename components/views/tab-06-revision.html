@@ -1,0 +1,20 @@
+  <div class="seccion-titulo">📋 Para revisar</div>
+  <div class="seccion-sub">Antes de dar por terminado el panel, prueben esto.</div>
+  <div class="revision-fix">
+    <div class="revision-fix-titulo">✓ Lista de pruebas</div>
+    <ul class="check-list" style="margin-top:6px;">
+      <li>Entrar con un usuario <strong>admin</strong> lleva directo al <strong>Panel de Administración</strong>.</li>
+      <li>El menú lateral muestra el <strong>nombre y correo</strong> del admin.</li>
+      <li>Crear un producto con foto desde ➕ y verlo en la lista del panel.</li>
+      <li>El producto creado aparece en la <strong>carta del cliente</strong> (Ver carta).</li>
+      <li>Editar el <strong>precio</strong> desde ✏️ y confirmar que cambia en la carta.</li>
+      <li>Editar la <strong>foto</strong> y confirmar que cambia en la carta.</li>
+      <li>Eliminar un producto (con confirmación) y confirmar que desaparece de la carta.</li>
+      <li><strong>Cerrar Sesión</strong> vuelve al login y el botón atrás no regresa al panel.</li>
+      <li>Con un usuario <strong>normal</strong> no se ve el ícono 🛡️ ni los botones ✏️/🗑️ en la carta.</li>
+    </ul>
+  </div>
+  <div class="step-card">
+    <div class="step-header"><div class="step-number">?</div><div class="step-title">Problemas frecuentes</div></div>
+    <div class="tabla-wrap"><table class="tabla"><thead><tr><th>Síntoma</th><th>Causa probable</th></tr></thead><tbody><tr><td><code>Token no proporcionado</code> / <code>No tienes permisos de administrador</code></td><td>No hay sesión guardada o el usuario no tiene rol <code>admin</code></td></tr><tr><td><code>El servidor no respondió con JSON válido</code></td><td>El backend está apagado o la URL de <code>api_config.dart</code> está mal</td></tr><tr><td><code>nombre, precio e imagen son obligatorios</code></td><td>Se intentó crear un producto sin foto</td></tr><tr><td>La foto arrastrada al emulador no aparece</td><td>Se usó Hot Restart después de agregar código nativo, o la foto es <code>.avif</code> (usa JPG o PNG)</td></tr><tr><td>Pantalla roja <code>type 'Null' is not a subtype of type 'bool'</code></td><td>Se agregó una variable al <code>State</code> con Hot Reload: haz <strong>Hot Restart</strong> (<code>R</code>)</td></tr></tbody></table></div>
+  </div>

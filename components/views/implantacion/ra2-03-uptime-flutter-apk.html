@@ -1,0 +1,152 @@
+<div class="slide" id="uptime"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">PASO 5 · EVITAR QUE SE DUERMA</div>
+    <h2 class="sec-titulo">Mantener el servicio despierto con UptimeRobot</h2>
+    <p class="sec-desc">En el plan gratuito Render duerme el servicio tras 15 minutos sin tráfico. Un monitor externo que lo visita cada pocos minutos cuenta como tráfico y evita que se apague.</p></div>
+
+  <div class="btn-fila">
+    <a href="https://uptimerobot.com/" target="_blank" class="btn-link">🔗 Ir a UptimeRobot</a>
+    <a href="https://dashboard.render.com/" target="_blank" class="btn-link">🔗 Ir al panel de Render</a>
+  </div>
+
+  <div class="code-title">📄 backend/server.js — ruta de salud (antes de app.listen)</div>
+  <div class="code-block">// Montando las rutas de la API
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});</div>
+  <div class="alert verde"><div class="alert-icon">💡</div><div><div class="alert-titulo">¿Por qué una ruta /health?</div>
+    <div class="alert-desc">Es una ruta liviana, pública y sin base de datos ni token: solo responde "OK" con código 200. Así el monitor comprueba que el servidor está vivo sin gastar recursos. Hagan <code>git push</code> para que Render la despliegue antes de configurar el monitor.</div></div></div>
+
+  <div class="pasos">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-text"><b>Copiar la URL pública:</b> en el panel de Render, en la vista principal del servicio, copien la URL bajo el nombre del proyecto (por ejemplo <code>https://helados-mimos-xxxx.onrender.com</code>). Ábranla en otra pestaña agregando <code>/health</code>: debe mostrar <b>OK</b>.</div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-text"><b>Crear cuenta en UptimeRobot:</b> entren con el botón <b>Ir a UptimeRobot</b> (uptimerobot.com), elijan Sign Up (tiene plan gratuito) o Log In, y confirmen que ven el Dashboard con la lista de monitores vacía.</div></div>
+    <div class="paso"><div class="paso-num">3</div><div class="paso-text"><b>Crear el monitor:</b> botón <b>+ Add New Monitor</b> y llenar el formulario con los datos de la tabla.</div></div>
+    <div class="paso"><div class="paso-num">4</div><div class="paso-text"><b>Verificar:</b> tras presionar <b>Create Monitor</b>, el monitor debe mostrarse en verde <b>Up</b>.</div></div>
+  </div>
+
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Campo</th><th>Valor</th><th>Nota</th></tr></thead>
+    <tbody>
+    <tr><td><b>Monitor Type</b></td><td>HTTP(s)</td><td>Hace una petición web real al servicio.</td></tr>
+    <tr><td><b>Friendly Name</b></td><td><code>Backend Render Helados</code></td><td>Nombre para identificarlo en el panel.</td></tr>
+    <tr><td><b>URL (or IP)</b></td><td><code>https://helados-mimos-xxxx.onrender.com/health</code></td><td>La URL de su servicio más la ruta <code>/health</code>.</td></tr>
+    <tr><td><b>Monitoring Interval</b></td><td>Cada 10 o 14 minutos (o menos)</td><td>Debe ser <b>menor a 15 minutos</b>, que es cuando Render apaga el servicio. Usen el menor intervalo que permita su plan.</td></tr>
+    <tr><td><b>Alert Contacts to Notify</b></td><td>Opcional</td><td>Pueden dejarlo desmarcado para no recibir correos rutinarios.</td></tr>
+    </tbody></table></div>
+
+  <div class="alert"><div class="alert-icon">⚠️</div><div><div class="alert-titulo">Esto es un truco para estudiar, no una solución de producción</div>
+    <div class="alert-desc">• Render entrega <b>750 horas gratuitas al mes por workspace</b>. Un servicio encendido todo el mes consume unas 744, así que solo uno cabe despierto permanentemente: si varios integrantes del equipo mantienen servicios activos en el mismo workspace, se agotan las horas y Render los suspende hasta el mes siguiente.<br>
+    • El servicio puede reiniciarse en cualquier momento y el disco sigue siendo efímero.<br>
+    • Para un cliente real se usa un plan de pago.</div></div></div>
+</div></div>
+
+<div class="slide alt" id="flutter"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">PASO 6 · CONECTAR FLUTTER</div>
+    <h2 class="sec-titulo">Apuntar la app a la URL pública</h2>
+    <p class="sec-desc">Hasta ahora la app hablaba con localhost o 10.0.2.2. Con el backend desplegado, usa la URL de Render.</p></div>
+  <div class="code-title">📄 lib/services/api_config.dart</div>
+  <div class="code-block">import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+class ApiConfig {
+  // Cambia a false cuando quieras volver a probar con tu servidor Node.js local
+  static const bool useRemote = true;
+
+  // URL de tu backend desplegado en Render
+  static const String _remoteUrl = 'https://helados-mimos-xxxx.onrender.com/api';
+
+  static String get baseUrl {
+    if (useRemote) {
+      return _remoteUrl;
+    }
+
+    // Servidor local: navegador web
+    if (kIsWeb) return 'http://localhost:3000/api';
+
+    // Servidor local: emulador de Android (10.0.2.2 apunta al localhost de la PC)
+    if (Platform.isAndroid) return 'http://10.0.2.2:3000/api';
+
+    // Servidor local: simulador iOS / escritorio
+    return 'http://localhost:3000/api';
+  }
+
+  // Los headers no cambian: se dejan como estaban
+  static const Map&lt;String, String&gt; headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  };
+}</div>
+  <div class="alert verde"><div class="alert-icon">💡</div><div><div class="alert-titulo">Ventajas de este cambio</div>
+    <div class="alert-desc">Con HTTPS ya no hace falta <code>usesCleartextTraffic</code> en el AndroidManifest, y la app funciona en un teléfono físico sin depender del computador. Para volver a desarrollar en local, basta cambiar <code>useRemote</code> a false.</div></div></div>
+  <div class="alert"><div class="alert-icon">⏳</div><div><div class="alert-titulo">Primera petición lenta</div>
+    <div class="alert-desc">Si el servicio estaba dormido, la primera llamada puede tardar cerca de un minuto. Conviene mostrar un indicador de carga en la app para que el usuario no crea que se bloqueó.</div></div></div>
+</div></div>
+
+<div class="slide" id="apk"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">PASO 7 · GENERAR EL APK</div>
+    <h2 class="sec-titulo">Crear el APK de Flutter para instalar en un celular</h2>
+    <p class="sec-desc">El APK es el instalador de la app para Android. Con el backend ya en Render, el APK funciona en cualquier teléfono con internet, sin depender de su computador.</p></div>
+
+  <div class="pasos">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-text"><b>Verificar la URL:</b> en <code>api_config.dart</code> debe estar <code>useRemote = true</code>. Si queda en false, el APK intentará conectarse a 10.0.2.2 y no funcionará fuera del emulador.</div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-text"><b>Permiso de internet:</b> los builds de release necesitan declarar el permiso en el manifiesto principal (ver código abajo). Sin él, la app funciona en modo debug pero en el APK no se conecta.</div></div>
+    <div class="paso"><div class="paso-num">3</div><div class="paso-text"><b>Limpiar y generar:</b> ejecutar los comandos de la terminal, dentro de la carpeta del proyecto Flutter (donde está el <code>pubspec.yaml</code>).</div></div>
+    <div class="paso"><div class="paso-num">4</div><div class="paso-text"><b>Ubicar el archivo</b> generado y pasarlo al celular.</div></div>
+  </div>
+
+  <div class="code-title">📄 android/app/src/main/AndroidManifest.xml — permiso de internet</div>
+  <div class="code-block">&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+
+    &lt;uses-permission android:name="android.permission.INTERNET"/&gt;
+
+    &lt;application
+        android:label="Helados Mimos"
+        android:name="${applicationName}"
+        android:icon="@mipmap/launcher_icon"&gt;
+        &lt;!-- ... el resto del archivo queda igual ... --&gt;
+    &lt;/application&gt;
+&lt;/manifest&gt;</div>
+  <div class="alert"><div class="alert-icon">⚠️</div><div><div class="alert-titulo">Solo agreguen la línea del permiso</div>
+    <div class="alert-desc">La línea <code>uses-permission</code> va dentro de <code>&lt;manifest&gt;</code>, <b>antes</b> de <code>&lt;application&gt;</code>. No reemplacen su archivo completo: el resto (activity, meta-data, etc.) debe quedar como está. El <code>android:label</code> es el nombre que se ve bajo el ícono, y <code>launcher_icon</code> es el ícono generado con <code>flutter_launcher_icons</code>; si no lo han generado, dejen el que ya tienen (<code>@mipmap/ic_launcher</code>).</div></div></div>
+
+  <div class="code-title">💻 Terminal de VS Code (en la carpeta del proyecto Flutter)</div>
+  <div class="code-block">flutter clean
+flutter pub get
+flutter build apk --release</div>
+  <div class="code-title">📋 Salida esperada</div>
+  <div class="code-block">Running Gradle task 'assembleRelease'...
+✓ Built build/app/outputs/flutter-apk/app-release.apk (xx.xMB)</div>
+
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Comando</th><th>Qué genera</th><th>Cuándo usarlo</th></tr></thead>
+    <tbody>
+    <tr><td><code>flutter build apk --release</code></td><td>Un solo APK que funciona en todos los celulares Android.</td><td>Para compartir y probar en clase. Es el más sencillo.</td></tr>
+    <tr><td><code>flutter build apk --split-per-abi</code></td><td>Un APK por arquitectura (arm64, armeabi, x86_64), cada uno más liviano.</td><td>Cuando el tamaño importa; el de <b>arm64-v8a</b> sirve para la mayoría de celulares actuales.</td></tr>
+    <tr><td><code>flutter build appbundle</code></td><td>Un archivo .aab para subir a Google Play.</td><td>Publicación en la tienda (requiere firma con keystore propio).</td></tr>
+    </tbody></table></div>
+
+  <div class="code-title">📁 Dónde queda el archivo</div>
+  <div class="code-block">tu_proyecto_flutter/
+└── build/
+    └── app/
+        └── outputs/
+            └── flutter-apk/
+                └── app-release.apk</div>
+
+  <div class="grid-cards">
+    <div class="card"><div class="card-icon">📲</div><div class="card-title">Instalar en el celular</div><div class="card-text">Pasen el APK por cable USB, Drive o WhatsApp (como documento). En el teléfono ábranlo y permitan "instalar apps de orígenes desconocidos" cuando lo pida.</div></div>
+    <div class="card"><div class="card-icon">🔌</div><div class="card-title">Instalar por cable (opcional)</div><div class="card-text">Con el celular conectado y la depuración USB activa: <code>flutter install</code> o <code>adb install app-release.apk</code>.</div></div>
+    <div class="card"><div class="card-icon">⏳</div><div class="card-title">Primer uso</div><div class="card-text">Si Render estaba dormido, el primer inicio de sesión tarda cerca de un minuto. Es normal si no está activo el monitor de UptimeRobot.</div></div>
+  </div>
+
+  <div class="alert verde"><div class="alert-icon">🔏</div><div><div class="alert-titulo">Sobre la firma del APK</div>
+    <div class="alert-desc">Por defecto, <code>flutter build apk --release</code> firma el APK con la clave de depuración. Sirve para pruebas y para la sustentación, pero <b>no</b> para publicar en Google Play: allí se necesita un keystore propio, que se guarda con cuidado y nunca se sube a GitHub.</div></div></div>
+
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Problema</th><th>Causa probable</th><th>Solución</th></tr></thead>
+    <tbody>
+    <tr><td>La app funciona en el emulador pero el APK no carga datos</td><td>Falta el permiso INTERNET o <code>useRemote</code> está en false.</td><td>Agregar el permiso, verificar <code>useRemote = true</code> y generar el APK de nuevo.</td></tr>
+    <tr><td>El APK sigue mostrando el ícono de Flutter</td><td>No se ejecutó el generador de íconos o hay caché.</td><td>Correr <code>dart run flutter_launcher_icons</code>, luego <code>flutter clean</code> y volver a compilar.</td></tr>
+    <tr><td>Error de Gradle / SDK al compilar</td><td>Licencias de Android sin aceptar o SDK incompleto.</td><td>Ejecutar <code>flutter doctor</code> y <code>flutter doctor --android-licenses</code>, y seguir lo que indique.</td></tr>
+    <tr><td>El celular no deja instalar</td><td>Instalación desde orígenes desconocidos bloqueada o versión anterior con otra firma.</td><td>Permitir la instalación y desinstalar la versión vieja antes.</td></tr>
+    </tbody></table></div>
+</div></div>

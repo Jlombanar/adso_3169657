@@ -1,0 +1,21 @@
+<div class="slide alt" id="errores"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">CHECKLIST DE ERRORES COMUNES</div>
+    <h2 class="sec-titulo">Si algo falla, revisen esto</h2></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Síntoma</th><th>Causa probable</th><th>Solución</th></tr></thead>
+    <tbody>
+    <tr><td>Build failed / error en npm install</td><td>Conflicto de dependencias o Root Directory incorrecto.</td><td>Usar <code>npm install --legacy-peer-deps</code> y verificar que Root Directory sea <code>backend</code>.</td></tr>
+    <tr><td>"Cannot find module" al arrancar</td><td>Falta un paquete en package.json o error de mayúsculas en un import (Linux distingue mayúsculas).</td><td>Verificar nombres de archivos y que el paquete esté en dependencies.</td></tr>
+    <tr><td>El servicio inicia y se cae / no responde</td><td>Puerto fijo en vez de <code>process.env.PORT</code>.</td><td>Usar el puerto de la variable de entorno.</td></tr>
+    <tr><td>Error de conexión a Supabase / la lista de helados llega vacía</td><td>SUPABASE_URL o SUPABASE_KEY mal escritas o faltantes en Render.</td><td>Compararlas con Supabase → Project Settings → API, corregirlas en Environment y redesplegar.</td></tr>
+    <tr><td>Imágenes no se suben</td><td>Faltan variables de Cloudinary.</td><td>Registrar las tres CLOUDINARY_* y redesplegar.</td></tr>
+    <tr><td>Falla el login con Google</td><td>Falta GOOGLE_CLIENT_ID o no coincide con el que usa la app.</td><td>Registrar la variable con el mismo Client ID configurado en Google Cloud Console.</td></tr>
+    <tr><td>Funciona en Postman pero no en Flutter Web</td><td>CORS.</td><td>Verificar <code>app.use(cors())</code> en el backend.</td></tr>
+    <tr><td>Primera petición tarda ~1 minuto</td><td>Servicio gratuito dormido.</td><td>Es normal; esperar, mostrar un indicador de carga o configurar el monitor de UptimeRobot.</td></tr>
+    <tr><td>El monitor de UptimeRobot marca Down</td><td>La ruta /health no existe o no se ha desplegado.</td><td>Abrir la URL con /health en el navegador; si no responde OK, hacer push y revisar los logs.</td></tr>
+    </tbody></table></div>
+  <div class="reflexion"><b>🧠 Cierre</b>
+    <ul><li>Un servidor de aplicaciones ejecuta la lógica y guarda los secretos; la app móvil solo es el cliente.</li>
+    <li>Render construye con el Build Command y arranca con el Start Command, usando el Root Directory.</li>
+    <li>El .env nunca va a GitHub: se registra en Render, variable por variable.</li></ul></div>
+</div></div>

@@ -1,0 +1,29 @@
+  <div class="seccion-titulo">🗺️ Antes de empezar</div>
+  <div class="seccion-sub">Así quedan organizadas las carpetas y así se conectan las pantallas.</div>
+  <div class="step-card">
+    <div class="step-header"><div class="step-number">0</div><div class="step-title">Estructura del proyecto y flujo</div></div>
+    <div class="step-description">Escribe los archivos <strong>en el orden de los pasos</strong>: cada uno usa lo que se creó en los anteriores.</div>
+    <div class="code-block"><span class="code-lang">estructura</span>lib/
+├── main.dart
+├── models/
+│   ├── user_model.dart
+│   └── producto_model.dart
+├── services/
+│   ├── api_config.dart
+│   ├── user_service.dart
+│   ├── producto_service.dart
+│   └── admin_product_service.dart
+├── components/
+│   ├── login.dart
+│   ├── admin_drawer.dart
+│   ├── admin_image_selector.dart
+│   ├── product_form_sheet.dart
+│   └── producto_card.dart
+└── pages/
+    ├── admin_product_list_page.dart
+    └── menu_page.dart</div>
+    <div class="code-block"><span class="code-lang">flujo</span>Login ──(rol = admin)──► AdminProductListPage ──► ProductFormSheet (crear / editar)
+  │                           │                        └─ AdminImageSelector (foto)
+  │                           └─ AdminDrawer (menú lateral)
+  └──(rol = usuario)──► Home ──► MenuPage (carta: lee los mismos productos del backend)</div>
+  </div>

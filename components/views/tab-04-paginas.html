@@ -1,0 +1,389 @@
+  <div class="seccion-titulo">📄 Páginas</div>
+  <div class="seccion-sub">Las pantallas que ve el administrador y el cliente.</div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">13</div>
+      <div class="step-title">AdminProductListPage: pantalla del panel</div>
+    </div>
+    <div class="step-description">Lista los productos con el <strong>mismo endpoint</strong> que usa la carta, abre el <code>AdminDrawer</code> con los datos guardados en la sesión, y permite crear (➕), editar (✏️) y eliminar (🗑️ con confirmación). Deslizar hacia abajo recarga. También define <code>confirmarEliminacion</code>, que se reutiliza en la carta.</div>
+    
+    <div class="step-file">lib/pages/admin_product_list_page.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:shared_preferences/shared_preferences.dart&#x27;;
+import &#x27;../models/producto_model.dart&#x27;;
+import &#x27;../services/producto_service.dart&#x27;;
+import &#x27;../services/admin_product_service.dart&#x27;;
+import &#x27;../components/admin_drawer.dart&#x27;;
+import &#x27;../components/product_form_sheet.dart&#x27;;
+
+// Diálogo de confirmación reutilizable antes de borrar un producto
+Future&lt;bool&gt; confirmarEliminacion(BuildContext context, String nombre) async {
+  final resultado = await showDialog&lt;bool&gt;(
+    context: context,
+    builder: (ctx) =&gt; AlertDialog(
+      title: const Text(&#x27;Eliminar producto&#x27;),
+      content: Text(&#x27;¿Eliminar &quot;$nombre&quot;? Esta acción no se puede deshacer.&#x27;),
+      actions: [
+        TextButton(onPressed: () =&gt; Navigator.pop(ctx, false), child: const Text(&#x27;Cancelar&#x27;)),
+        TextButton(
+          onPressed: () =&gt; Navigator.pop(ctx, true),
+          style: TextButton.styleFrom(foregroundColor: Colors.red),
+          child: const Text(&#x27;Eliminar&#x27;),
+        ),
+      ],
+    ),
+  );
+  return resultado ?? false;
+}
+
+// Pantalla principal del panel administrativo: lista, crea, edita y elimina productos
+class AdminProductListPage extends StatefulWidget {
+  const AdminProductListPage({super.key});
+
+  @override
+  State&lt;AdminProductListPage&gt; createState() =&gt; _AdminProductListPageState();
+}
+
+class _AdminProductListPageState extends State&lt;AdminProductListPage&gt; {
+  static const Color _colorPrincipal = Color(0xFFBF285D);
+
+  final ProductoService _productoService = ProductoService();
+  late Future&lt;List&lt;ProductoModel&gt;&gt; _productosFuture;
+
+  String _adminNombre = &#x27;Cargando...&#x27;;
+  String _adminEmail = &#x27;&#x27;;
+
+  @override
+  void initState() {
+    super.initState();
+    // Mismo endpoint que usa la carta del cliente
+    _productosFuture = _productoService.obtenerProductos();
+    _cargarDatosAdmin();
+  }
+
+  void _cargarProductos() {
+    setState(() {
+      _productosFuture = _productoService.obtenerProductos();
+    });
+  }
+
+  // Lee los datos reales del usuario logueado (guardados en el login)
+  Future&lt;void&gt; _cargarDatosAdmin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      _adminNombre = prefs.getString(&#x27;user_name&#x27;) ?? &#x27;Administrador&#x27;;
+      _adminEmail = prefs.getString(&#x27;user_email&#x27;) ?? &#x27;&#x27;;
+    });
+  }
+
+  Future&lt;void&gt; _abrirFormulario({ProductoModel? producto}) async {
+    final guardado = await ProductFormSheet.abrir(context, producto: producto);
+    if (!guardado || !mounted) return;
+    _cargarProductos();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(producto == null ? &#x27;Producto publicado en la carta&#x27; : &#x27;Cambios guardados&#x27;),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
+  Future&lt;void&gt; _eliminar(ProductoModel producto) async {
+    final confirmar = await confirmarEliminacion(context, producto.nombre);
+    if (!confirmar) return;
+
+    try {
+      await AdminProductService.eliminarProducto(producto.id);
+      _cargarProductos();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(&#x27;$e&#x27;.replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;)), backgroundColor: Colors.red),
+        );
+      }
+    }
+  }
+
+  Widget _imagenProducto(String? url) {
+    if (url == null || url.isEmpty) {
+      return Container(
+        color: Colors.pink.shade50,
+        child: const Icon(Icons.icecream_rounded, color: Color(0xFFE91E63)),
+      );
+    }
+    return Image.network(
+      url,
+      fit: BoxFit.cover,
+      errorBuilder: (_, _, _) =&gt; const Icon(Icons.broken_image, color: Colors.grey),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF6F4F0),
+      appBar: AppBar(
+        title: const Text(&#x27;Panel de Administración&#x27;, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: _colorPrincipal,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      drawer: AdminDrawer(adminName: _adminNombre, adminEmail: _adminEmail),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: _colorPrincipal,
+        foregroundColor: Colors.white,
+        tooltip: &#x27;Nuevo producto&#x27;,
+        onPressed: () =&gt; _abrirFormulario(),
+        child: const Icon(Icons.add),
+      ),
+      body: RefreshIndicator(
+        color: _colorPrincipal,
+        onRefresh: () async =&gt; _cargarProductos(),
+        child: FutureBuilder&lt;List&lt;ProductoModel&gt;&gt;(
+          future: _productosFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator(color: _colorPrincipal));
+            }
+            final productos = snapshot.data ?? [];
+            if (snapshot.hasError || productos.isEmpty) {
+              // ListView para que el &quot;deslizar para recargar&quot; funcione también aquí
+              return ListView(
+                children: [
+                  const SizedBox(height: 160),
+                  Center(
+                    child: Text(
+                      snapshot.hasError ? &#x27;Error: ${snapshot.error}&#x27; : &#x27;No hay productos registrados.&#x27;,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.black54),
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            return ListView.builder(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 90),
+              itemCount: productos.length,
+              itemBuilder: (_, i) {
+                final p = productos[i];
+                return Card(
+                  color: Colors.white,
+                  margin: const EdgeInsets.only(bottom: 12),
+                  child: ListTile(
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: SizedBox(width: 50, height: 50, child: _imagenProducto(p.imagenUrl)),
+                    ),
+                    title: Text(p.nombre.isEmpty ? &#x27;Sin nombre&#x27; : p.nombre, style: const TextStyle(fontWeight: FontWeight.w600)),
+                    subtitle: Text(&#x27;\$${p.precio.toStringAsFixed(2)}&#x27;, style: const TextStyle(color: _colorPrincipal)),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          tooltip: &#x27;Editar&#x27;,
+                          icon: const Icon(Icons.edit, color: _colorPrincipal),
+                          onPressed: () =&gt; _abrirFormulario(producto: p),
+                        ),
+                        IconButton(
+                          tooltip: &#x27;Eliminar&#x27;,
+                          icon: const Icon(Icons.delete_outline, color: Colors.red),
+                          onPressed: () =&gt; _eliminar(p),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}</div>
+    
+  </div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">14</div>
+      <div class="step-title">MenuPage: la carta conectada al backend</div>
+    </div>
+    <div class="step-description">La carta <strong>no tiene productos escritos en el código</strong>: los pide al backend con un <code>FutureBuilder</code>. Por eso todo lo que el admin crea, edita o elimina en el panel aparece aquí. Si quien entra es admin, ve el ícono 🛡️ para ir al panel (al volver, la carta se recarga) y los botones de editar/eliminar en cada tarjeta.</div>
+    
+    <div class="step-file">lib/pages/menu_page.dart</div><div class="code-block"><span class="code-lang">dart · código completo</span>import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:shared_preferences/shared_preferences.dart&#x27;;
+import &#x27;../models/producto_model.dart&#x27;;
+import &#x27;../services/producto_service.dart&#x27;;
+import &#x27;../components/producto_card.dart&#x27;;
+import &#x27;../components/chat_mimos_modal.dart&#x27;;
+import &#x27;../components/detalle_producto_modal.dart&#x27;;
+import &#x27;../services/admin_product_service.dart&#x27;;
+import &#x27;../components/product_form_sheet.dart&#x27;;
+import &#x27;admin_product_list_page.dart&#x27;;
+
+class MenuPage extends StatefulWidget {
+  const MenuPage({super.key});
+
+  @override
+  State&lt;MenuPage&gt; createState() =&gt; _MenuPageState();
+}
+
+class _MenuPageState extends State&lt;MenuPage&gt; {
+  final ProductoService _service = ProductoService();
+  late Future&lt;List&lt;ProductoModel&gt;&gt; _productosFuture;
+  bool _esAdmin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Asignación directa en el inicio (SIN setState)
+    _productosFuture = _service.obtenerProductos();
+    _cargarRol();
+  }
+
+  // Se usa solo para actualizar la vista tras un cambio
+  void _recargar() {
+    setState(() {
+      _productosFuture = _service.obtenerProductos();
+    });
+  }
+
+  Future&lt;void&gt; _cargarRol() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String rol = prefs.getString(&#x27;user_role&#x27;) ?? &#x27;&#x27;;
+    
+    if (!mounted) return;
+    setState(() {
+      _esAdmin = rol.toLowerCase() == &#x27;admin&#x27;;
+    });
+  }
+
+  Future&lt;void&gt; _editarProducto(ProductoModel producto) async {
+    final guardado = await ProductFormSheet.abrir(context, producto: producto);
+    if (guardado) _recargar();
+  }
+
+  Future&lt;void&gt; _eliminarProducto(ProductoModel producto) async {
+    final confirmar = await confirmarEliminacion(context, producto.nombre);
+    if (!confirmar) return;
+
+    try {
+      await AdminProductService.eliminarProducto(producto.id);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(&#x27;&quot;${producto.nombre}&quot; eliminado&#x27;), backgroundColor: Colors.green),
+      );
+      _recargar();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString().replaceAll(&#x27;Exception: &#x27;, &#x27;&#x27;)), backgroundColor: Colors.red),
+      );
+    }
+  }
+
+  Widget _construirLista(List&lt;ProductoModel&gt; productos) {
+    if (productos.isEmpty) {
+      return const Center(child: Text(&#x27;No hay productos disponibles por el momento.&#x27;));
+    }
+    return ListView.builder(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 90),
+      itemCount: productos.length,
+      itemBuilder: (_, i) =&gt; ProductoCard(
+        producto: productos[i],
+        onVerMas: () =&gt; DetalleProductoModal.mostrar(context, productos[i]),
+        onEditar: _esAdmin ? () =&gt; _editarProducto(productos[i]) : null,
+        onEliminar: _esAdmin ? () =&gt; _eliminarProducto(productos[i]) : null,
+        onComprar: () =&gt; ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(&#x27;Comprando: ${productos[i].nombre}&#x27;),
+            backgroundColor: const Color(0xFFE91E63),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF6F4F0),
+      appBar: AppBar(
+        title: const Text(&#x27;Nuestra Carta&#x27;, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        backgroundColor: const Color(0xFFBF285D),
+        actions: [
+          if (_esAdmin)
+            IconButton(
+              tooltip: &#x27;Panel de Administración&#x27;,
+              icon: const Icon(Icons.admin_panel_settings, size: 28, color: Colors.white),
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) =&gt; const AdminProductListPage()),
+                );
+                _recargar(); // refresca la carta al volver del panel admin
+              },
+            ),
+        ],
+      ),
+      body: RefreshIndicator(
+        color: const Color(0xFFE91E63),
+        onRefresh: () async =&gt; _recargar(),
+        child: FutureBuilder&lt;List&lt;ProductoModel&gt;&gt;(
+          future: _productosFuture,
+          builder: (context, snap) {
+            if (snap.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator(color: Color(0xFFE91E63)));
+            }
+            if (snap.hasError) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(&#x27;Error: ${snap.error}&#x27;, textAlign: TextAlign.center),
+                      const SizedBox(height: 12),
+                      ElevatedButton(
+                        onPressed: _recargar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFBF285D),
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text(&#x27;Reintentar&#x27;),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+            return _construirLista(snap.data ?? []);
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: const Color(0xFFBC2552),
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.support_agent_rounded),
+        label: const Text(&#x27;Asesor Mimos&#x27;, style: TextStyle(fontWeight: FontWeight.bold)),
+        onPressed: () =&gt; showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (_) =&gt; const ChatMimosModal(),
+        ),
+      ),
+    );
+  }
+}</div>
+    
+  </div>
+  <div class="revision">
+    <div class="revision-titulo">⚠️ Error común: la carta con productos "quemados"</div>
+    <div class="revision-texto">Si la carta tiene una lista de productos escrita directamente en el código, todo lo que el admin cree, edite o elimine <strong>nunca se refleja</strong>, porque la carta ni siquiera le pregunta al servidor.</div>
+    <div class="code-block"><span class="code-lang">dart · señal de alerta (mal)</span>// Si ves algo así en menu_page.dart, NO está conectada al backend:
+final List&lt;ProductoModel&gt; productos = [
+  ProductoModel(id: &#x27;1&#x27;, nombre: &#x27;Cono de vainilla&#x27;, precio: 5000, descripcion: &#x27;...&#x27;),
+  ProductoModel(id: &#x27;2&#x27;, nombre: &#x27;Malteada&#x27;, precio: 9000, descripcion: &#x27;...&#x27;),
+];</div>
+  </div>

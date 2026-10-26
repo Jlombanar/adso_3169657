@@ -1,0 +1,41 @@
+  <div class="seccion-titulo">🔧 Anexo: backend</div>
+  <div class="seccion-sub">Un ajuste necesario en el servidor.</div>
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-number">+</div>
+      <div class="step-title">Editar con foto nueva</div>
+    </div>
+    <div class="step-description">Para que <strong>editar</strong> también cambie la foto, el controlador debe leer <code>req.file</code> (la URL que deja Cloudinary). Además, solo actualiza los campos permitidos y responde 404 si el helado no existe.</div>
+    
+    <div class="step-file">backend/controllers/heladoController.js · función editar</div><div class="code-block"><span class="code-lang">javascript</span>// editar 
+export const editar = async (req, res) =&gt; {
+  try {
+    const { id } = req.params;
+    const { nombre, descripcion, precio, stock, categoria, sabor } = req.body;
+
+    // Solo se actualizan los campos que llegan en la petición
+    const actualizaciones = {};
+    if (nombre !== undefined) actualizaciones.nombre = nombre;
+    if (descripcion !== undefined) actualizaciones.descripcion = descripcion;
+    if (precio !== undefined) actualizaciones.precio = Number(precio);
+    if (stock !== undefined) actualizaciones.stock = Number(stock);
+    if (categoria !== undefined) actualizaciones.categoria = categoria;
+    if (sabor !== undefined) actualizaciones.sabor = sabor;
+
+    // Si se envió una imagen nueva, Cloudinary deja la URL en req.file.path
+    if (req.file) actualizaciones.imagen_url = req.file.path;
+
+    if (Object.keys(actualizaciones).length === 0) {
+      return res.status(400).json({ error: &#x27;No se enviaron datos para actualizar&#x27; });
+    }
+
+    const { data, error } = await actualizarHelado(id, actualizaciones);
+    if (error) return res.status(500).json({ error: &#x27;Error al actualizar&#x27; });
+    if (!data || data.length === 0) return res.status(404).json({ error: &#x27;Helado no encontrado&#x27; });
+    return res.status(200).json({ message: &#x27;Actualizado&#x27;, helado: data[0] });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};</div>
+    
+  </div>
