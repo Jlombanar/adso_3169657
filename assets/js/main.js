@@ -30,4 +30,14 @@ document.addEventListener('adso:componentsLoaded', () => {
       try { localStorage.setItem('adso:textoGrande', activo ? '1' : '0'); } catch { /* sin almacenamiento */ }
     });
   }
+
+  // Casillas de las entregas (página de repaso): cada una recuerda si el
+  // aprendiz ya la marcó como lista, usando su id como clave.
+  document.querySelectorAll('.repaso-check').forEach((casilla) => {
+    const clave = `adso:repaso:${casilla.id}`;
+    try { casilla.checked = localStorage.getItem(clave) === '1'; } catch { /* sin almacenamiento */ }
+    casilla.addEventListener('change', () => {
+      try { localStorage.setItem(clave, casilla.checked ? '1' : '0'); } catch { /* sin almacenamiento */ }
+    });
+  });
 });

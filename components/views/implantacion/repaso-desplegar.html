@@ -1,0 +1,40 @@
+<section class="slide compacto" id="repaso-ra2"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">RA 02 · DESPLEGAR</div>
+    <h2 class="sec-titulo">El backend en Render, paso a paso</h2>
+    <p class="sec-desc">Render es una PaaS: se conecta el repositorio de GitHub y la plataforma construye y ejecuta la app. Usamos un <b>Web Service</b> porque el backend recibe peticiones HTTP.</p></div>
+  <div class="pasos">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-text"><b>Preparar el backend:</b> script <code>"start": "node server.js"</code> (en el servidor no se usa nodemon), puerto con <code>process.env.PORT || 3000</code> y <code>.gitignore</code> con <code>node_modules/</code>, <code>.env</code> y <code>uploads/</code>.</div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-text"><b>Crear el Web Service:</b> Branch <code>main</code>, Root Directory <code>backend</code>, Build <code>npm install --legacy-peer-deps</code>, Start <code>npm start</code>, Instance Type Free.</div></div>
+    <div class="paso"><div class="paso-num">3</div><div class="paso-text"><b>Variables de entorno:</b> el <code>.env</code> nunca va a GitHub. Se registra en Render variable por variable: <code>SUPABASE_URL</code>, <code>SUPABASE_KEY</code>, las tres <code>CLOUDINARY_*</code>, <code>GOOGLE_CLIENT_ID</code>…</div></div>
+    <div class="paso"><div class="paso-num">4</div><div class="paso-text"><b>Probar con Postman:</b> listar, login y crear con foto.</div></div>
+    <div class="paso"><div class="paso-num">5</div><div class="paso-text"><b>UptimeRobot:</b> ruta liviana <code>/health</code> que responde "OK" y un monitor HTTP(s) cada menos de 15 minutos.</div></div>
+    <div class="paso"><div class="paso-num">6</div><div class="paso-text"><b>Conectar Flutter:</b> en <code>api_config.dart</code> poner <code>useRemote = true</code> con la URL <code>https://…onrender.com/api</code>, y generar el APK con <code>flutter build apk --release</code>.</div></div>
+  </div>
+  <div class="alert"><div class="alert-icon">⚠️</div><div><div class="alert-titulo">Límites del plan gratuito</div>
+    <div class="alert-desc">Se duerme tras 15 minutos sin tráfico y tarda cerca de un minuto en despertar. El disco es efímero, por eso las fotos van a Cloudinary. No permite SMTP, por eso el correo va con Brevo. Hay 750 horas al mes por workspace.</div></div></div>
+</div></section>
+
+<section class="slide alt compacto" id="repaso-errores"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">ERRORES COMUNES</div>
+    <h2 class="sec-titulo">Si algo falla, revisen esto</h2></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Síntoma</th><th>Solución</th></tr></thead>
+    <tbody>
+    <tr><td>Build failed</td><td>Root Directory = <code>backend</code> y <code>--legacy-peer-deps</code>.</td></tr>
+    <tr><td>"Cannot find module"</td><td>Linux distingue mayúsculas en los imports.</td></tr>
+    <tr><td>Arranca y se cae</td><td>Usar <code>process.env.PORT</code>, no un puerto fijo.</td></tr>
+    <tr><td>Lista de helados vacía</td><td>Revisar <code>SUPABASE_URL</code> y <code>SUPABASE_KEY</code> en Render.</td></tr>
+    <tr><td>No suben imágenes</td><td>Faltan las variables <code>CLOUDINARY_*</code>.</td></tr>
+    <tr><td>Postman sí, Flutter Web no</td><td>CORS: <code>app.use(cors())</code>.</td></tr>
+    <tr><td>El APK no carga datos</td><td>Falta el permiso INTERNET o <code>useRemote</code> está en false.</td></tr>
+    <tr><td>Primera petición de ~1 minuto</td><td>El servicio estaba dormido: es normal.</td></tr>
+    </tbody></table></div>
+</div></section>
+
+<section class="slide compacto" id="repaso-cierre"><div class="slide-content">
+  <div class="reflexion"><b>🧠 Para recordar</b>
+    <ul><li><b>Planear</b> es decidir antes: plataforma, requisitos e instalación. Eso queda escrito en la <b>Entrega 1</b>.</li>
+    <li>Render construye con el <b>Build Command</b> y arranca con el <b>Start Command</b>, dentro del <b>Root Directory</b>.</li>
+    <li>Los secretos viven en Render, nunca en GitHub. La app móvil solo es el cliente: eso se demuestra en la <b>Entrega 2</b>.</li></ul></div>
+  <div class="btn-fila"><a class="btn-volver" href="#entregas">↑ Volver a las entregas</a></div>
+</div></section>

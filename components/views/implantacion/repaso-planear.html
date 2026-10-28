@@ -1,0 +1,53 @@
+<section class="slide alt compacto" id="repaso-competencia"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">LA COMPETENCIA</div>
+    <h2 class="sec-titulo">Cuatro resultados de aprendizaje</h2>
+    <p class="sec-desc">Norma 220501097 · 144 horas. Un resultado alimenta al otro: los pasos del plan de instalación (RA 01) son los que se ejecutan en Render (RA 02).</p></div>
+  <div class="flujo">
+    <div class="actual">01 · Planear<br><small>Plan de implantación · ahora</small></div><span>→</span>
+    <div class="actual">02 · Desplegar<br><small>Render, Postman y APK · ahora</small></div><span>→</span>
+    <div>03 · Documentar<br><small>Manuales · después</small></div><span>→</span>
+    <div>04 · Implantar<br><small>Capacitación y acta · después</small></div>
+  </div>
+</div></section>
+
+<section class="slide compacto" id="repaso-servidores"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">SERVIDORES</div>
+    <h2 class="sec-titulo">¿Qué es un servidor?</h2>
+    <p class="sec-desc">Atiende las peticiones de los clientes y les entrega una respuesta. El cliente siempre inicia (<code>GET /api/productos</code>) y el servidor escucha en un puerto y responde. Necesita una dirección (IP o dominio), un puerto y estar encendido las 24 horas.</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Tipo por función</th><th>En Helados Mimos</th></tr></thead>
+    <tbody>
+    <tr><td>Web (Nginx, Apache)</td><td>Render lo pone delante de la app.</td></tr>
+    <tr><td><b>De aplicaciones</b> (Node.js + Express)</td><td>Nuestro backend: ejecuta la lógica de negocio.</td></tr>
+    <tr><td>Base de datos</td><td>Supabase (PostgreSQL).</td></tr>
+    <tr><td>Archivos / multimedia</td><td>Cloudinary, para las fotos de los productos.</td></tr>
+    <tr><td>Correo</td><td>Brevo, por API.</td></tr>
+    <tr><td>Autenticación</td><td>Login con Google OAuth.</td></tr>
+    <tr><td>DNS</td><td>Traduce onrender.com a una IP.</td></tr>
+    </tbody></table></div>
+  <div class="alert verde"><div class="alert-icon">🍽️</div><div><div class="alert-titulo">Por alojamiento</div>
+    <div class="alert-desc">Físico propio (on-premise) → colocation → VPS / IaaS → <b>PaaS (Render)</b>. Cuanto más a la derecha, menos administra el desarrollador.</div></div></div>
+</div></section>
+
+<section class="slide alt compacto" id="repaso-ra1"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">RA 01 · PLANEAR</div>
+    <h2 class="sec-titulo">Antes de desplegar, se planea</h2>
+    <p class="sec-desc">Se decide antes: plataforma, requisitos e instalación. Un despliegue sin plan es improvisar con los datos del cliente.</p></div>
+  <div class="grid-cards">
+    <div class="card"><div class="card-icon">🗄️</div><div class="card-title">Hardware</div><div class="card-text">Torre (negocio pequeño), rack de 19″ (1U, 2U), blade (máxima densidad) y máquinas virtuales con hipervisor.</div></div>
+    <div class="card"><div class="card-icon">💽</div><div class="card-title">RAID</div><div class="card-text"><b>0</b> reparte y no protege. <b>1</b> es espejo. <b>5</b> usa paridad con 3 o más discos. <b>10</b> combina espejo y reparto con 4 o más discos.</div></div>
+    <div class="card"><div class="card-icon">🐧</div><div class="card-title">Sistema operativo y dominio</div><div class="card-text">Linux es libre y Render corre sobre él; Windows Server es de pago. El dominio es el nombre que el DNS traduce a la IP.</div></div>
+  </div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>#</th><th>Plan de instalación</th><th>Tiempo</th><th>Cómo se verifica</th></tr></thead>
+    <tbody>
+    <tr><td>1</td><td>Cuentas: GitHub, Render, Supabase, Cloudinary, UptimeRobot.</td><td>30 min</td><td>Todos entran a cada panel.</td></tr>
+    <tr><td>2</td><td>Preparar el backend y hacer push a GitHub.</td><td>30 min</td><td><code>.env</code> fuera del repositorio.</td></tr>
+    <tr><td>3</td><td>Web Service en Render y variables de entorno.</td><td>30 min</td><td>Estado <b>Live</b>.</td></tr>
+    <tr><td>4</td><td>Probar la API con Postman.</td><td>30 min</td><td>Respuestas 200 o 201.</td></tr>
+    <tr><td>5</td><td>Flutter con la URL pública y APK.</td><td>45 min</td><td>Funciona sin el computador.</td></tr>
+    <tr><td>6</td><td>Monitor de UptimeRobot.</td><td>15 min</td><td>Monitor en verde <b>Up</b>.</td></tr>
+    </tbody></table></div>
+  <div class="alert verde"><div class="alert-icon">🛟</div><div><div class="alert-titulo">Plan de contingencia</div>
+    <div class="alert-desc">Si el despliegue no arranca: revisar los logs en Render y volver al último commit de GitHub que funcionaba.</div></div></div>
+</div></section>
