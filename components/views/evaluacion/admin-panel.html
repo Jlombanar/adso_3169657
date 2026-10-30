@@ -1,0 +1,38 @@
+<section class="slide compacto" id="admin-panel" aria-labelledby="admin-panel-titulo" hidden><div class="slide-content">
+  <header class="sec-header">
+    <span class="sec-tag verde">EVALUACIÓN · NODE + EXPRESS + FLUTTER</span>
+    <h1 class="sec-titulo" id="admin-panel-titulo">¿Quién aprobó y quién no?</h1>
+    <p class="sec-desc" id="admin-criterio"></p>
+  </header>
+
+  <!-- Resumen: evaluacion-admin.js llena los números -->
+  <div class="admin-resumen">
+    <article class="admin-cifra"><b id="admin-presentaron">0</b><span>Presentaron</span></article>
+    <article class="admin-cifra bien"><b id="admin-aprobaron">0</b><span>Aprobaron</span></article>
+    <article class="admin-cifra mal"><b id="admin-reprobaron">0</b><span>No aprobaron</span></article>
+    <article class="admin-cifra pendiente"><b id="admin-pendientes">0</b><span>Sin presentar</span></article>
+  </div>
+
+  <div class="admin-controles">
+    <label class="eval-campo admin-filtro">
+      <span>Mostrar</span>
+      <select id="admin-filtro">
+        <option value="todos">Todos los aprendices</option>
+        <option value="aprobo">Aprobaron</option>
+        <option value="reprobo">No aprobaron</option>
+        <option value="pendiente">Sin presentar</option>
+      </select>
+    </label>
+    <button class="eval-validar" type="button" id="admin-actualizar">↻ Actualizar</button>
+  </div>
+  <p class="eval-error" id="admin-error-panel" role="alert"></p>
+
+  <div class="tabla-wrap">
+    <table class="info admin-tabla">
+      <thead>
+        <tr><th scope="col">Aprendiz</th><th scope="col">Nota</th><th scope="col">Estado</th><th scope="col">Salidas</th><th scope="col">Fecha</th><th scope="col">Respuestas</th></tr>
+      </thead>
+      <tbody id="admin-filas"></tbody>
+    </table>
+  </div>
+</div></section>

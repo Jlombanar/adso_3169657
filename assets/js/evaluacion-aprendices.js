@@ -1,0 +1,37 @@
+// Aprendices que pueden presentar la evaluación.
+// Archivo generado con scripts/cifrar-cedulas.mjs: no lo edites a mano.
+// "huella" es la cédula cifrada (ver evaluacion-cedula.js); el número real
+// no está guardado aquí.
+
+export const SAL = '27437649ec1cc403877982bc141c491d';
+
+export const APRENDICES = [
+  { nombre: "DANNA VALERIA SANCHEZ HERNANDEZ", huella: 'cd6ed84f8f9d7ed1360c9b4d57ec493850d177b70afb234aa9aca62f409540e6' },
+  { nombre: "MARIA CAMILA SIERRA BARRERO", huella: 'b3999931eb919836b3c8b7f7cfc61a38711ff9e994f07ef5bd6903706b3875ec' },
+  { nombre: "JUAN CARLOS RIVERA TORREZ", huella: 'f9c91c07271af2a2b6fd540b1afa7838d155eabc9219a6624938755acd75813e' },
+  { nombre: "MANUELA MAHECHA PALOMA", huella: 'e1e07ad7fbdd7f37471780eeb636cb46901eebe530a148ee31363aa957387609' },
+  { nombre: "CHARLIE BRIYET TRUJILLO SARRIAS", huella: '947b4296b09bba1f29504d0c342615c86b8f9dbd38f2825033957b3c9e750cd4' },
+  { nombre: "LUISA MARIA CARVAJAL OSPINA", huella: '731e6b4c38c69d2f5e1cbd447d6510e33ce55147147324f8c9d74bf2191be763' },
+  { nombre: "ANDRES FELIPE LANDINES CARDOSO", huella: '5d3c71c5591444868f2e5680435f7d62a6b3ef4286919c796d62f6c3e345b8b0' },
+  { nombre: "DAVID FELIPE FAJARDO QUIROGA", huella: '064e2882c2bbaf932f9506dc14f1b23b75895bb37de87c1d7c9a8a7329b2d1c4' },
+  { nombre: "EVELYNE MEL ARRIGUI BENAVIDES", huella: 'b7003b0dd0376d414b3167f0670d2420c9ce22b04e8b0cbac390d8ae03de27de' },
+  { nombre: "JHOAN SANTIAGO OVIEDO FLOREZ", huella: '789c624cdc3c87bcf5dd27326a5027823a88d3f6cb59c202dd166bcb69502a17' },
+  { nombre: "DANNY CAMILA CEDIEL PERDOMO", huella: 'f63258171c35e4b7697de0652f88a9598e3e9625ccf9711a48cdbfc922c8f890' },
+  { nombre: "YEISON ESTIVEN QUILINDO CRUZ", huella: '84d19adb063b22e1daf9a5807e3cee7d3b043b969084b8c38e2f12ba707d7f13' },
+  { nombre: "EDER RAMOS PLAZA", huella: '213d8dc9c26d70693a67dfa086b041a7281b48809dfd9b234abb74a1842317c1' },
+  { nombre: "AIDA XIOMARA ALVIRA OVIEDO", huella: '1bcff77c21a8b86ad05725b293114128ebc4e0cb411fc3ccbcbe4c7f82ad1906' },
+  { nombre: "ANDRES FELIPE TRIVIÑO BUSTOS", huella: '0ea28a427b7a2a410d6c22809ebc299be3b69584ec7e2b5d0e300f2c72f4d30c' },
+  { nombre: "YOHAN FELIPE CABRERA CASTILLO", huella: '0e3340da5a7af6d799a9fd2a9d439d388167759deb1874dd53cf52ae25ee24e6' },
+  { nombre: "JUAN ESTEBAN TORRES GONZALEZ", huella: 'aa3845ba18430b48fbbb0119220fbd7fe3c31558cf916824215b3fe5adcac695' },
+  { nombre: "EDINSON JULIAN VARGAS PEREZ", huella: '9f79bcdf6b98703cef82c0f64b31cd4eadc89885936b5d6df8cda2598a84c743' },
+  { nombre: "YONANDERSON MARROQUIN CANO", huella: '9a2d57563443354111f137cf79bda0921b7027993f9b702970e582a2d90ddf53' },
+  { nombre: "HERNANDO BOTELLO VARGAS", huella: 'bd4f82d4c98c6d578c40c183bb1ef515aaddb1b2466664535d8bd498f5d2a651' },
+  { nombre: "JANIER HAIR CALAPSU RIVERA", huella: '363420bcf80d39405f1b0c8549216184865c5772386f66727c36311f3347de91' },
+  { nombre: "JHON JAIDER CERQUERA NARANJO", huella: '415542c1ca390372a90a2372bc8b18fe1cbfbeb4ba985d6559f987e431f98abd' },
+  { nombre: "LICETH NATALIA CABRERA PERDOMO", huella: '827435955d468132de89c3fc4df63ea869cc00d9837e922b182cc383dae011a8' },
+  { nombre: "PAOLA ANDREA DIAZ CAMACHO", huella: 'a8b0e08c4e689c16e8cfa641722cc1f6c7dab12e6511e701900c8010897b68ca' },
+  { nombre: "LUZ ANGELA CARVAJAL HERNANDEZ", huella: '4f995a46aaedcf902c5130df77a977cbfe7e7acf9cfcd8fff56b403165f1bc92' },
+  { nombre: "MONICA LIZETH MOLINA GUAR", huella: '7a47fa6e0d70952d28445af5c8d4a01830e3f6585f6d69bb01529c88f13aef7b' },
+  { nombre: "JUAN PABLO MACIAS CORTES", huella: 'f929a465d3c41b4abfa5652fb68bc63823f22dce199bce89d285a329b63c227d' },
+  { nombre: "DANA SOFIA MONTOYA TOVAR", huella: '0a3fa3cbe4ce2229b83c0f8d87a2f4954cbecdf5259035b85ef0295509b920b1' },
+];

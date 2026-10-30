@@ -1,0 +1,23 @@
+<section class="slide portada compacto" id="eval-ingreso" aria-labelledby="eval-ingreso-titulo"><div class="slide-content">
+  <div class="portada-tag">📝 EVALUACIÓN · NODE + EXPRESS + FLUTTER</div>
+  <h1 class="portada-titulo" id="eval-ingreso-titulo">¿Cómo se conecta <span class="highlight">Flutter con tu API</span>?</h1>
+  <p class="portada-desc">Son 12 preguntas: 10 de selección múltiple sobre Node y Express, Flutter y el despliegue en Render, y 2 en las que escribes código corto, una de Express y una de Flutter. A cada aprendiz le salen preguntas distintas, en otro orden y con las opciones mezcladas. Cada pregunta tiene su botón <b>Validar respuesta</b>: al validarla ves si acertaste y ya no se puede cambiar.</p>
+
+  <p class="eval-horario" id="eval-horario" aria-live="off"></p>
+
+  <form class="eval-form" id="eval-form" novalidate>
+    <label class="eval-campo">
+      <span>Tu nombre</span>
+      <select id="eval-aprendiz" required>
+        <option value="">Selecciona tu nombre…</option>
+      </select>
+    </label>
+    <label class="eval-campo">
+      <span>Tu cédula</span>
+      <input id="eval-cedula" type="text" inputmode="numeric" autocomplete="off" placeholder="Escríbela sin puntos" required>
+    </label>
+    <p class="eval-error" id="eval-error" role="alert"></p>
+    <button class="btn-siguiente" type="submit">Empezar evaluación →</button>
+  </form>
+  <p class="entrega-nota">Escribes la cédula para confirmar que eres tú. Solo tienes un intento en este navegador.<br>🔒 La evaluación es en pantalla completa: cada vez que cambies de pestaña o de programa queda registrado, y a la tercera salida se envía sola.</p>
+</div></section>
