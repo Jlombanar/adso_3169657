@@ -1,0 +1,48 @@
+<section class="slide" id="partes" aria-labelledby="partes-titulo"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">3 · ESTRUCTURA</div>
+    <h2 class="sec-titulo" id="partes-titulo">Las partes de un manual de usuario</h2>
+    <p class="sec-desc">Siguen el modelo del manual de AgroSoft Garzón que compartió el instructor. Cada sección responde una pregunta que el usuario se hace.</p></div>
+
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th scope="col">#</th><th scope="col">Sección</th><th scope="col">Pregunta que responde</th><th scope="col">Qué lleva</th></tr></thead>
+    <tbody>
+    <tr><td>1</td><td><b>Hoja de control</b></td><td>¿Qué documento es este y quién lo aprobó?</td><td>Nombre del sistema, cliente, autores, ficha, fecha, versión, firma del cliente y el <b>historial de revisiones</b> (v0.1 borrador, v1.0 oficial…).</td></tr>
+    <tr><td>2</td><td><b>Índice</b></td><td>¿Dónde encuentro lo que busco?</td><td>Las secciones con su número de página.</td></tr>
+    <tr><td>3</td><td><b>Objeto, alcance y funcionalidades</b></td><td>¿Para qué sirve la app y qué hace (y qué no)?</td><td>Para qué es el manual, qué cubre el sistema, qué <b>no</b> incluye esta versión y la lista de módulos.</td></tr>
+    <tr><td>4</td><td><b>Prerrequisitos</b></td><td>¿Qué necesito antes de empezar?</td><td>Dispositivo, sistema operativo, conexión a internet y la cuenta o rol que debe tener el usuario.</td></tr>
+    <tr><td>5</td><td><b>Mapa de navegación</b></td><td>¿Cómo se conectan las pantallas?</td><td>Un diagrama que muestra a qué pantalla lleva cada opción.</td></tr>
+    <tr><td>6</td><td><b>Paso a paso con interfaz señalizada</b></td><td>¿Cómo hago cada tarea?</td><td>La <b>ruta</b> para llegar, los pasos numerados y la captura de pantalla con los mismos números sobre cada botón. Es la sección más importante.</td></tr>
+    <tr><td>7</td><td><b>Solución de problemas</b></td><td>¿Qué hago si algo falla?</td><td>Tabla de problema → causa → qué hacer, escrita como la vería el usuario.</td></tr>
+    <tr><td>8</td><td><b>Preguntas frecuentes y glosario</b></td><td>¿Qué significa esta palabra? ¿Puedo hacer tal cosa?</td><td>Las dudas típicas con su respuesta y los términos propios del negocio o de la app.</td></tr>
+    </tbody></table></div>
+</div></section>
+
+<section class="slide alt" id="redaccion" aria-labelledby="redaccion-titulo"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">4 · REDACCIÓN</div>
+    <h2 class="sec-titulo" id="redaccion-titulo">Cómo se escribe un buen manual</h2>
+    <p class="sec-desc">Lo que más diferencia un manual útil de uno que nadie lee es cómo están escritos los pasos.</p></div>
+
+  <div class="pasos">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-text"><b>Un paso, una acción.</b> Cada paso numerado dice una sola cosa que el usuario hace. Si hay un "y luego", son dos pasos.</div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-text"><b>Verbos en imperativo al comienzo:</b> <i>Presione</i>, <i>Escriba</i>, <i>Seleccione</i>, <i>Deslice</i>. El usuario lee el verbo y sabe qué hacer.</div></div>
+    <div class="paso"><div class="paso-num">3</div><div class="paso-text"><b>Los nombres exactos de la pantalla, en negrita.</b> Si el botón dice <b>CREAR PRODUCTO</b>, el manual dice <b>CREAR PRODUCTO</b>, no "el botón de guardar".</div></div>
+    <div class="paso"><div class="paso-num">4</div><div class="paso-text"><b>Capturas señalizadas.</b> Una captura por tarea, con círculos numerados sobre cada botón, iguales a los números de los pasos.</div></div>
+    <div class="paso"><div class="paso-num">5</div><div class="paso-text"><b>Decir qué debe pasar.</b> Después del último paso, el resultado esperado: "Aparece el mensaje <b>Producto publicado en la carta</b>". Así el usuario sabe que lo hizo bien.</div></div>
+    <div class="paso"><div class="paso-num">6</div><div class="paso-text"><b>Sin palabras de programador.</b> Nada de token, endpoint, backend, request o JSON. Si un término es inevitable, va en el glosario.</div></div>
+  </div>
+
+  <h3 class="code-title">Así no / así sí</h3>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th scope="col">❌ Así no</th><th scope="col">✅ Así sí</th></tr></thead>
+    <tbody>
+    <tr><td>"Se debe proceder a realizar la creación del producto mediante el formulario."</td><td>"Presione el botón <b>➕</b> en la esquina inferior derecha."</td></tr>
+    <tr><td>"Llene los datos y guarde."</td><td>"Escriba el <b>Nombre del producto</b>, el <b>Precio</b> y la <b>Descripción</b>. Luego presione <b>CREAR PRODUCTO</b>."</td></tr>
+    <tr><td>"Si el backend devuelve 401, el token expiró."</td><td>"Si la app lo devuelve a la pantalla de inicio, su sesión terminó: vuelva a iniciar sesión."</td></tr>
+    <tr><td>"Error de Render cold start."</td><td>"La primera vez del día la carta puede tardar hasta un minuto en cargar. Espere y presione <b>Reintentar</b>."</td></tr>
+    </tbody></table></div>
+
+  <div class="alert verde"><div class="alert-icon" aria-hidden="true">🧪</div><div>
+    <div class="alert-titulo">La prueba del manual</div>
+    <div class="alert-desc">Denle el manual a alguien que no conozca la app (un familiar, un compañero de otro equipo) y pídanle que publique un helado <b>sin ayuda</b>. Donde se quede pegado, ahí falta un paso o una captura.</div>
+  </div></div>
+</div></section>

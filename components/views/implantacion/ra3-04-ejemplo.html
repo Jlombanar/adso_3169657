@@ -1,0 +1,148 @@
+<section class="slide" id="ejemplo" aria-labelledby="ejemplo-titulo"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">5 · EJEMPLO COMPLETO</div>
+    <h2 class="sec-titulo" id="ejemplo-titulo">Así se vería el manual de Helados Mimos</h2>
+    <p class="sec-desc">Es un ejemplo con las 8 partes, aplicado a la app que construyeron. Úsenlo como guía, pero su manual debe llevar <b>sus</b> pantallas, <b>sus</b> datos y capturas reales de <b>su</b> app.</p></div>
+
+  <article class="manual" aria-label="Ejemplo de manual de usuario de Helados Mimos">
+    <header class="manual-cabecera">
+      <p class="manual-institucion">SERVICIO NACIONAL DE APRENDIZAJE SENA · CADPH GARZÓN, HUILA</p>
+      <h3 class="manual-titulo">Manual de Usuario · App Helados Mimos</h3>
+      <p class="manual-sub"><b>Sistema:</b> Helados Mimos (app móvil Android) · <b>Usuario:</b> administrador de la heladería · <b>Versión:</b> 1.0</p>
+    </header>
+
+    <!-- 1. Hoja de control -->
+    <h4 class="manual-seccion">1. Hoja de control del documento</h4>
+    <div class="tabla-wrap"><table class="info">
+      <tbody>
+      <tr><th scope="row">Cliente</th><td>Heladería Helados Mimos — Representante: [Nombre del cliente]</td></tr>
+      <tr><th scope="row">Autores</th><td>[Aprendiz 1], [Aprendiz 2] y [Aprendiz 3] — Ficha: [número de ficha]</td></tr>
+      <tr><th scope="row">Fecha y versión</th><td>[Fecha de entrega] · Versión 1.0</td></tr>
+      <tr><th scope="row">Aprobación</th><td>Aprobado para entrega formal: ______________________ (Firma del cliente)</td></tr>
+      </tbody></table></div>
+    <div class="tabla-wrap"><table class="info">
+      <thead><tr><th scope="col">Versión</th><th scope="col">Fecha</th><th scope="col">Responsable</th><th scope="col">Cambio realizado</th></tr></thead>
+      <tbody>
+      <tr><td>v0.1</td><td>[fecha]</td><td>Equipo desarrollador</td><td>Borrador con las tareas principales y el mapa de navegación.</td></tr>
+      <tr><td>v1.0</td><td>[fecha]</td><td>Equipo desarrollador</td><td>Versión revisada con el cliente, capturas señalizadas y preguntas frecuentes.</td></tr>
+      </tbody></table></div>
+
+    <!-- 2. Índice -->
+    <h4 class="manual-seccion">2. Índice</h4>
+    <ol class="manual-indice">
+      <li><span>Hoja de control del documento</span><span>Pág. 1</span></li>
+      <li><span>Índice</span><span>Pág. 1</span></li>
+      <li><span>Objeto, alcance y funcionalidades</span><span>Pág. 2</span></li>
+      <li><span>Prerrequisitos de uso</span><span>Pág. 2</span></li>
+      <li><span>Mapa de navegación</span><span>Pág. 2</span></li>
+      <li><span>Paso a paso: publicar un helado en la carta</span><span>Pág. 3</span></li>
+      <li><span>Solución de problemas frecuentes</span><span>Pág. 4</span></li>
+      <li><span>Preguntas frecuentes y glosario</span><span>Pág. 4</span></li>
+    </ol>
+
+    <!-- 3. Objeto y alcance -->
+    <h4 class="manual-seccion">3. Objeto, alcance y funcionalidades</h4>
+    <p><b>Objeto:</b> guiar al administrador de Helados Mimos para que publique y mantenga actualizada la carta de productos desde su celular, sin necesitar ayuda del equipo técnico.</p>
+    <p><b>Alcance:</b> la app permite iniciar sesión, crear, editar y eliminar productos con su foto, y ver la carta tal como la ven los clientes. <i>No incluye</i> en esta versión la gestión de pedidos, de usuarios ni pagos en línea (en el menú aparecen como "próximamente").</p>
+    <ul class="manual-lista">
+      <li><b>Inicio de sesión:</b> entrada con correo y contraseña o con la cuenta de Google autorizada.</li>
+      <li><b>Panel de Administración:</b> lista de los productos publicados, con opciones para crear, editar y eliminar.</li>
+      <li><b>Formulario de producto:</b> foto, nombre, precio y descripción de cada helado.</li>
+      <li><b>Nuestra Carta:</b> la vista del cliente, con los mismos productos del panel.</li>
+    </ul>
+
+    <!-- 4. Prerrequisitos -->
+    <h4 class="manual-seccion">4. Prerrequisitos de uso</h4>
+    <div class="tabla-wrap"><table class="info">
+      <thead><tr><th scope="col">Recurso</th><th scope="col">Requisito</th><th scope="col">Para qué</th></tr></thead>
+      <tbody>
+      <tr><td>Celular</td><td>Android con la app Helados Mimos instalada (archivo APK entregado por el equipo).</td><td>Usar la app en el punto de venta.</td></tr>
+      <tr><td>Internet</td><td>Wifi o datos móviles activos.</td><td>Ver y guardar los productos: la información está en línea, no en el celular.</td></tr>
+      <tr><td>Cuenta</td><td>Correo y contraseña de administrador entregados por el equipo.</td><td>Entrar al Panel de Administración.</td></tr>
+      </tbody></table></div>
+
+    <!-- 5. Mapa de navegación -->
+    <h4 class="manual-seccion">5. Mapa de navegación</h4>
+    <p class="manual-rol">Si entra como <b>administrador</b>:</p>
+    <div class="flujo manual-flujo">
+      <div>Inicio de sesión</div><span>→</span>
+      <div class="actual">Panel de Administración<br><small>lista de productos</small></div><span>→</span>
+      <div>➕ Nuevo producto<br><small>✏️ Editar · 🗑️ Eliminar</small></div>
+    </div>
+    <div class="flujo manual-flujo">
+      <div>☰ Menú lateral</div><span>→</span>
+      <div>Productos</div><div>Ver carta (cliente)</div><div>Cerrar Sesión</div>
+    </div>
+    <p class="manual-rol">Si entra como <b>cliente</b>:</p>
+    <div class="flujo manual-flujo"><div>Inicio de sesión</div><span>→</span><div>Nuestra Carta</div></div>
+
+    <!-- 6. Paso a paso -->
+    <h4 class="manual-seccion">6. Paso a paso: publicar un helado en la carta</h4>
+    <p><b>Ruta:</b> Inicio de sesión → <i>Panel de Administración</i> → botón <i>➕ Nuevo producto</i>.</p>
+    <ol class="manual-pasos">
+      <li>En el <b>Panel de Administración</b>, presione el botón <b>➕</b> <span class="llamada-texto">1</span>, abajo a la derecha.</li>
+      <li>Presione el recuadro <b>Seleccionar foto del producto</b> <span class="llamada-texto">2</span> y elija <b>Elegir de la Galería</b> o <b>Tomar con la Cámara</b>.</li>
+      <li>Escriba el <b>Nombre del producto</b>, el <b>Precio</b> y la <b>Descripción</b> <span class="llamada-texto">3</span>.</li>
+      <li>Presione <b>CREAR PRODUCTO</b> <span class="llamada-texto">4</span>.</li>
+    </ol>
+    <p class="manual-resultado">✓ <b>Resultado esperado:</b> aparece el mensaje <b>Producto publicado en la carta</b> y el helado queda en la lista del panel y en la carta del cliente.</p>
+
+    <figure class="manual-figura">
+      <div class="celulares" aria-hidden="true">
+        <div class="celular">
+          <div class="celular-barra">☰ Panel de Administración</div>
+          <div class="celular-cuerpo">
+            <div class="celular-item"><span class="celular-foto">🍓</span><span><b>Helado de fresa</b><br>$6.000</span><span>✏️ 🗑️</span></div>
+            <div class="celular-item"><span class="celular-foto">🍫</span><span><b>Brownie con helado</b><br>$9.500</span><span>✏️ 🗑️</span></div>
+            <div class="celular-fab">＋<span class="llamada">1</span></div>
+          </div>
+        </div>
+        <div class="celular">
+          <div class="celular-barra">Nuevo producto</div>
+          <div class="celular-cuerpo">
+            <div class="celular-foto-grande">📷<br><small>Seleccionar foto del producto</small><span class="llamada">2</span></div>
+            <div class="celular-campos">
+              <div class="celular-campo">Nombre del producto</div>
+              <div class="celular-campo">Precio</div>
+              <div class="celular-campo">Descripción</div>
+              <span class="llamada">3</span>
+            </div>
+            <div class="celular-boton">CREAR PRODUCTO<span class="llamada">4</span></div>
+          </div>
+        </div>
+      </div>
+      <figcaption>Figura 1. Panel de Administración y formulario Nuevo producto, con las llamadas numéricas de cada paso. En su manual, esta figura es una <b>captura real</b> de su app con los números encima.</figcaption>
+    </figure>
+
+    <p><b>Para editar o eliminar:</b> en el panel, presione <b>✏️</b> sobre el producto para cambiar sus datos o su foto y luego <b>GUARDAR CAMBIOS</b>. Para quitarlo de la carta presione <b>🗑️</b> y confirme con <b>Eliminar</b>.</p>
+
+    <!-- 7. Solución de problemas -->
+    <h4 class="manual-seccion">7. Solución de problemas frecuentes</h4>
+    <div class="tabla-wrap"><table class="info">
+      <thead><tr><th scope="col">Lo que ve el usuario</th><th scope="col">Por qué pasa</th><th scope="col">Qué hacer</th></tr></thead>
+      <tbody>
+      <tr><td>La lista o la carta tarda en cargar o muestra un error.</td><td>No hay internet, o es la primera vez del día y el servicio se está activando.</td><td>Revise el wifi o los datos. Espere un minuto y presione <b>Reintentar</b>.</td></tr>
+      <tr><td>Sale "Solo se permiten imágenes (jpg, png, webp, avif)".</td><td>La foto está en otro formato (por ejemplo, .heic o un PDF).</td><td>Elija otra foto de la galería o tómela con la cámara desde la app.</td></tr>
+      <tr><td>Al tocar <b>Usuarios</b> o <b>Pedidos</b> dice "próximamente".</td><td>Esas funciones no están incluidas en esta versión.</td><td>Es normal. Llegarán en una versión futura.</td></tr>
+      <tr><td>La app vuelve sola a la pantalla de inicio de sesión.</td><td>La sesión terminó o se presionó <b>Cerrar Sesión</b>.</td><td>Inicie sesión de nuevo con su correo y contraseña.</td></tr>
+      <tr><td>Sale "Error al autenticar con Google".</td><td>La cuenta de Google no está autorizada o no hay internet.</td><td>Use la cuenta de administrador entregada por el equipo o revise la conexión.</td></tr>
+      </tbody></table></div>
+
+    <!-- 8. Preguntas frecuentes y glosario -->
+    <h4 class="manual-seccion">8. Preguntas frecuentes y glosario</h4>
+    <dl class="manual-faq">
+      <dt>¿Puedo recuperar un producto que eliminé?</dt>
+      <dd>No. Eliminar es definitivo; por eso la app pide confirmación antes de hacerlo. Si lo necesita de nuevo, créelo otra vez.</dd>
+      <dt>¿Los cambios se ven de inmediato en la carta?</dt>
+      <dd>Sí. Si la carta ya estaba abierta, deslice la lista hacia abajo para recargarla.</dd>
+      <dt>¿Puedo cambiar solo la foto de un helado?</dt>
+      <dd>Sí: presione <b>✏️</b>, toque la foto, elija la nueva y presione <b>GUARDAR CAMBIOS</b>.</dd>
+    </dl>
+    <dl class="manual-faq glosario">
+      <dt>Carta</dt><dd>La lista de productos que ven los clientes en la app.</dd>
+      <dt>Panel de Administración</dt><dd>La pantalla donde el administrador crea, edita y elimina productos.</dd>
+      <dt>Sesión</dt><dd>El tiempo en que la app lo reconoce como usuario después de iniciar sesión.</dd>
+    </dl>
+
+    <footer class="manual-pie">Mesa de ayuda del equipo: [correo del equipo] · Página 4 de 4</footer>
+  </article>
+</div></section>

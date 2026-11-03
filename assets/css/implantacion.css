@@ -199,3 +199,47 @@ code{background:rgba(57,169,0,.10);padding:1px 6px;border-radius:5px;font-size:.
 .eval-horario:empty{display:none;}
 .eval-horario.abierta{color:var(--verde-dark);background:var(--verde-glow);border-color:var(--verde-border);}
 .eval-form .btn-siguiente:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* Página Documentar: ejemplo de manual de usuario como documento */
+.manual{background:#fff;border:1px solid var(--borde);border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.10);max-width:900px;margin:10px auto 0;padding:44px 52px;text-align:left;font-size:14px;color:var(--texto);}
+.manual p{margin-bottom:10px;}
+.manual .tabla-wrap{margin-top:10px;margin-bottom:14px;box-shadow:none;}
+.manual table.info th[scope="row"]{background:var(--fondo-alt);color:var(--texto);text-transform:none;letter-spacing:0;font-size:12.5px;width:170px;}
+.manual-cabecera{border-bottom:3px solid var(--verde-dark);padding-bottom:14px;margin-bottom:8px;}
+.manual-institucion{font-size:11px;font-weight:800;letter-spacing:1.2px;color:var(--verde-dark);margin-bottom:4px !important;}
+.manual-titulo{font-family:'Syne',sans-serif;font-size:clamp(20px,3vw,27px);font-weight:800;line-height:1.2;margin-bottom:6px;}
+.manual-sub{font-size:12.5px;color:var(--dim);margin:0 !important;}
+.manual-seccion{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;border-left:4px solid var(--verde);padding-left:10px;margin:26px 0 10px;}
+.manual-indice{list-style:none;counter-reset:indice;display:flex;flex-direction:column;gap:4px;}
+.manual-indice li{counter-increment:indice;display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--borde);padding:4px 0;font-weight:500;}
+.manual-indice li span:first-child::before{content:counter(indice) ". ";}
+.manual-indice li span:last-child{color:var(--verde-dark);font-weight:700;white-space:nowrap;}
+.manual-lista{margin:6px 0 0 20px;display:flex;flex-direction:column;gap:4px;}
+.manual-rol{margin:14px 0 0 !important;font-size:13px;color:var(--dim);}
+.manual-flujo{justify-content:flex-start;margin-top:8px;}
+.manual-flujo div{font-size:12.5px;padding:9px 13px;}
+.manual-pasos{margin:8px 0 10px 22px;display:flex;flex-direction:column;gap:8px;}
+.llamada-texto,.llamada{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#c8102e;color:#fff;font-size:11px;font-weight:800;vertical-align:middle;}
+.manual-resultado{background:var(--verde-glow);border:1px solid var(--verde-border);border-radius:10px;padding:10px 14px;color:var(--verde-dark);}
+.manual-figura{background:var(--fondo-alt);border:1px solid var(--borde);border-radius:12px;padding:22px 16px 14px;margin:16px 0;}
+.manual-figura figcaption{font-size:12px;color:var(--dim);text-align:center;margin-top:14px;}
+.celulares{display:flex;flex-wrap:wrap;justify-content:center;gap:26px;}
+.celular{width:230px;border:7px solid #1a2714;border-radius:28px;background:#fff;overflow:hidden;font-size:11.5px;box-shadow:0 10px 26px rgba(0,0,0,.18);}
+.celular-barra{background:#bf285d;color:#fff;font-weight:700;padding:12px 14px;}
+.celular-cuerpo{position:relative;padding:12px;min-height:250px;display:flex;flex-direction:column;gap:8px;}
+.celular-item{display:flex;align-items:center;gap:8px;border:1px solid var(--borde);border-radius:10px;padding:8px;}
+.celular-item span:nth-child(2){flex:1;line-height:1.35;}
+.celular-foto{font-size:20px;}
+.celular-fab{position:absolute;right:14px;bottom:14px;width:44px;height:44px;border-radius:14px;background:#bf285d;color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;}
+.celular-foto-grande{position:relative;border:2px dashed #bf285d;border-radius:10px;text-align:center;padding:14px 8px;font-size:20px;color:#bf285d;}
+.celular-foto-grande small{font-size:10.5px;}
+.celular-campos{position:relative;display:flex;flex-direction:column;gap:6px;}
+.celular-campo{border:1px solid #c9d3c4;border-radius:8px;padding:7px 9px;color:var(--dimmer);}
+.celular-boton{position:relative;background:#bf285d;color:#fff;font-weight:800;text-align:center;border-radius:10px;padding:10px;margin-top:auto;}
+.celular .llamada{position:absolute;top:-8px;right:-8px;width:22px;height:22px;box-shadow:0 0 0 2px #fff;}
+.manual-faq{display:grid;grid-template-columns:1fr;gap:4px;margin-bottom:12px;}
+.manual-faq dt{font-weight:700;margin-top:6px;}
+.manual-faq dd{color:var(--dim);margin-left:14px;}
+.manual-faq.glosario{background:#fffbea;border-left:4px solid var(--naranja);border-radius:6px;padding:10px 16px;}
+.manual-pie{border-top:1px solid var(--borde);margin-top:24px;padding-top:10px;font-size:11.5px;color:var(--dimmer);display:flex;justify-content:space-between;}
+@media(max-width:600px){.manual{padding:26px 18px;}.manual table.info th[scope="row"]{width:auto;}}
