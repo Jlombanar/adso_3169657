@@ -1,0 +1,33 @@
+<section class="slide" id="necesita"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">3 · QUÉ SE NECESITA</div>
+    <h2 class="sec-titulo">Requisitos antes de empezar</h2></div>
+  <div class="grid-cards">
+    <div class="card"><div class="card-icon">👤</div><div class="card-title">A. Cuenta de desarrollador</div><div class="card-text"><ul>
+      <li>Cuenta de Google y registro en Play Console.</li>
+      <li>El registro tiene un pago único; verifiquen el valor vigente en la consola.</li>
+      <li>Verificación de identidad que exige Google.</li>
+      <li><b>Decisión del grupo:</b> ¿una cuenta por equipo, o una sola cuenta (por ejemplo, la del instructor) para la demostración?</li></ul></div></div>
+    <div class="card"><div class="card-icon">⚙️</div><div class="card-title">B. Proyecto Flutter</div><div class="card-text"><ul>
+      <li><code>applicationId</code> único y propio (no puede cambiarse después de publicar; Play no acepta paquetes que empiezan por <code>com.example</code>).</li>
+      <li><code>version</code> en <code>pubspec.yaml</code> (el número tras <code>+</code> es el <code>versionCode</code> y debe subir en cada versión).</li>
+      <li>Permiso INTERNET, nombre visible e ícono.</li>
+      <li><code>useRemote = true</code> con la URL de Render.</li></ul></div></div>
+    <div class="card"><div class="card-icon">🔏</div><div class="card-title">C. Firma</div><div class="card-text"><ul>
+      <li>Keystore propio (<code>.jks</code>) y <code>key.properties</code>.</li>
+      <li>Ambos privados: nunca a GitHub, y guardados con copia de seguridad.</li></ul></div></div>
+    <div class="card"><div class="card-icon">🧾</div><div class="card-title">D. Material para la ficha</div><div class="card-text"><ul>
+      <li>Nombre, descripción corta y larga.</li>
+      <li>Ícono y capturas de pantalla de la app.</li>
+      <li>URL de una política de privacidad (la app maneja datos de usuarios).</li>
+      <li>Correo de contacto.</li></ul></div></div>
+    <div class="card"><div class="card-icon">🧑‍🤝‍🧑</div><div class="card-title">E. Testers</div><div class="card-text"><ul>
+      <li>Al menos 12 personas con cuenta de Google, para la prueba cerrada.</li>
+      <li>Compañeros de otros equipos, familiares, amigos.</li>
+      <li>Deben aceptar la invitación y mantenerse 14 días seguidos.</li></ul></div></div>
+    <div class="card"><div class="card-icon">☁️</div><div class="card-title">F. Servicios arriba</div><div class="card-text"><ul>
+      <li>Backend en Render con estado Live y monitor de UptimeRobot.</li>
+      <li>Un usuario de prueba con credenciales válidas para los revisores.</li></ul></div></div>
+  </div>
+  <div class="alert verde"><div class="alert-icon">💡</div><div><div class="alert-titulo">Credenciales para los revisores</div>
+    <div class="alert-desc">Como la app tiene login, Google pide en Play Console un usuario y contraseña válidos para que los revisores puedan probar todas las funciones. Creen una cuenta de prueba (y una de administrador si quieren mostrar el panel) y mantengan el backend activo durante la revisión.</div></div></div>
+</div></section>

@@ -1,0 +1,38 @@
+<section class="slide alt" id="firma"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">4 · FIRMA Y APP BUNDLE</div>
+    <h2 class="sec-titulo">Del código al archivo .aab firmado</h2>
+    <p class="sec-desc">Google Play recibe un <b>app bundle (.aab)</b>, no un APK. Se firma con un keystore de carga (upload keystore) que ustedes crean una sola vez y conservan.</p></div>
+  <div class="aviso-copia"><div style="font-size:20px">✍️</div><div>El código <b>no se puede copiar</b> a propósito: escríbanlo en su terminal y editor.</div></div>
+
+  <div class="pasos">
+    <div class="paso-l"><div class="paso-num">1</div><div class="paso-text"><b>Crear el keystore</b> (una sola vez). Guarden el archivo y las contraseñas en un lugar seguro.</div></div>
+  </div>
+  <div class="code-title">🔒 macOS / Linux</div>
+  <div class="code-block">keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload</div>
+  <div class="code-title">🔒 Windows (PowerShell)</div>
+  <div class="code-block">keytool -genkey -v -keystore $env:USERPROFILE\upload-keystore.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload</div>
+
+  <div class="pasos"><div class="paso-l"><div class="paso-num">2</div><div class="paso-text"><b>Referenciar el keystore:</b> crear <code>android/key.properties</code> con estos datos (valores de ejemplo).</div></div></div>
+  <div class="code-title">📄 android/key.properties</div>
+  <div class="code-block">storePassword=tu_contraseña_del_keystore
+keyPassword=tu_contraseña_de_la_llave
+keyAlias=upload
+storeFile=/Users/tu_usuario/upload-keystore.jks</div>
+  <div class="code-title">📄 .gitignore — para que nunca se suban</div>
+  <div class="code-block">android/key.properties
+*.jks
+*.keystore</div>
+
+  <div class="pasos"><div class="paso-l"><div class="paso-num">3</div><div class="paso-text"><b>Configurar la firma en Gradle:</b> editar <code>android/app/build.gradle(.kts)</code> para que el build release lea <code>key.properties</code>. El código exacto depende de si el proyecto usa Kotlin DSL o Groovy, así que se sigue la guía oficial de Flutter.</div></div>
+  <div class="paso-l"><div class="paso-num">4</div><div class="paso-text"><b>Subir la versión</b> en <code>pubspec.yaml</code> antes de cada envío (por ejemplo <code>version: 1.0.0+1</code>, luego <code>1.0.1+2</code>).</div></div>
+  <div class="paso-l"><div class="paso-num">5</div><div class="paso-text"><b>Generar el app bundle.</b></div></div></div>
+  <div class="code-title">💻 Terminal (en la carpeta del proyecto Flutter)</div>
+  <div class="code-block">flutter clean
+flutter pub get
+flutter build appbundle --release</div>
+  <div class="code-title">📁 Dónde queda</div>
+  <div class="code-block">build/app/outputs/bundle/release/app-release.aab</div>
+  <div class="btn-fila"><a class="btn-link" href="https://docs.flutter.dev/deployment/android" target="_blank">🔗 Guía oficial de Flutter: publicar en Android</a></div>
+  <div class="alert"><div class="alert-icon">⚠️</div><div><div class="alert-titulo">Si pierden el keystore</div>
+    <div class="alert-desc">No podrán firmar actualizaciones con la misma llave de carga. Hagan una copia del <code>.jks</code> y de sus contraseñas fuera del computador del proyecto, y jamás lo suban a GitHub.</div></div></div>
+</div></section>

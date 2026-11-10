@@ -31,6 +31,20 @@ document.addEventListener('adso:componentsLoaded', () => {
     });
   }
 
+  // Tarjetas de guías con fecha de apertura: antes de esa hora se ven
+  // bloqueadas y no llevan a la guía (usa el reloj del equipo).
+  document.querySelectorAll('[data-disponible-desde]').forEach((tarjeta) => {
+    const desde = new Date(tarjeta.dataset.disponibleDesde);
+    if (Date.now() >= desde) return;
+    const fecha = desde.toLocaleString('es-CO', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' });
+    tarjeta.removeAttribute('href');
+    tarjeta.setAttribute('aria-disabled', 'true');
+    tarjeta.style.opacity = '.6';
+    tarjeta.style.cursor = 'not-allowed';
+    const ir = tarjeta.querySelector('.guia-ir');
+    if (ir) ir.textContent = `🔒 Disponible el ${fecha}`;
+  });
+
   // Casillas de las entregas (página de repaso): cada una recuerda si el
   // aprendiz ya la marcó como lista, usando su id como clave.
   document.querySelectorAll('.repaso-check').forEach((casilla) => {

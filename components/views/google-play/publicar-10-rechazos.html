@@ -1,0 +1,21 @@
+<section class="slide alt" id="rechazos"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">8 · RECHAZOS Y PROBLEMAS COMUNES</div>
+    <h2 class="sec-titulo">Evítenlos antes de enviar</h2>
+    <p class="sec-desc">Google revisa que la app cumpla las políticas, pero la revisión no es un paso para descubrir los problemas: es responsabilidad del equipo comprobarlos antes.</p></div>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th>Problema</th><th>Causa probable</th><th>Cómo evitarlo</th></tr></thead>
+    <tbody>
+    <tr><td>La subida del .aab es rechazada por el nombre del paquete</td><td><code>applicationId</code> con <code>com.example</code> o repetido.</td><td>Definir un identificador propio y único antes de la primera subida.</td></tr>
+    <tr><td>Se rechaza por no poder probar la app</td><td>Sin credenciales de prueba, o login que falla.</td><td>Cargar usuario y contraseña válidos en "acceso a la app" y probarlos.</td></tr>
+    <tr><td>La app falla durante la revisión</td><td>Backend dormido, caído o variables mal cargadas.</td><td>Render en Live, monitor de UptimeRobot y prueba previa en Postman.</td></tr>
+    <tr><td>Rechazo por política de privacidad o datos</td><td>Falta la política o la declaración de datos no coincide con lo que recoge la app.</td><td>Publicar una política clara y declarar correo, nombre, etc.</td></tr>
+    <tr><td>Rechazo por fallos o pantallas rotas</td><td>La app se cierra, o hay funciones que no responden.</td><td>Aplicar el plan de pruebas y la regresión antes de enviar.</td></tr>
+    <tr><td>La subida pide una versión más alta</td><td>Se repitió el <code>versionCode</code>.</td><td>Subir el número después del <code>+</code> en <code>pubspec.yaml</code> en cada envío.</td></tr>
+    <tr><td>La consola pide actualizar la versión de Android objetivo</td><td>Google exige un nivel de API de destino mínimo para apps nuevas y actualizaciones.</td><td>Consultar el requisito vigente en la ayuda de Play Console y actualizar Flutter y Gradle.</td></tr>
+    <tr><td>Producción sigue bloqueada</td><td>No se cumplieron los 12 testers durante 14 días seguidos.</td><td>Reclutar más testers y recordarles que no abandonen la prueba.</td></tr>
+    </tbody></table></div>
+  <div class="reflexion"><b>🧠 Cierre</b>
+    <ul><li>La publicación toma semanas por la prueba cerrada, no por el código: hay que planearla con tiempo.</li>
+    <li>El keystore y <code>key.properties</code> son tan sensibles como una contraseña.</li>
+    <li>Un backend caído o un login sin credenciales de prueba es la causa más evitable de rechazo.</li></ul></div>
+</div></section>

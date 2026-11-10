@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" data-raiz="../">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuenta de Google Play · SENA ADSO</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/google-play.css">
+<script src="../assets/js/component-loader.js" defer></script>
+<script type="module" src="../assets/js/cuenta-google-play.js"></script>
+</head>
+<body>
+
+<div data-component="../components/layout/topbar-cuenta-play.html"></div>
+
+<section class="slide portada bloqueo" id="bloqueo" aria-live="polite">
+  <div class="slide-content">
+    <div class="portada-tag">🔒 GUÍA AÚN NO DISPONIBLE</div>
+    <h1 class="portada-titulo">Crear la cuenta de<br><span class="highlight">desarrollador de Google Play</span></h1>
+    <p class="portada-desc" id="bloqueo-texto">Esta guía se abre el jueves 12 de noviembre a las 6:00 a. m.</p>
+    <p class="bloqueo-reloj" id="bloqueo-reloj"></p>
+    <div class="btn-fila"><a class="btn-link" href="publicar-google-play.html">← Guía de publicación</a></div>
+  </div>
+</section>
+
+<main id="contenido" hidden>
+  <div data-component="../components/views/google-play/cuenta-01-portada.html"></div>
+  <div data-component="../components/views/google-play/cuenta-02-resumen.html"></div>
+  <div data-component="../components/views/google-play/cuenta-03-nombre.html"></div>
+  <div data-component="../components/views/google-play/cuenta-04-pagos.html"></div>
+  <div data-component="../components/views/google-play/cuenta-05-publico.html"></div>
+  <div data-component="../components/views/google-play/cuenta-06-sobre-ti.html"></div>
+  <div data-component="../components/views/google-play/cuenta-07-apps.html"></div>
+  <div data-component="../components/views/google-play/cuenta-08-contacto.html"></div>
+  <div data-component="../components/views/google-play/cuenta-09-terminos.html"></div>
+  <div data-component="../components/views/google-play/cuenta-10-despues.html"></div>
+  <div data-component="../components/views/google-play/cuenta-11-checklist.html"></div>
+</main>
+
+<div data-component="../components/layout/footer-cuenta-play.html"></div>
+<div id="lb" role="dialog" aria-modal="true" aria-label="Captura ampliada"><img id="lbi" alt=""></div>
+
+</body>
+</html>
