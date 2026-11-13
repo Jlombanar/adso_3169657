@@ -222,6 +222,7 @@
         <a href="#s26"><span>2.6</span>Compilación del AAB</a>
         <a href="#s27"><span>2.7</span>Solución de errores frecuentes</a>
         <a href="#s28"><span>2.8</span>Play Console, pruebas y SHA-1</a>
+        <a href="#s29"><span>2.9</span>Probar el release en el celular</a>
       </div></div>
     </div>
     <a class="nav-link destacado" href="#checklist">✓ Checklist<span class="largo">&nbsp;Final</span></a>
@@ -537,7 +538,7 @@ with check (auth.uid() = remitente_id);</div>
       <div class="modulo-titulo">Publicación Android (AAB)</div>
       <div class="modulo-temas">
         <a href="#s21">2.1 Entorno</a><a href="#s22">2.2 ID y versión</a><a href="#s23">2.3 Keystore</a><a href="#s24">2.4 key.properties</a>
-        <a href="#s25">2.5 Gradle</a><a href="#s26">2.6 Compilar</a><a href="#s27">2.7 Errores</a><a href="#s28">2.8 Play y SHA-1</a>
+        <a href="#s25">2.5 Gradle</a><a href="#s26">2.6 Compilar</a><a href="#s27">2.7 Errores</a><a href="#s28">2.8 Play y SHA-1</a><a href="#s29">2.9 Probar en celular</a>
       </div>
     </div>
   </div>
@@ -605,6 +606,60 @@ ls</div>
       <figcaption><b>Figura 8.</b> <code>applicationId = "com.mimos.login"</code> dentro de <b>defaultConfig</b> en <code>android/app/build.gradle.kts</code>.</figcaption>
     </figure>
 
+    <h3 class="sub-titulo">🗂️ Si el namespace también dice com.example</h3>
+    <p class="sec-desc">Cambiar solo el <code>applicationId</code> no basta si en el mismo archivo el <code>namespace</code> sigue diciendo <code>com.example</code>. El <code>namespace</code> es el paquete donde Android busca la clase <code>MainActivity</code>, así que hay que cambiarlo en <b>tres lugares que deben coincidir</b>: el <code>namespace</code> de Gradle, la línea <code>package</code> de <code>MainActivity.kt</code> y la carpeta donde vive ese archivo.</p>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Dónde</th><th>Antes</th><th>Después</th></tr></thead>
+        <tbody>
+          <tr><td><code>android/app/build.gradle.kts</code></td><td><code>namespace = "com.example.mi_app"</code></td><td><code>namespace = "com.mimos.login"</code></td></tr>
+          <tr><td>Primera línea de <code>MainActivity.kt</code></td><td><code>package com.example.mi_app</code></td><td><code>package com.mimos.login</code></td></tr>
+          <tr><td>Carpeta de <code>MainActivity.kt</code></td><td><code>kotlin/com/example/mi_app/</code></td><td><code>kotlin/com/mimos/login/</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="code-title">📄 android/app/build.gradle.kts</div>
+    <div class="code-block">android {
+    namespace = "com.mimos.login"
+    ...
+    defaultConfig {
+        applicationId = "com.mimos.login"
+        ...
+    }
+}</div>
+
+    <div class="code-title">📄 android/app/src/main/kotlin/com/mimos/login/MainActivity.kt</div>
+    <div class="code-block">package com.mimos.login
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()</div>
+
+    <p class="sec-desc">Cambiar la línea <code>package</code> no mueve el archivo: la carpeta sigue llamándose <code>com/example/mi_app</code> y hay que renombrarla a mano. Kotlin compila aunque la carpeta no coincida, pero el editor marca advertencia y el proyecto queda confuso. Cada parte del paquete es una carpeta: <code>com.mimos.login</code> → <code>com/mimos/login</code>.</p>
+
+    <div class="code-title">💻 macOS / Linux: mover MainActivity a la carpeta nueva (desde la raíz del proyecto)</div>
+    <div class="code-block">mkdir -p android/app/src/main/kotlin/com/mimos/login
+mv android/app/src/main/kotlin/com/example/mi_app/MainActivity.kt android/app/src/main/kotlin/com/mimos/login/
+rm -r android/app/src/main/kotlin/com/example</div>
+    <div class="code-title">💻 Windows (PowerShell)</div>
+    <div class="code-block">New-Item -ItemType Directory -Force android\app\src\main\kotlin\com\mimos\login
+Move-Item android\app\src\main\kotlin\com\example\mi_app\MainActivity.kt android\app\src\main\kotlin\com\mimos\login\
+Remove-Item -Recurse android\app\src\main\kotlin\com\example</div>
+    <div class="code-title">💻 Limpiar y comprobar</div>
+    <div class="code-block">flutter clean
+flutter pub get
+grep -rn "com.example" android/app</div>
+
+    <div class="alert rojo">
+      <div class="alert-icon">🛑</div>
+      <div>
+        <div class="alert-titulo">La app abre y se cierra sola</div>
+        <div class="alert-desc">Si el <code>package</code> de <code>MainActivity.kt</code> no es igual al <code>namespace</code>, la app compila pero se cierra al abrirla con <code>ClassNotFoundException: Didn't find class "com.example.mi_app.MainActivity"</code>. Revisa que los tres lugares digan lo mismo. En proyectos antiguos el archivo puede estar en <code>src/main/java/</code> en vez de <code>src/main/kotlin/</code>: se cambia igual. El <code>grep</code> final no debe mostrar ninguna línea.</div>
+      </div>
+    </div>
+
     <div class="code-title">📄 pubspec.yaml</div>
     <div class="code-block">version: 1.0.0+1</div>
 
@@ -619,7 +674,7 @@ ls</div>
     </div>
 
     <div class="grid-cards">
-      <div class="card"><div class="card-icon">🏷️</div><div class="card-title">namespace ≠ applicationId</div><div class="card-text"><code>namespace</code> es el paquete interno del código Kotlin. <code>applicationId</code> es el que ve Google Play. Pueden ser distintos.</div></div>
+      <div class="card"><div class="card-icon">🏷️</div><div class="card-title">namespace ≠ applicationId</div><div class="card-text"><code>namespace</code> es el paquete interno del código Kotlin. <code>applicationId</code> es el que ve Google Play. Pueden ser distintos, pero lo más sencillo es usar <b>el mismo valor</b> en los dos.</div></div>
       <div class="card"><div class="card-icon">🌐</div><div class="card-title">Permiso de Internet</div><div class="card-text"><code>android/app/src/main/AndroidManifest.xml</code> debe tener <code>&lt;uses-permission android:name="android.permission.INTERNET"/&gt;</code>; sin él, el release no se conecta.</div></div>
       <div class="card"><div class="card-icon">🔗</div><div class="card-title">URLs de producción</div><div class="card-text">Nada de <code>localhost</code> ni <code>10.0.2.2</code>: el backend debe apuntar a Render con HTTPS.</div></div>
     </div>
@@ -908,6 +963,82 @@ open -R build/app/outputs/bundle/release/app-release.aab</div>
   </div>
 </section>
 
+<!-- 2.9 -->
+<section class="slide alt" id="s29">
+  <div class="slide-content">
+    <div class="sec-header">
+      <div class="sec-tag verde">2.9 · PRUEBA EN EL CELULAR</div>
+      <h2 class="sec-titulo"><span class="num">2.9</span>Probar el release en un celular real</h2>
+      <p class="sec-desc">Antes de subir el AAB conviene probar la app <b>tal como la recibirá el usuario</b>: compilada en modo release, firmada con tu llave y con las variables de <code>env.json</code>. Eso se hace con el celular conectado por cable en <b>modo depuración</b>.</p>
+    </div>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Comando</th><th>Modo</th><th>Para qué sirve</th></tr></thead>
+        <tbody>
+          <tr><td><code>flutter run</code></td><td>debug</td><td>Desarrollar: hot reload, más lento, firmado con la llave debug.</td></tr>
+          <tr><td><code>flutter run --release</code></td><td>release</td><td>Probar la versión final: rápida, sin hot reload, firmada con <code>upload-keystore.jks</code> (usa la configuración de <a href="#s25">2.5</a>).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-titulo">📱 Paso 1 · Activar el modo depuración en el celular</h3>
+    <div class="grid-cards">
+      <div class="card"><div class="card-icon">1️⃣</div><div class="card-title">Opciones de desarrollador</div><div class="card-text"><b>Ajustes → Acerca del teléfono</b> → tocar <b>7 veces</b> “Número de compilación” (en Xiaomi: “Versión de MIUI/HyperOS”). Aparece “Ahora eres desarrollador”.</div></div>
+      <div class="card"><div class="card-icon">2️⃣</div><div class="card-title">Depuración USB</div><div class="card-text"><b>Ajustes → Sistema → Opciones de desarrollador</b> → activar <b>Depuración USB</b>. En Xiaomi activar también <b>Instalar vía USB</b>.</div></div>
+      <div class="card"><div class="card-icon">3️⃣</div><div class="card-title">Conectar y autorizar</div><div class="card-text">Conectar con un cable de <b>datos</b> (no solo de carga). En el celular aparece “¿Permitir depuración USB?” → marcar <b>Permitir siempre</b> y aceptar.</div></div>
+    </div>
+
+    <h3 class="sub-titulo">💻 Paso 2 · Verificar que Flutter ve el celular</h3>
+    <div class="code-block">flutter devices</div>
+    <div class="code-title">Salida esperada</div>
+    <div class="code-block">Found 3 connected devices:
+  SM A155M (mobile) • R58X20ABCDE • android-arm64 • Android 14 (API 34)
+  macOS (desktop)   • macos       • darwin-arm64  • macOS 15
+  Chrome (web)      • chrome      • web-javascript • Google Chrome</div>
+    <p class="sec-desc">El celular debe aparecer con la palabra <code>mobile</code>. Si dice <code>unauthorized</code>, desconecta, vuelve a conectar y acepta el mensaje en la pantalla del celular.</p>
+
+    <h3 class="sub-titulo">🚀 Paso 3 · Ejecutar en release con las variables</h3>
+    <p class="sec-desc">Desde la raíz del proyecto Flutter (donde están <code>pubspec.yaml</code> y <code>env.json</code>):</p>
+    <div class="code-block">flutter run --release --dart-define-from-file=env.json</div>
+    <div class="code-title">💻 Si hay varios dispositivos, indicar el celular con su ID</div>
+    <div class="code-block">flutter run --release --dart-define-from-file=env.json -d R58X20ABCDE</div>
+    <div class="code-title">Salida esperada</div>
+    <div class="code-block">Running Gradle task 'assembleRelease'...
+✓ Built build/app/outputs/flutter-apk/app-release.apk (24.1MB)
+Installing build/app/outputs/flutter-apk/app-release.apk...
+Flutter run key commands.
+q Quit (terminate the application on the device).</div>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Parte del comando</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td><code>--release</code></td><td>Compila la versión optimizada y la firma con tu llave de subida.</td></tr>
+          <tr><td><code>--dart-define-from-file=env.json</code></td><td>Entrega a la app la URL y la llave pública de Supabase (<a href="#s12">1.2</a>). Sin esto, <code>String.fromEnvironment</code> queda vacío y la app no conecta.</td></tr>
+          <tr><td><code>-d &lt;id&gt;</code></td><td>Elige en qué dispositivo instalar.</td></tr>
+          <tr><td>Tecla <code>q</code></td><td>Detiene la ejecución. La app queda instalada en el celular.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-titulo">🔍 Paso 4 · Qué revisar en el celular</h3>
+    <div class="grid-cards">
+      <div class="card"><div class="card-icon">🌐</div><div class="card-title">Conexión</div><div class="card-text">La app carga datos de Supabase y del backend en Render. Si no, revisa el permiso de Internet y las URLs (<a href="#s22">2.2</a>).</div></div>
+      <div class="card"><div class="card-icon">🔐</div><div class="card-title">Login</div><div class="card-text">Iniciar y cerrar sesión. Con Google Sign-In debe estar registrada la SHA-1 <b>Upload Key</b> (<a href="#s28">2.8</a>).</div></div>
+      <div class="card"><div class="card-icon">🧭</div><div class="card-title">Recorrido completo</div><div class="card-text">Probar cada pantalla como lo haría un usuario: formularios, imágenes, botones y mensajes de error.</div></div>
+    </div>
+
+    <div class="alert">
+      <div class="alert-icon">⚠️</div>
+      <div>
+        <div class="alert-titulo">Errores frecuentes al probar</div>
+        <div class="alert-desc"><b>INSTALL_FAILED_UPDATE_INCOMPATIBLE:</b> en el celular ya hay una versión de la app firmada con otra llave (la debug). Desinstálala del celular y vuelve a ejecutar. · <b>No aparece el celular en Windows:</b> instala el driver USB del fabricante o cambia el modo USB a “Transferencia de archivos”. · <b>Falla la firma:</b> el release necesita <code>android/key.properties</code> (<a href="#s24">2.4</a>).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== CHECKLIST ===================== -->
 <section class="slide alt" id="checklist">
   <div class="slide-content">
@@ -937,8 +1068,10 @@ open -R build/app/outputs/bundle/release/app-release.aab</div>
       <label class="check-item"><input type="checkbox" data-id="m2-appid"><div><div class="ci-texto">applicationId propio (no com.example) y versión correcta en pubspec.yaml <a class="ci-ref" href="#s22">2.2</a></div></div></label>
       <label class="check-item"><input type="checkbox" data-id="m2-jks"><div><div class="ci-texto">upload-keystore.jks creado con C=CO y respaldado en dos lugares <a class="ci-ref" href="#s23">2.3</a></div><div class="ci-ayuda">Con su contraseña guardada en un lugar seguro.</div></div></label>
       <label class="check-item"><input type="checkbox" data-id="m2-git"><div><div class="ci-texto">.jks y key.properties fuera de Git <a class="ci-ref" href="#s23">2.3</a></div><div class="ci-ayuda">android/.gitignore contiene key.properties y **/*.jks.</div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-namespace"><div><div class="ci-texto">namespace, package de MainActivity y su carpeta sin com.example <a class="ci-ref" href="#s22">2.2</a></div><div class="ci-ayuda">grep -rn "com.example" android/app no muestra nada.</div></div></label>
       <label class="check-item"><input type="checkbox" data-id="m2-gradle"><div><div class="ci-texto">Gradle firma el release con signingConfigs "release" <a class="ci-ref" href="#s25">2.5</a></div><div class="ci-ayuda">El grep muestra 2 líneas.</div></div></label>
       <label class="check-item"><input type="checkbox" data-id="m2-aab"><div><div class="ci-texto">app-release.aab firmado generado con ✓ Built <a class="ci-ref" href="#s26">2.6</a></div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-celular"><div><div class="ci-texto">App probada en el celular con flutter run --release --dart-define-from-file=env.json <a class="ci-ref" href="#s29">2.9</a></div><div class="ci-ayuda">Conecta con Supabase y Render, y el login funciona.</div></div></label>
       <label class="check-item"><input type="checkbox" data-id="m2-sha"><div><div class="ci-texto">SHA-1 registradas: debug, Upload Key y App Signing <a class="ci-ref" href="#s28">2.8</a></div><div class="ci-ayuda">Solo si la app usa Google Sign-In.</div></div></label>
       <label class="check-item"><input type="checkbox" data-id="m2-play"><div><div class="ci-texto">AAB subido a prueba interna y login probado desde la app instalada por Play <a class="ci-ref" href="#s28">2.8</a></div></div></label>
     </div>
