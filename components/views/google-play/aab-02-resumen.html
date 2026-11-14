@@ -1,0 +1,13 @@
+<section class="slide alt" id="resumen"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">RESUMEN</div><h2 class="sec-titulo">El camino del AAB hasta el celular</h2>
+    <p class="sec-desc">La <b>prueba interna</b> es la forma más rápida de instalar la app desde Google Play: no pasa por la revisión completa y llega a los verificadores en minutos. Sirve para comprobar que el AAB firmado funciona antes de la prueba cerrada.</p></div>
+  <div class="stepper"><a href="#crear-app"><i>1</i>Crear la app</a><a href="#declaraciones"><i>2</i>Precio y declaraciones</a><a href="#prueba-interna"><i>3</i>Ir a prueba interna</a><a href="#verificadores"><i>4</i>Verificadores</a><a href="#subir"><i>5</i>Subir el AAB</a><a href="#publicar"><i>6</i>Revisar y publicar</a><a href="#firma"><i>7</i>SHA-1 de Play</a><a href="#google-cloud"><i>8</i>Google Cloud</a></div>
+  <h3 class="sub-titulo">Antes de empezar necesitas</h3>
+  <div class="grid-cards">
+    <div class="card"><div class="card-icon">✅</div><div class="card-title">Cuenta verificada</div><div class="card-text">La cuenta de desarrollador de Play Console creada y con la identidad verificada. <a href="cuenta-google-play.html">Guía de la cuenta</a>.</div></div>
+    <div class="card"><div class="card-icon">📦</div><div class="card-title">AAB firmado</div><div class="card-text">El archivo <code>build/app/outputs/bundle/release/app-release.aab</code>, firmado con tu <code>upload-keystore.jks</code>.</div></div>
+    <div class="card"><div class="card-icon">🏷️</div><div class="card-title">Nombre del paquete</div><div class="card-text">El <code>applicationId</code> de <code>build.gradle.kts</code>, sin <code>com.example</code>. Play Console lo pedirá y <b>no se puede cambiar</b> después.</div></div>
+    <div class="card"><div class="card-icon">📧</div><div class="card-title">Correos de prueba</div><div class="card-text">Las cuentas de Gmail de los compañeros que van a instalar la app.</div></div>
+  </div>
+  <div class="reflexion"><b>💭 Para pensar</b><ul><li>¿Por qué Google vuelve a firmar la app con su propia llave antes de entregarla?</li><li>¿Qué pasa con el login de Google si solo registras la SHA-1 de tu llave?</li></ul></div>
+</div></section>

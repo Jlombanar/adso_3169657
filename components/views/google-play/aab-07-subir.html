@@ -1,0 +1,18 @@
+<section class="slide" id="subir"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">PASO 5 · SUBIR EL AAB</div>
+    <h2 class="sec-titulo">Crear la versión y subir app-release.aab</h2><p class="sec-desc">Una <b>versión</b> es un AAB más sus notas. Cada AAB que subas debe tener un <code>versionCode</code> mayor que el anterior.</p></div>
+  <div class="paso-grid"><div class="shots"><figure class="shot"><img src="{{raiz}}assets/img/google-play/aab-10.jpg" loading="lazy" tabindex="0" alt="Ventana para elegir el archivo .aab"><figcaption>🔍 Ventana para elegir el archivo .aab · clic para ampliar</figcaption></figure><figure class="shot"><img src="{{raiz}}assets/img/google-play/aab-11.jpg" loading="lazy" tabindex="0" alt="AAB subido con nombre y notas de la versión"><figcaption>🔍 AAB subido con nombre y notas de la versión · clic para ampliar</figcaption></figure></div><div class="info-col"><h3>Qué hacer</h3><div class="pasos">
+    <div class="paso-l"><div class="paso-num">1</div><div class="paso-text">En <b>Prueba interna</b>, clic en <b>Crear una versión nueva</b> (arriba a la derecha).</div></div>
+    <div class="paso-l"><div class="paso-num">2</div><div class="paso-text">En <b>Paquetes de aplicación</b>, clic en <b>Subir</b> y busca el archivo. Solo muestra archivos <code>*.aab</code>. También puedes arrastrarlo al recuadro.</div></div>
+    <div class="paso-l"><div class="paso-num">3</div><div class="paso-text">Espera el aviso <b>“Se subió 1 paquete de aplicación”</b>. La tabla muestra la versión, por ejemplo <code>2 (1.0.0)</code>: <code>versionCode</code> 2 y <code>versionName</code> 1.0.0.</div></div>
+    <div class="paso-l"><div class="paso-num">4</div><div class="paso-text"><b>Nombre de la versión:</b> Play lo sugiere (<code>1.0.0 (2)</code>). Solo lo ves tú.</div></div>
+    <div class="paso-l"><div class="paso-num">5</div><div class="paso-text"><b>Notas de la versión:</b> escribe entre las etiquetas del idioma, sin borrarlas.</div></div></div>
+    <div class="code-title">📁 Dónde está el archivo (desde la raíz del proyecto Flutter)</div>
+    <div class="code-block">build/app/outputs/bundle/release/app-release.aab</div>
+    <div class="code-title">📄 Notas de la versión</div>
+    <div class="code-block">&lt;es-419&gt;
+Primera versión de prueba interna.
+&lt;/es-419&gt;</div>
+    <div class="alert"><div class="alert-icon">⚠️</div><div><div class="alert-titulo">Errores al subir</div><div class="alert-desc"><b>“Version code 1 has already been used”:</b> sube el <code>+N</code> en <code>pubspec.yaml</code> y recompila. · <b>“signed in debug mode”:</b> falta la firma release (<a href="Manual_Supabase_AAB_SENA.html#s25">Gradle</a>). · <b>Paquete distinto:</b> el <code>applicationId</code> no coincide con el de la app creada.</div></div></div>
+  </div></div>
+</div></section>

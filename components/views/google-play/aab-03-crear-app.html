@@ -1,0 +1,12 @@
+<section class="slide" id="crear-app"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">PASO 1 · CREAR LA APP</div>
+    <h2 class="sec-titulo">Crear la app en Play Console</h2><p class="sec-desc">Cada app de la cuenta tiene su propia ficha. Aquí se definen el nombre visible y el nombre del paquete.</p></div>
+  <div class="paso-grid"><div class="shots"><figure class="shot"><img src="{{raiz}}assets/img/google-play/aab-01.jpg" loading="lazy" tabindex="0" alt="Página principal de Play Console con el botón Crear app"><figcaption>🔍 Página principal de Play Console con el botón Crear app · clic para ampliar</figcaption></figure><figure class="shot"><img src="{{raiz}}assets/img/google-play/aab-02.jpg" loading="lazy" tabindex="0" alt="Detalles de la app: nombre, paquete e idioma"><figcaption>🔍 Detalles de la app: nombre, paquete e idioma · clic para ampliar</figcaption></figure></div><div class="info-col"><h3>Qué hacer</h3><div class="pasos">
+    <div class="paso-l"><div class="paso-num">1</div><div class="paso-text">En la <b>Página principal</b> de Play Console, clic en <b>+ Crear app</b>.</div></div>
+    <div class="paso-l"><div class="paso-num">2</div><div class="paso-text"><b>Nombre de la app:</b> el que verán los usuarios en Google Play (máximo 30 caracteres). Ejemplo: <code>SomosCafe App</code>.</div></div>
+    <div class="paso-l"><div class="paso-num">3</div><div class="paso-text"><b>Nombre del paquete:</b> exactamente el <code>applicationId</code> del proyecto Flutter. Ejemplo: <code>com.somoscafeapp</code>. Clic en <b>Comprobar disponibilidad</b>.</div></div>
+    <div class="paso-l"><div class="paso-num">4</div><div class="paso-text"><b>Idioma predeterminado:</b> <code>Español (Latinoamérica), es-419</code>.</div></div>
+    <div class="paso-l"><div class="paso-num">5</div><div class="paso-text"><b>App o juego:</b> Aplicación.</div></div></div>
+    <div class="alert"><div class="alert-icon">⚠️</div><div><div class="alert-titulo">El paquete debe coincidir</div><div class="alert-desc">Si el nombre del paquete de Play Console no es igual al <code>applicationId</code> del AAB, Play rechaza el archivo al subirlo. Revisa <code>android/app/build.gradle.kts</code> antes de escribirlo: después de crear la app <b>no se puede cambiar</b>.</div></div></div>
+  </div></div>
+</div></section>

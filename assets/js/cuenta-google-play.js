@@ -1,5 +1,6 @@
 // Guía: crear la cuenta de desarrollador de Google Play.
 import { iniciarChecklist } from './google-play-checklist.js';
+import { iniciarVisor } from './google-play-visor.js';
 
 // La guía se abre el jueves 12 de noviembre de 2026 a las 6:00 a. m. (Colombia).
 // Usa el reloj del equipo del aprendiz.
@@ -10,21 +11,6 @@ const GRUPOS = [
   { t: 'Pago', i: ['Tarjeta que permita pagos en dólares', 'Cuota única de 25 USD disponible', 'Mayor de 18 años'] },
   { t: 'Decisiones', i: ['Nombre de desarrollador definido y revisado (ortografía)', 'Correo público y correo de contacto definidos', 'Persona voluntaria que abrirá la cuenta'] },
 ];
-
-// Visor de capturas: clic o Enter amplía; clic o Escape cierra.
-function iniciarVisor() {
-  const visor = document.getElementById('lb');
-  const imagen = document.getElementById('lbi');
-  let origen = null;
-  const abrir = (img) => { origen = img; imagen.src = img.src; imagen.alt = img.alt; visor.style.display = 'flex'; };
-  const cerrar = () => { visor.style.display = 'none'; origen?.focus(); };
-  document.querySelectorAll('.shot img').forEach((img) => {
-    img.addEventListener('click', () => abrir(img));
-    img.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(img); } });
-  });
-  visor.addEventListener('click', cerrar);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && visor.style.display === 'flex') cerrar(); });
-}
 
 // Muestra la cuenta regresiva y abre la guía cuando llega la hora.
 function controlarHorario() {

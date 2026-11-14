@@ -1,0 +1,13 @@
+<section class="slide alt" id="google-cloud"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">PASO 8 · GOOGLE CLOUD</div>
+    <h2 class="sec-titulo">Registrar la huella en el cliente de Android</h2><p class="sec-desc">Google Sign-In revisa que el par <b>nombre del paquete + SHA-1</b> de la app instalada esté registrado en el proyecto de Google Cloud.</p></div>
+  <div class="paso-grid"><div class="shots"><figure class="shot"><img src="{{raiz}}assets/img/google-play/aab-16.jpg" loading="lazy" tabindex="0" alt="Google Cloud: ID de cliente para Android"><figcaption>🔍 Google Cloud: ID de cliente para Android · clic para ampliar</figcaption></figure></div><div class="info-col"><h3>Qué hacer</h3><div class="pasos">
+    <div class="paso-l"><div class="paso-num">1</div><div class="paso-text">Entra a <b>console.cloud.google.com</b> y elige el proyecto de la app (arriba, junto al logo).</div></div>
+    <div class="paso-l"><div class="paso-num">2</div><div class="paso-text">Ve a <b>Google Auth Platform → Clientes</b>.</div></div>
+    <div class="paso-l"><div class="paso-num">3</div><div class="paso-text">Clic en <b>+ Crear cliente</b>, tipo de aplicación <b>Android</b>.</div></div>
+    <div class="paso-l"><div class="paso-num">4</div><div class="paso-text"><b>Nombre:</b> uno que identifique la llave, por ejemplo <code>SomosCafe - Play</code>. <b>Nombre del paquete:</b> el mismo de Play Console (<code>com.somoscafeapp</code>).</div></div>
+    <div class="paso-l"><div class="paso-num">5</div><div class="paso-text"><b>Huella digital del certificado SHA-1:</b> pega la que copiaste en el paso 7 y clic en <b>Crear</b>.</div></div></div>
+    <div class="alert"><div class="alert-icon">⚠️</div><div><div class="alert-titulo">Un cliente por cada huella</div><div class="alert-desc">Cada cliente de Android guarda <b>una sola</b> SHA-1. Para que el login funcione en las tres formas de instalar la app, crea un cliente por cada huella, todos con el mismo paquete: <b>debug</b> (<code>flutter run</code>), <b>subida</b> (<code>flutter run --release</code>) y <b>firma de apps de Play</b> (descarga desde Play). Ver <a href="Manual_Supabase_AAB_SENA.html#s28">la tabla de las tres SHA-1</a>.</div></div></div>
+    <div class="alert verde"><div class="alert-icon">🧪</div><div><div class="alert-titulo">Prueba final</div><div class="alert-desc">Desinstala la app del celular, instálala desde el vínculo de prueba interna e inicia sesión con Google. Los cambios en Google Cloud pueden tardar unos minutos.</div></div></div>
+  </div></div>
+</div></section>

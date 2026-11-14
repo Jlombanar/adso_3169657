@@ -1,0 +1,15 @@
+<section class="slide" id="firma"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">PASO 7 · SHA-1 DE LA FIRMA DE PLAY</div>
+    <h2 class="sec-titulo">Copiar la huella de la llave de Google</h2><p class="sec-desc">La app que se instala desde Play <b>no</b> está firmada con tu <code>.jks</code>: Google la vuelve a firmar con su <b>clave de firma de la app</b>. Si usas Google Sign-In, esa huella SHA-1 también se registra; si no, el login falla con <code>ApiException: 10</code> solo en la versión de Play.</p></div>
+  <div class="paso-grid"><div class="shots"><figure class="shot"><img src="{{raiz}}assets/img/google-play/aab-13.jpg" loading="lazy" tabindex="0" alt="Protegido con Play"><figcaption>🔍 Protegido con Play · clic para ampliar</figcaption></figure><figure class="shot"><img src="{{raiz}}assets/img/google-play/aab-14.jpg" loading="lazy" tabindex="0" alt="Protección de Play Store: Administrar la firma de apps de Play"><figcaption>🔍 Protección de Play Store: Administrar la firma de apps de Play · clic para ampliar</figcaption></figure><figure class="shot"><img src="{{raiz}}assets/img/google-play/aab-15.jpg" loading="lazy" tabindex="0" alt="Firma de apps: huellas SHA-1 y SHA-256"><figcaption>🔍 Firma de apps: huellas SHA-1 y SHA-256 · clic para ampliar</figcaption></figure></div><div class="info-col"><h3>Qué hacer</h3><div class="pasos">
+    <div class="paso-l"><div class="paso-num">1</div><div class="paso-text">En el menú izquierdo, abre <b>Protegido con Play</b>.</div></div>
+    <div class="paso-l"><div class="paso-num">2</div><div class="paso-text">Despliega <b>Protección de Play Store</b>. En <i>Protege la clave de firma de apps</i> debe decir <b>✓ Versiones firmadas por Play</b>.</div></div>
+    <div class="paso-l"><div class="paso-num">3</div><div class="paso-text">Clic en <b>Administrar la firma de apps de Play</b>.</div></div>
+    <div class="paso-l"><div class="paso-num">4</div><div class="paso-text">En <b>Clave de firma de la app</b> (etiqueta <i>En uso</i>), clic en <b>Huella digital del certificado SHA-1</b>. Aparece “Copiado en el portapapeles”.</div></div></div>
+    <div class="tabla-wrap"><table class="info"><thead><tr><th>Sección de la página</th><th>Qué llave es</th><th>Firma…</th></tr></thead><tbody>
+      <tr><td><b>Clave de firma de la app</b></td><td>La de Google</td><td>La app que se descarga de Play</td></tr>
+      <tr><td><b>Sube la clave</b></td><td>Tu <code>upload-keystore.jks</code></td><td>El AAB que subes y el APK de <code>flutter run --release</code></td></tr>
+    </tbody></table></div>
+    <div class="alert"><div class="alert-icon">🔑</div><div><div class="alert-titulo">No toques “Cambiar clave” ni “Solicitar restablecimiento”</div><div class="alert-desc">Esos botones son para casos especiales, como haber perdido el <code>.jks</code>. Aquí solo se copian huellas.</div></div></div>
+  </div></div>
+</div></section>
