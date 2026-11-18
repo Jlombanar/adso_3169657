@@ -1,0 +1,74 @@
+<section class="slide alt" id="s29">
+  <div class="slide-content">
+    <div class="sec-header">
+      <div class="sec-tag verde">2.9 · PRUEBA EN EL CELULAR</div>
+      <h2 class="sec-titulo"><span class="num">2.9</span>Probar el release en un celular real</h2>
+      <p class="sec-desc">Antes de subir el AAB conviene probar la app <b>tal como la recibirá el usuario</b>: compilada en modo release, firmada con tu llave y con las variables de <code>env.json</code>. Eso se hace con el celular conectado por cable en <b>modo depuración</b>.</p>
+    </div>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Comando</th><th>Modo</th><th>Para qué sirve</th></tr></thead>
+        <tbody>
+          <tr><td><code>flutter run</code></td><td>debug</td><td>Desarrollar: hot reload, más lento, firmado con la llave debug.</td></tr>
+          <tr><td><code>flutter run --release</code></td><td>release</td><td>Probar la versión final: rápida, sin hot reload, firmada con <code>upload-keystore.jks</code> (usa la configuración de <a href="#s25">2.5</a>).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-titulo">📱 Paso 1 · Activar el modo depuración en el celular</h3>
+    <div class="grid-cards">
+      <div class="card"><div class="card-icon">1️⃣</div><div class="card-title">Opciones de desarrollador</div><div class="card-text"><b>Ajustes → Acerca del teléfono</b> → tocar <b>7 veces</b> “Número de compilación” (en Xiaomi: “Versión de MIUI/HyperOS”). Aparece “Ahora eres desarrollador”.</div></div>
+      <div class="card"><div class="card-icon">2️⃣</div><div class="card-title">Depuración USB</div><div class="card-text"><b>Ajustes → Sistema → Opciones de desarrollador</b> → activar <b>Depuración USB</b>. En Xiaomi activar también <b>Instalar vía USB</b>.</div></div>
+      <div class="card"><div class="card-icon">3️⃣</div><div class="card-title">Conectar y autorizar</div><div class="card-text">Conectar con un cable de <b>datos</b> (no solo de carga). En el celular aparece “¿Permitir depuración USB?” → marcar <b>Permitir siempre</b> y aceptar.</div></div>
+    </div>
+
+    <h3 class="sub-titulo">💻 Paso 2 · Verificar que Flutter ve el celular</h3>
+    <div class="code-block">flutter devices</div>
+    <div class="code-title">Salida esperada</div>
+    <div class="code-block">Found 3 connected devices:
+  SM A155M (mobile) • R58X20ABCDE • android-arm64 • Android 14 (API 34)
+  macOS (desktop)   • macos       • darwin-arm64  • macOS 15
+  Chrome (web)      • chrome      • web-javascript • Google Chrome</div>
+    <p class="sec-desc">El celular debe aparecer con la palabra <code>mobile</code>. Si dice <code>unauthorized</code>, desconecta, vuelve a conectar y acepta el mensaje en la pantalla del celular.</p>
+
+    <h3 class="sub-titulo">🚀 Paso 3 · Ejecutar en release con las variables</h3>
+    <p class="sec-desc">Desde la raíz del proyecto Flutter (donde están <code>pubspec.yaml</code> y <code>env.json</code>):</p>
+    <div class="code-block">flutter run --release --dart-define-from-file=env.json</div>
+    <div class="code-title">💻 Si hay varios dispositivos, indicar el celular con su ID</div>
+    <div class="code-block">flutter run --release --dart-define-from-file=env.json -d R58X20ABCDE</div>
+    <div class="code-title">Salida esperada</div>
+    <div class="code-block">Running Gradle task 'assembleRelease'...
+✓ Built build/app/outputs/flutter-apk/app-release.apk (24.1MB)
+Installing build/app/outputs/flutter-apk/app-release.apk...
+Flutter run key commands.
+q Quit (terminate the application on the device).</div>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Parte del comando</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td><code>--release</code></td><td>Compila la versión optimizada y la firma con tu llave de subida.</td></tr>
+          <tr><td><code>--dart-define-from-file=env.json</code></td><td>Entrega a la app la URL y la llave pública de Supabase (<a href="Manual_Supabase_AAB_SENA.html#s12">1.2</a>). Sin esto, <code>String.fromEnvironment</code> queda vacío y la app no conecta.</td></tr>
+          <tr><td><code>-d &lt;id&gt;</code></td><td>Elige en qué dispositivo instalar.</td></tr>
+          <tr><td>Tecla <code>q</code></td><td>Detiene la ejecución. La app queda instalada en el celular.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-titulo">🔍 Paso 4 · Qué revisar en el celular</h3>
+    <div class="grid-cards">
+      <div class="card"><div class="card-icon">🌐</div><div class="card-title">Conexión</div><div class="card-text">La app carga datos de Supabase y del backend en Render. Si no, revisa el permiso de Internet y las URLs (<a href="#s22">2.2</a>).</div></div>
+      <div class="card"><div class="card-icon">🔐</div><div class="card-title">Login</div><div class="card-text">Iniciar y cerrar sesión. Con Google Sign-In debe estar registrada la SHA-1 <b>Upload Key</b> (<a href="#s28">2.8</a>).</div></div>
+      <div class="card"><div class="card-icon">🧭</div><div class="card-title">Recorrido completo</div><div class="card-text">Probar cada pantalla como lo haría un usuario: formularios, imágenes, botones y mensajes de error.</div></div>
+    </div>
+
+    <div class="alert">
+      <div class="alert-icon">⚠️</div>
+      <div>
+        <div class="alert-titulo">Errores frecuentes al probar</div>
+        <div class="alert-desc"><b>INSTALL_FAILED_UPDATE_INCOMPATIBLE:</b> en el celular ya hay una versión de la app firmada con otra llave (la debug). Desinstálala del celular y vuelve a ejecutar. · <b>No aparece el celular en Windows:</b> instala el driver USB del fabricante o cambia el modo USB a “Transferencia de archivos”. · <b>Falla la firma:</b> el release necesita <code>android/key.properties</code> (<a href="#s24">2.4</a>).</div>
+      </div>
+    </div>
+  </div>
+</section>

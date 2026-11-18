@@ -1,0 +1,59 @@
+<section class="slide alt" id="s25">
+  <div class="slide-content">
+    <div class="sec-header">
+      <div class="sec-tag verde">2.5 · GRADLE</div>
+      <h2 class="sec-titulo"><span class="num">2.5</span>Configuración de Gradle</h2>
+      <p class="sec-desc">Por defecto Flutter firma el release con la llave <i>debug</i>, que Play rechaza. Abre <code>android/app/build.gradle.kts</code> y agrega las tres partes que muestran las figuras.</p>
+    </div>
+
+    <h3 class="sub-titulo">Kotlin DSL · build.gradle.kts (proyectos Flutter recientes)</h3>
+    <figure class="figura">
+      <img src="{{raiz}}assets/img/publicacion-aab/fig-04.png" alt="Imports al inicio y lectura de key.properties después de plugins">
+      <figcaption><b>Figura 10.</b> <b>Parte 1:</b> los <code>import</code> en la primera línea y, después de <code>plugins</code>, el bloque que lee <code>key.properties</code>.</figcaption>
+    </figure>
+    <figure class="figura">
+      <img src="{{raiz}}assets/img/publicacion-aab/fig-05.png" alt="Bloque signingConfigs después de defaultConfig">
+      <figcaption><b>Figura 11.</b> <b>Parte 2:</b> bloque <code>signingConfigs</code> con <code>create("release")</code>, justo después de <code>defaultConfig</code>.</figcaption>
+    </figure>
+    <figure class="figura">
+      <img src="{{raiz}}assets/img/publicacion-aab/fig-06.png" alt="buildTypes release usando signingConfigs.getByName release">
+      <figcaption><b>Figura 12.</b> <b>Parte 3:</b> <code>buildTypes</code> (una sola vez) usando <code>signingConfigs.getByName("release")</code>. Los comentarios <code>// TODO</code> se pueden borrar.</figcaption>
+    </figure>
+
+    <div class="grid-cards">
+      <div class="card"><div class="card-icon">✔️</div><div class="card-title">Lista de chequeo</div><div class="card-text">• Empieza con <code>import java.util.Properties</code><br>• Contiene <code>signingConfigs</code><br>• <code>buildTypes</code> aparece una sola vez<br>• Usa <code>getByName("release")</code></div></div>
+      <div class="card"><div class="card-icon">🔎</div><div class="card-title">Verificar por terminal</div><div class="card-text">Ejecuta el comando de abajo: deben salir 2 líneas, <code>signingConfigs {</code> y <code>getByName("release")</code>.</div></div>
+    </div>
+    <div class="code-title">💻 macOS / Linux</div>
+    <div class="code-block">grep -n "signingConfig" android/app/build.gradle.kts</div>
+    <div class="code-title">💻 Windows (PowerShell)</div>
+    <div class="code-block">Select-String -Path android\app\build.gradle.kts -Pattern "signingConfig"</div>
+
+    <details class="plegable">
+      <summary>¿Tu proyecto tiene android/app/build.gradle (Groovy, proyectos antiguos)?</summary>
+      <div>
+        <p class="card-text">La lógica es la misma con otra sintaxis. Agrega esto en <code>android/app/build.gradle</code>:</p>
+        <div class="code-title">Antes del bloque android { }</div>
+        <div class="code-block">def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}</div>
+        <div class="code-title">Dentro de android { }, reemplazando el buildTypes existente</div>
+        <div class="code-block">signingConfigs {
+    release {
+        keyAlias keystoreProperties['keyAlias']
+        keyPassword keystoreProperties['keyPassword']
+        storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+        storePassword keystoreProperties['storePassword']
+    }
+}
+buildTypes {
+    release {
+        signingConfig signingConfigs.release
+    }
+}</div>
+      </div>
+    </details>
+  </div>
+</section>

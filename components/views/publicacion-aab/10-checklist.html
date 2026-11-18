@@ -1,0 +1,37 @@
+<section class="slide alt" id="checklist">
+  <div class="slide-content">
+    <div class="sec-header">
+      <div class="sec-tag verde">ENTREGA</div>
+      <h2 class="sec-titulo">✅ Checklist de la sesión</h2>
+      <p class="sec-desc">Marca cada punto solo cuando lo hayas verificado. Cuando completes la lista, tu evidencia está lista para entregar.</p>
+    </div>
+
+    <div class="check-progreso">
+      <div class="check-cuenta"><span id="ck-hechos">0</span> / <span id="ck-total">0</span></div>
+      <div class="barra"><div class="barra-fill" id="ck-barra"></div></div>
+      <button class="btn-reset" type="button" id="ck-reset">Reiniciar</button>
+    </div>
+
+    <div class="check-grupo naranja">
+      <h3>Módulo 2 · Publicación Android (AAB)</h3>
+      <label class="check-item"><input type="checkbox" data-id="m2-eliminar"><div><div class="ci-texto">Botón para eliminar la cuenta en el perfil del usuario <a class="ci-ref" href="#portada">Agenda</a></div><div class="ci-ayuda">Pide confirmación y borra la cuenta en el backend.</div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-appid"><div><div class="ci-texto">applicationId propio (no com.example) y versión correcta en pubspec.yaml <a class="ci-ref" href="#s22">2.2</a></div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-jks"><div><div class="ci-texto">upload-keystore.jks creado con C=CO y respaldado en dos lugares <a class="ci-ref" href="#s23">2.3</a></div><div class="ci-ayuda">Con su contraseña guardada en un lugar seguro.</div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-git"><div><div class="ci-texto">.jks y key.properties fuera de Git <a class="ci-ref" href="#s23">2.3</a></div><div class="ci-ayuda">android/.gitignore contiene key.properties y **/*.jks, y git status no los muestra.</div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-namespace"><div><div class="ci-texto">namespace, package de MainActivity y su carpeta sin com.example <a class="ci-ref" href="#s22">2.2</a></div><div class="ci-ayuda">La búsqueda de "com.example" en android/app (grep, Select-String o Ctrl+Shift+F) no muestra nada.</div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-gradle"><div><div class="ci-texto">Gradle firma el release con signingConfigs "release" <a class="ci-ref" href="#s25">2.5</a></div><div class="ci-ayuda">La verificación de 2.5 muestra 2 líneas.</div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-aab"><div><div class="ci-texto">app-release.aab firmado generado con ✓ Built <a class="ci-ref" href="#s26">2.6</a></div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-celular"><div><div class="ci-texto">App probada en el celular con flutter run --release --dart-define-from-file=env.json <a class="ci-ref" href="#s29">2.9</a></div><div class="ci-ayuda">Conecta con Supabase y Render, y el login funciona.</div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-sha"><div><div class="ci-texto">SHA-1 registradas: debug, Upload Key y App Signing <a class="ci-ref" href="#s28">2.8</a></div><div class="ci-ayuda">Solo si la app usa Google Sign-In.</div></div></label>
+      <label class="check-item"><input type="checkbox" data-id="m2-play"><div><div class="ci-texto">AAB subido a prueba interna y login probado desde la app instalada por Play <a class="ci-ref" href="#s28">2.8</a></div></div></label>
+    </div>
+
+    <div class="alert verde check-final" id="ck-final">
+      <div class="alert-icon">🎉</div>
+      <div>
+        <div class="alert-titulo">¡Checklist completo!</div>
+        <div class="alert-desc">Tu app está firmada y en prueba interna. Adjunta como evidencia: captura del botón de eliminar cuenta en el perfil, captura de la salida <code>✓ Built …app-release.aab</code> y captura de la versión en prueba interna de Play Console.</div>
+      </div>
+    </div>
+  </div>
+</section>

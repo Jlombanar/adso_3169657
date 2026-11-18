@@ -1,0 +1,28 @@
+<section class="slide alt" id="s27">
+  <div class="slide-content">
+    <div class="sec-header">
+      <div class="sec-tag rojo">2.7 · SOLUCIÓN DE PROBLEMAS</div>
+      <h2 class="sec-titulo"><span class="num">2.7</span>Solución de errores frecuentes</h2>
+      <p class="sec-desc">Errores reales encontrados en la práctica, en el orden en que suelen aparecer.</p>
+    </div>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Mensaje</th><th>Causa</th><th>Solución</th><th>Ver</th></tr></thead>
+        <tbody>
+          <tr><td><code>command not found: keytool</code></td><td>Java no está en el PATH.</td><td>Usar el keytool de Android Studio.</td><td><a href="#s23">2.3</a></td></tr>
+          <tr><td><code>zsh: no such file or directory: android/key.properties</code></td><td>Terminal en una carpeta que no es la raíz de Flutter.</td><td><code>find . -maxdepth 3 -name pubspec.yaml</code> y <code>cd</code> a esa carpeta.</td><td><a href="#s21">2.1</a></td></tr>
+          <tr><td><code>Error: No pubspec.yaml file found.</code></td><td>Misma causa (ej. <code>frontend</code> en vez de <code>frontend/login</code>).</td><td>Entrar a la carpeta que contiene <code>pubspec.yaml</code>.</td><td><a href="#s21">2.1</a></td></tr>
+          <tr><td><code>Unresolved reference: Properties</code></td><td>Faltan los <code>import</code> o no están en la primera línea.</td><td>Moverlos al inicio del archivo.</td><td><a href="#s25">Fig. 10</a></td></tr>
+          <tr><td><code>SigningConfig with name 'release' not found</code></td><td>Se usa <code>getByName("release")</code> pero falta el bloque <code>signingConfigs</code>.</td><td>Agregar la parte 2.</td><td><a href="#s25">Fig. 11</a></td></tr>
+          <tr><td>Bloque <code>buildTypes</code> repetido</td><td>Se pegó el ejemplo sin borrar el original.</td><td>Dejar uno solo.</td><td><a href="#s25">Fig. 12</a></td></tr>
+          <tr><td><code>null cannot be cast to non-null type String</code></td><td>No existe <code>android/key.properties</code> o le falta un campo.</td><td>Crear o completar el archivo.</td><td><a href="#s24">2.4</a></td></tr>
+          <tr><td><code>Keystore was tampered with, or password was incorrect</code></td><td>La clave de <code>key.properties</code> no coincide con la de keytool.</td><td>Corregirla letra por letra.</td><td><a href="#s24">2.4</a></td></tr>
+          <tr><td>Play: <i>"versionCode 1 has already been used"</i></td><td>Se subió otro AAB con el mismo número.</td><td>Subir el <code>+N</code> en <code>pubspec.yaml</code> y recompilar.</td><td><a href="#s22">2.2</a></td></tr>
+          <tr><td>Google Sign-In: <code>ApiException: 10</code></td><td>Falta la SHA-1 de la llave que firmó esa instalación.</td><td>Registrar las tres huellas.</td><td><a href="#s28">2.8</a></td></tr>
+          <tr><td>No se encuentra el <code>.aab</code></td><td>Terminal en otra carpeta, o se ejecutó <code>flutter clean</code> después de compilar.</td><td><code>ls -lh build/app/outputs/bundle/release/</code>; si no está, recompilar.</td><td><a href="#s26">2.6</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

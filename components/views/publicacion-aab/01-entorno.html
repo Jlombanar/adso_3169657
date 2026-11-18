@@ -1,0 +1,50 @@
+<section class="slide alt" id="s21">
+  <div class="slide-content">
+    <div class="sec-header">
+      <div class="sec-tag verde">2.1 · ENTORNO</div>
+      <h2 class="sec-titulo"><span class="num">2.1</span>Entorno y diferencia entre APK y AAB</h2>
+      <p class="sec-desc">Google Play exige el formato AAB para apps nuevas. El APK sigue sirviendo para instalar y probar directamente en un celular.</p>
+    </div>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Característica</th><th>APK</th><th>AAB (App Bundle)</th></tr></thead>
+        <tbody>
+          <tr><td>Uso principal</td><td>Instalar directo en el celular</td><td>Subir a Google Play</td></tr>
+          <tr><td>¿Se instala directo?</td><td>✅ Sí</td><td>❌ No, Play genera los APK</td></tr>
+          <tr><td>¿Lo acepta Play Store?</td><td>❌ No para apps nuevas</td><td>✅ Obligatorio</td></tr>
+          <tr><td>Quién firma la versión final</td><td>Tu llave</td><td>Google (Play App Signing), con tu llave como <i>upload key</i></td></tr>
+          <tr><td>Tamaño de descarga</td><td>Todo en uno</td><td>Menor: Play entrega solo lo que necesita cada dispositivo</td></tr>
+          <tr><td>Comando</td><td><code>flutter build apk --release</code></td><td><code>flutter build appbundle</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="code-title">💻 Verificar herramientas</div>
+    <div class="code-block">flutter doctor</div>
+    <div class="code-title">💻 Aceptar licencias del SDK de Android (responder y a todo)</div>
+    <div class="code-block">flutter doctor --android-licenses</div>
+    <div class="code-title">Salida esperada</div>
+    <div class="code-block">[✓] Flutter (Channel stable, 3.44.8, on macOS ...)
+[✓] Android toolchain - develop for Android devices (Android SDK version 36.0.0)
+All SDK package licenses accepted</div>
+
+    <div class="alert verde">
+      <div class="alert-icon">📂</div>
+      <div class="alert-desc"><b>Todos los comandos del módulo se ejecutan en la raíz del proyecto Flutter</b>: la carpeta que contiene <code>pubspec.yaml</code>, <code>lib/</code> y <code>android/</code>. En este proyecto es <code>frontend/login</code>.</div>
+    </div>
+    <div class="code-title">💻 macOS / Linux: encontrar y entrar a la raíz</div>
+    <div class="code-block">find . -maxdepth 3 -name pubspec.yaml
+cd frontend/login
+ls</div>
+    <div class="code-title">💻 Windows (PowerShell)</div>
+    <div class="code-block">Get-ChildItem -Recurse -Depth 2 -Filter pubspec.yaml | Select-Object FullName
+cd frontend\login
+dir</div>
+
+    <figure class="figura">
+      <img class="angosta" src="{{raiz}}assets/img/publicacion-aab/fig-01.png" alt="Estructura de carpetas mimos, backend, frontend/login, android, app, build.gradle.kts">
+      <figcaption><b>Figura 7.</b> Estructura del proyecto en VS Code. La raíz de Flutter es <b>frontend/login</b>, no <code>mimos</code> ni <code>frontend</code>.</figcaption>
+    </figure>
+  </div>
+</section>

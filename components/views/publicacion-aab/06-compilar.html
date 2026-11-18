@@ -1,0 +1,41 @@
+<section class="slide" id="s26">
+  <div class="slide-content">
+    <div class="sec-header">
+      <div class="sec-tag naranja">2.6 · COMPILACIÓN</div>
+      <h2 class="sec-titulo"><span class="num">2.6</span>Compilación del AAB</h2>
+      <p class="sec-desc">Desde la raíz del proyecto (<code>frontend/login</code>). La primera compilación puede tardar 5 minutos o más.</p>
+    </div>
+
+    <div class="code-title">💻 Secuencia de compilación</div>
+    <div class="code-block">flutter clean
+flutter pub get
+flutter build appbundle --dart-define-from-file=env.json</div>
+    <p class="card-text" style="margin-top:8px">Si no usas <code>env.json</code> (sección 1.2), omite la opción <code>--dart-define-from-file</code>.</p>
+
+    <div class="code-title">Salida esperada</div>
+    <div class="code-block">Running Gradle task 'bundleRelease'...                            278,8s
+✓ Built build/app/outputs/bundle/release/app-release.aab (53.9MB)</div>
+
+    <div class="code-title">💻 Comprobar y abrir el archivo</div>
+    <div class="code-block">ls -lh build/app/outputs/bundle/release/
+open -R build/app/outputs/bundle/release/app-release.aab</div>
+    <p class="card-text" style="margin-top:8px">En Windows: <code>explorer build\app\outputs\bundle\release</code>. En VS Code también puedes hacer clic derecho sobre el archivo → <b>Revelar en Finder / Explorador</b>.</p>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Advertencia</th><th>¿Es error?</th><th>Explicación</th></tr></thead>
+        <tbody>
+          <tr><td><i>26 packages have newer versions…</i></td><td>No</td><td>Hay versiones más nuevas de librerías; compila igual.</td></tr>
+          <tr><td><i>plugins that apply Kotlin Gradle Plugin (KGP)</i></td><td>No, por ahora</td><td>Aviso para futuras versiones de Flutter; actualizar esos plugins cuando haya versión compatible.</td></tr>
+          <tr><td><i>Font asset … was tree-shaken</i></td><td>No</td><td>Optimización: se quitaron los íconos que no se usan.</td></tr>
+          <tr><td><i>MallocStackLogging: can't turn off…</i></td><td>No</td><td>Mensaje interno de macOS.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert verde">
+      <div class="alert-icon">📲</div>
+      <div class="alert-desc">Para probar en un celular sin pasar por Play: <code>flutter build apk --release</code> → <code>build/app/outputs/flutter-apk/app-release.apk</code>.</div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,93 @@
+<section class="slide" id="s24">
+  <div class="slide-content">
+    <div class="sec-header">
+      <div class="sec-tag naranja">2.4 · CLAVES</div>
+      <h2 class="sec-titulo"><span class="num">2.4</span>Configuración de key.properties</h2>
+      <p class="sec-desc">Gradle lee la contraseña y la ruta de la llave desde <code>android/key.properties</code> (dentro de <code>android/</code>, <b>no</b> de <code>android/app/</code>).</p>
+    </div>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Opción</th><th>Dónde queda el .jks</th><th>Valor de storeFile</th><th>Cuándo usarla</th></tr></thead>
+        <tbody>
+          <tr><td><b>1 · Recomendada</b></td><td>Carpeta de usuario, fuera del proyecto</td><td>Ruta completa</td><td>Apps que se publican de verdad</td></tr>
+          <tr><td><b>2 · Fácil</b></td><td>Dentro de <code>android/</code></td><td><code>../upload-keystore.jks</code></td><td>Práctica en clase</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-titulo">Opción 1 · Recomendada: llave fuera del proyecto</h3>
+    <p class="card-text">Es la llave creada en 2.3 en tu carpeta de usuario. Si borras o compartes el proyecto, la llave no se va con él.</p>
+
+    <div class="code-title">💻 macOS / Linux: crear el archivo desde la raíz del proyecto</div>
+    <div class="code-block">cat > android/key.properties &lt;&lt;'EOF'
+storePassword=TU_CLAVE
+keyPassword=TU_CLAVE
+keyAlias=upload
+storeFile=/Users/TU_USUARIO/upload-keystore.jks
+EOF</div>
+
+    <div class="code-title">📄 Windows: crear android\key.properties con este contenido</div>
+    <div class="code-block">storePassword=TU_CLAVE
+keyPassword=TU_CLAVE
+keyAlias=upload
+storeFile=C:/Users/TU_USUARIO/upload-keystore.jks</div>
+
+    <h3 class="sub-titulo">Opción 2 · Fácil: llave dentro de android/</h3>
+    <p class="card-text">La ruta es la misma en Mac y Windows y no hay que escribir el nombre de usuario. Funciona porque Gradle busca <code>storeFile</code> desde la carpeta <code>android/app/</code>: <code>../</code> sube un nivel y encuentra el archivo en <code>android/</code>.</p>
+
+    <div class="code-title">💻 Crear la llave dentro de android/ (desde la raíz del proyecto · Mac y Windows)</div>
+    <div class="code-block">keytool -genkey -v -keystore android/upload-keystore.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload</div>
+    <p class="card-text">Si sale <i>keytool no se reconoce</i>, usa la ruta de Android Studio de 2.3 cambiando solo la parte de <code>-keystore</code>.</p>
+
+    <div class="code-title">📄 android/key.properties</div>
+    <div class="code-block">storePassword=TU_CLAVE
+keyPassword=TU_CLAVE
+keyAlias=upload
+storeFile=../upload-keystore.jks</div>
+
+    <figure class="figura">
+      <div class="code-block" style="text-align:left">frontend/login/
+└── android/
+    ├── app/
+    │   └── build.gradle.kts     ← Gradle busca storeFile desde aquí
+    ├── .gitignore               ← contiene key.properties y **/*.jks
+    ├── key.properties
+    └── upload-keystore.jks      ← ../ apunta aquí</div>
+      <figcaption>Ubicación de los archivos en la opción 2. En VS Code, <code>key.properties</code> y <code>upload-keystore.jks</code> deben verse <b>en gris</b>: significa que Git los ignora.</figcaption>
+    </figure>
+
+    <div class="alert">
+      <div class="alert-icon">⚠️</div>
+      <div>
+        <div class="alert-titulo">Cuidados de la opción 2</div>
+        <div class="alert-desc">
+          • <b>Verifica con <code>git status</code></b> que no aparezcan <code>key.properties</code> ni el <code>.jks</code>. El <code>android/.gitignore</code> que crea Flutter ya los incluye; si no, agrégalos como en 2.3.<br>
+          • <b>No compartas el proyecto en .zip</b>: Git ignora la llave, pero un .zip la incluye junto con la clave.<br>
+          • <b>Si borras o vuelves a clonar el proyecto, pierdes la llave.</b> El respaldo en dos lugares es obligatorio.<br>
+          • Para una app que se publicará de verdad, pasa a la opción 1.
+        </div>
+      </div>
+    </div>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Campo</th><th>Valor</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr><td>storePassword</td><td>La clave escrita en keytool</td><td>Debe coincidir letra por letra</td></tr>
+          <tr><td>keyPassword</td><td>La misma clave</td><td>keytool usa la misma por defecto</td></tr>
+          <tr><td>keyAlias</td><td><code>upload</code></td><td>El valor de <code>-alias</code></td></tr>
+          <tr><td>storeFile</td><td>Opción 1: ruta completa al .jks · Opción 2: <code>../upload-keystore.jks</code></td><td>Usar <code>/</code> también en Windows. En Mac: <code>echo ~</code> muestra tu carpeta de usuario</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert rojo">
+      <div class="alert-icon">🔐</div>
+      <div>
+        <div class="alert-titulo">La clave es personal</div>
+        <div class="alert-desc">Cada aprendiz crea su propia llave y su propia clave. La clave real no se escribe en manuales, chats, capturas ni repositorios: va únicamente en <code>key.properties</code>, que nunca se sube a Git. Es la misma regla que con la llave secret de Supabase.</div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,45 @@
+<section class="slide" id="s28">
+  <div class="slide-content">
+    <div class="sec-header">
+      <div class="sec-tag verde">2.8 · PUBLICACIÓN</div>
+      <h2 class="sec-titulo"><span class="num">2.8</span>Play Console, pruebas internas y SHA-1</h2>
+      <p class="sec-desc">Si la app usa <b>Google Sign-In</b> (Firebase u OAuth), cada llave que firma una instalación necesita su huella SHA-1 registrada para el paquete <code>com.mimos.login</code>.</p>
+    </div>
+
+    <div class="tabla-wrap">
+      <table class="info">
+        <thead><tr><th>Cómo se instala la app</th><th>Llave que firma</th><th>SHA-1 a registrar</th><th>Dónde se obtiene</th></tr></thead>
+        <tbody>
+          <tr><td><code>flutter run</code> / APK debug</td><td>debug.keystore</td><td>SHA-1 <b>debug</b></td><td>keytool local</td></tr>
+          <tr><td><code>flutter build apk --release</code></td><td>upload-keystore.jks</td><td>SHA-1 <b>Upload Key</b></td><td>keytool local o Play Console</td></tr>
+          <tr><td>Descargada desde Google Play</td><td>Llave de Google</td><td>SHA-1 <b>App Signing</b></td><td>Solo en Play Console</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="code-title">💻 SHA-1 debug (la contraseña pública de debug es "android") · macOS / Linux</div>
+    <div class="code-block">keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android</div>
+    <div class="code-title">💻 SHA-1 debug · Windows (PowerShell)</div>
+    <div class="code-block">keytool -list -v -keystore $env:USERPROFILE\.android\debug.keystore -alias androiddebugkey -storepass android</div>
+    <div class="code-title">💻 SHA-1 Upload Key (pide tu clave) · macOS / Linux</div>
+    <div class="code-block">keytool -list -v -keystore ~/upload-keystore.jks -alias upload</div>
+    <div class="code-title">💻 SHA-1 Upload Key · Windows (PowerShell)</div>
+    <div class="code-block">keytool -list -v -keystore $env:USERPROFILE\upload-keystore.jks -alias upload</div>
+
+    <div class="alert">
+      <div class="alert-icon">⚠️</div>
+      <div>
+        <div class="alert-titulo">Upload Key ≠ App Signing Key</div>
+        <div class="alert-desc">Tu <code>.jks</code> es solo la <b>Upload Key</b>: demuestra a Google que el AAB es tuyo. Google vuelve a firmar la app con su <b>App Signing Key</b> antes de entregarla a los usuarios. Por eso el login con Google <b>funciona con el APK y falla desde Play Store</b> (<code>ApiException: 10</code>) si solo registraste la huella de tu <code>.jks</code>. La huella de App Signing aparece en <b>Play Console → Configuración → Integridad de la app → Firma de apps</b> apenas subes el primer AAB a cualquier pista de prueba; no hay que esperar la aprobación de producción.</div>
+      </div>
+    </div>
+
+    <h3 class="sub-titulo">Ruta de publicación</h3>
+    <div class="grid-cards">
+      <div class="card"><div class="card-icon">1️⃣</div><div class="card-title">Prueba interna</div><div class="card-text">Play Console → tu app → <b>Pruebas → Prueba interna → Crear versión</b> → subir <code>app-release.aab</code>. <a href="subir-aab-play.html">Paso a paso con capturas</a>.</div></div>
+      <div class="card"><div class="card-icon">2️⃣</div><div class="card-title">Registrar las 3 SHA-1</div><div class="card-text">Copiar la huella de <b>App Signing</b> y agregarla en Firebase (<i>Configuración del proyecto → tu app Android</i>) o en Google Cloud, junto a la de debug y la de upload. Descargar el <code>google-services.json</code> actualizado a <code>android/app/</code>.</div></div>
+      <div class="card"><div class="card-icon">3️⃣</div><div class="card-title">Prueba cerrada</div><div class="card-text">Las cuentas personales de Play Console suelen requerir una prueba cerrada con al menos 12 evaluadores durante 14 días antes de pasar a producción (regla vigente en 2026; Google la ha cambiado antes, confírmala en Play Console).</div></div>
+      <div class="card"><div class="card-icon">4️⃣</div><div class="card-title">Nuevas versiones</div><div class="card-text">Subir el <code>+N</code> en <code>pubspec.yaml</code>, compilar y subir el nuevo AAB a la misma pista.</div></div>
+    </div>
+  </div>
+</section>
