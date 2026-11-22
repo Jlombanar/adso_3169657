@@ -5,7 +5,7 @@ import { iniciarVisor } from './google-play-visor.js';
 const GRUPOS = [
   { t: 'Crear la app', i: ['App creada con el nombre del paquete igual al <code>applicationId</code>', 'Idioma es-419, Aplicación y Gratis seleccionados', 'Las tres declaraciones aceptadas'] },
   { t: 'Prueba interna', i: ['Lista de correos de verificadores creada y seleccionada', '<code>app-release.aab</code> subido con el versionCode correcto', 'Notas de la versión escritas', 'Versión publicada: la pista dice Activo', 'Vínculo de prueba compartido y app instalada desde Google Play'] },
-  { t: 'Firma y Google Sign-In', i: ['SHA-1 de la clave de firma de la app copiada desde Play Console', 'Cliente Android creado en Google Cloud con el paquete y esa SHA-1', 'Login con Google probado en la app descargada de Play'] },
+  { t: 'Firma y Google Sign-In', i: ['SHA-1 de la clave de firma de la app copiada desde Play Console', 'Cliente Android creado en Google Cloud con el paquete y esa SHA-1', 'Link del backend en Página principal, Política de Privacidad y Condiciones del Servicio', 'Dominio del backend (sin https://) en Dominios autorizados y cambios guardados', 'Estado de publicación En producción en Google Auth Platform', 'Login con Google probado en la app descargada de Play con una cuenta que no es de prueba'] },
 ];
 
 document.addEventListener('adso:componentsLoaded', () => {
