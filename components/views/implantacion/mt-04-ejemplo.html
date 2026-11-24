@@ -1,0 +1,198 @@
+<section class="slide alt" id="ejemplo" aria-labelledby="mt-ejemplo-titulo"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">4 · EJEMPLO</div>
+    <h2 class="sec-titulo" id="mt-ejemplo-titulo">Así se vería el manual técnico de Helados Mimos</h2>
+    <p class="sec-desc">Es un ejemplo de cada parte aplicado a la app que construyeron. Las tablas, campos y rutas son de referencia: su manual debe llevar <b>exactamente</b> lo que tiene <b>su</b> proyecto. Revisen su código y su Supabase antes de copiar un nombre.</p></div>
+
+  <article class="manual" aria-label="Ejemplo de manual técnico de Helados Mimos">
+    <header class="manual-cabecera">
+      <p class="manual-institucion">SERVICIO NACIONAL DE APRENDIZAJE SENA · CADPH GARZÓN, HUILA</p>
+      <h3 class="manual-titulo">Manual Técnico · Sistema Helados Mimos</h3>
+      <p class="manual-sub"><b>Sistema:</b> app móvil Android + API REST · <b>Lector:</b> equipo de desarrollo y mantenimiento · <b>Versión:</b> 1.0</p>
+    </header>
+
+    <!-- 1 y 2 -->
+    <h4 class="manual-seccion">1. Hoja de control y 2. Índice</h4>
+    <p>Igual que en el manual de usuario: cliente, autores, ficha, fecha, versión, historial de revisiones (v0.1, v1.0) e índice con las 14 secciones y su número de página.</p>
+
+    <!-- 3 -->
+    <h4 class="manual-seccion">3. Introducción, objetivo y alcance</h4>
+    <p><b>Helados Mimos</b> es un sistema para que una heladería publique su carta de productos. Lo forman una app móvil Android hecha en Flutter y una API REST en Node.js con Express, desplegada en Render, que guarda los datos en Supabase y las imágenes en Cloudinary.</p>
+    <p><b>Objetivo del documento:</b> describir la arquitectura, los datos, la API y la configuración para que un desarrollador pueda instalar, mantener y ampliar el sistema. <b>Alcance:</b> backend, app móvil y servicios externos. No incluye el uso de las pantallas (ver manual de usuario).</p>
+
+    <!-- 4 -->
+    <h4 class="manual-seccion">4. Requisitos técnicos</h4>
+    <div class="tabla-wrap"><table class="info">
+      <thead><tr><th scope="col">Herramienta</th><th scope="col">Versión</th><th scope="col">Para qué</th></tr></thead>
+      <tbody>
+      <tr><td>Node.js y npm</td><td>[ej. 20 LTS]</td><td>Ejecutar el backend.</td></tr>
+      <tr><td>Flutter SDK</td><td>[ej. 3.24, ver <code>flutter --version</code>]</td><td>Compilar la app.</td></tr>
+      <tr><td>Android Studio</td><td>[versión]</td><td>SDK de Android, emulador y <code>keytool</code>.</td></tr>
+      <tr><td>Git</td><td>[versión]</td><td>Control de versiones.</td></tr>
+      <tr><td>Cuentas</td><td>—</td><td>GitHub, Render, Supabase, Cloudinary, Brevo, Google Cloud y Play Console.</td></tr>
+      </tbody></table></div>
+
+    <!-- 5 -->
+    <h4 class="manual-seccion">5. Arquitectura del sistema</h4>
+    <p>Arquitectura cliente-servidor en tres capas. La app nunca habla directo con la base de datos: todo pasa por la API.</p>
+    <div class="code-block">┌──────────────────────┐   HTTPS + JSON    ┌──────────────────────────┐
+│  App móvil Flutter   │ ───────────────▶ │  API REST Node/Express   │
+│  (Android · AAB)     │ ◀─────────────── │  Render (Web Service)    │
+└──────────────────────┘   token JWT      └────────────┬─────────────┘
+                                                        │
+              ┌─────────────────┬───────────────────────┼─────────────────┐
+              ▼                 ▼                       ▼                 ▼
+      ┌──────────────┐  ┌──────────────┐       ┌──────────────┐  ┌──────────────┐
+      │   Supabase   │  │  Cloudinary  │       │    Brevo     │  │ Google OAuth │
+      │ (PostgreSQL) │  │  (imágenes)  │       │   (correo)   │  │   (login)    │
+      └──────────────┘  └──────────────┘       └──────────────┘  └──────────────┘</div>
+    <p>En el documento real, este diagrama se dibuja en draw.io o Figma y se inserta como imagen.</p>
+
+    <!-- 6 -->
+    <h4 class="manual-seccion">6. Tecnologías y dependencias</h4>
+    <div class="tabla-wrap"><table class="info">
+      <thead><tr><th scope="col">Capa</th><th scope="col">Tecnología / paquete</th><th scope="col">Uso</th></tr></thead>
+      <tbody>
+      <tr><td>App</td><td>Flutter / Dart · paquete <code>http</code></td><td>Interfaz y llamadas a la API.</td></tr>
+      <tr><td>App</td><td><code>google_sign_in</code></td><td>Inicio de sesión con Google.</td></tr>
+      <tr><td>Backend</td><td>Node.js · Express</td><td>Servidor y rutas de la API.</td></tr>
+      <tr><td>Backend</td><td><code>jsonwebtoken</code> · <code>bcrypt</code></td><td>Tokens de sesión y cifrado de contraseñas.</td></tr>
+      <tr><td>Backend</td><td><code>@supabase/supabase-js</code></td><td>Consultas a la base de datos.</td></tr>
+      <tr><td>Backend</td><td><code>multer</code> + Cloudinary</td><td>Recibir y guardar las fotos de los helados.</td></tr>
+      </tbody></table></div>
+    <p>Las versiones exactas se copian de <code>backend/package.json</code> y de <code>pubspec.yaml</code>.</p>
+
+    <!-- 7 -->
+    <h4 class="manual-seccion">7. Estructura del proyecto</h4>
+    <div class="code-block">helados_mimos/
+├── backend/
+│   ├── server.js              ← arranca Express y registra las rutas
+│   ├── package.json           ← dependencias y scripts (start, dev)
+│   ├── routes/                ← define las URL de la API
+│   ├── controllers/           ← lógica de cada ruta (heladoController.js…)
+│   ├── middlewares/           ← verificarToken, solo administrador
+│   └── .env                   ← variables (NO se sube a GitHub)
+└── frontend/
+    ├── pubspec.yaml           ← dependencias y versión de la app
+    ├── android/               ← build.gradle.kts, key.properties
+    └── lib/
+        ├── main.dart          ← punto de entrada
+        ├── models/            ← producto_model.dart, user_model.dart
+        ├── services/          ← api_config.dart, producto_service.dart…
+        ├── components/        ← login.dart, producto_card.dart…
+        └── pages/             ← menu_page.dart, admin_product_list_page.dart</div>
+
+    <!-- 8 -->
+    <h4 class="manual-seccion">8. Modelo de datos (Supabase · PostgreSQL)</h4>
+    <div class="code-block">usuarios (id PK) ──1───N── mensajes_chat (remitente_id, destinatario_id FK)
+usuarios (email)  ──1───N── recovery_codes (email)
+helados  (id PK)            ← catálogo, sin relación con usuarios</div>
+    <div class="tabla-wrap"><table class="info">
+      <thead><tr><th scope="col">Tabla</th><th scope="col">Campo</th><th scope="col">Tipo</th><th scope="col">Descripción</th></tr></thead>
+      <tbody>
+      <tr><td rowspan="5"><code>helados</code></td><td><code>id</code></td><td>int8 · PK</td><td>Identificador del producto.</td></tr>
+      <tr><td><code>nombre</code></td><td>text</td><td>Nombre que se muestra en la carta.</td></tr>
+      <tr><td><code>precio</code></td><td>numeric</td><td>Precio en pesos colombianos.</td></tr>
+      <tr><td><code>descripcion</code></td><td>text</td><td>Texto corto del producto.</td></tr>
+      <tr><td><code>imagen_url</code></td><td>text</td><td>URL de la foto en Cloudinary.</td></tr>
+      <tr><td rowspan="4"><code>usuarios</code></td><td><code>id</code></td><td>int8 · PK</td><td>Identificador del usuario.</td></tr>
+      <tr><td><code>email</code></td><td>text · único</td><td>Correo para iniciar sesión.</td></tr>
+      <tr><td><code>password</code></td><td>text</td><td>Contraseña cifrada con bcrypt (nunca en texto plano).</td></tr>
+      <tr><td><code>rol</code></td><td>text</td><td><code>admin</code> o <code>cliente</code>.</td></tr>
+      </tbody></table></div>
+    <p>Se documentan igual <code>recovery_codes</code> y <code>mensajes_chat</code>. Las cuatro tablas tienen <b>RLS activo</b> (ver <a href="Manual_Supabase_AAB_SENA.html">Seguridad en Supabase</a>).</p>
+
+    <!-- 9 -->
+    <h4 class="manual-seccion">9. Documentación de la API</h4>
+    <p><b>URL base:</b> <code>https://[su-servicio].onrender.com/api</code> · <b>Formato:</b> JSON · <b>Autenticación:</b> encabezado <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+    <div class="tabla-wrap"><table class="info">
+      <thead><tr><th scope="col">Método</th><th scope="col">Ruta</th><th scope="col">Token</th><th scope="col">Descripción</th></tr></thead>
+      <tbody>
+      <tr><td>POST</td><td><code>/register</code></td><td>No</td><td>Crea un usuario.</td></tr>
+      <tr><td>POST</td><td><code>/login</code></td><td>No</td><td>Valida correo y contraseña; responde el token.</td></tr>
+      <tr><td>POST</td><td><code>/auth/google</code></td><td>No</td><td>Inicio de sesión con la cuenta de Google.</td></tr>
+      <tr><td>GET</td><td><code>/helados</code></td><td>No</td><td>Lista la carta.</td></tr>
+      <tr><td>POST</td><td><code>/helados</code></td><td>Admin</td><td>Crea un helado (<code>multipart/form-data</code> con la foto).</td></tr>
+      <tr><td>PUT</td><td><code>/helados/:id</code></td><td>Admin</td><td>Edita un helado; la foto es opcional.</td></tr>
+      <tr><td>DELETE</td><td><code>/helados/:id</code></td><td>Admin</td><td>Elimina un helado.</td></tr>
+      </tbody></table></div>
+    <p><b>Ejemplo de un endpoint documentado completo:</b></p>
+    <div class="code-title">POST /api/login</div>
+    <div class="code-block">Petición (JSON):
+{ "email": "admin@heladosmimos.com", "password": "********" }
+
+Respuesta 200:
+{ "token": "eyJhbGciOi...", "usuario": { "id": 1, "nombre": "Ana", "rol": "admin" } }
+
+Errores:
+400  Faltan campos               → { "mensaje": "Correo y contraseña son obligatorios" }
+401  Credenciales incorrectas    → { "mensaje": "Correo o contraseña incorrectos" }
+500  Error del servidor</div>
+
+    <!-- 10 -->
+    <h4 class="manual-seccion">10. Seguridad</h4>
+    <ul>
+      <li><b>Autenticación:</b> la API entrega un JWT firmado con <code>JWT_SECRET</code>; el middleware <code>verificarToken</code> lo valida en las rutas protegidas.</li>
+      <li><b>Roles:</b> solo el rol <code>admin</code> puede crear, editar y eliminar helados.</li>
+      <li><b>Contraseñas:</b> se guardan cifradas con bcrypt.</li>
+      <li><b>Base de datos:</b> RLS activo; el backend usa la llave <i>secret</i> y la app no tiene llaves de Supabase.</li>
+      <li><b>Firma de la app:</b> el AAB se firma con <code>upload-keystore.jks</code>, que no está en el repositorio (ver <a href="publicacion-android-aab.html">Firma del AAB</a>).</li>
+    </ul>
+
+    <!-- 11 -->
+    <h4 class="manual-seccion">11. Variables de entorno (backend)</h4>
+    <div class="tabla-wrap"><table class="info">
+      <thead><tr><th scope="col">Variable</th><th scope="col">Para qué sirve</th><th scope="col">Dónde se obtiene</th></tr></thead>
+      <tbody>
+      <tr><td><code>PORT</code></td><td>Puerto del servidor.</td><td>Lo asigna Render; en local, 3000.</td></tr>
+      <tr><td><code>SUPABASE_URL</code> · <code>SUPABASE_KEY</code></td><td>Conexión a la base de datos.</td><td>Supabase → Project Settings → API Keys.</td></tr>
+      <tr><td><code>JWT_SECRET</code></td><td>Firmar los tokens.</td><td>Texto largo definido por el equipo.</td></tr>
+      <tr><td><code>CLOUDINARY_CLOUD_NAME</code> · <code>_API_KEY</code> · <code>_API_SECRET</code></td><td>Subir imágenes.</td><td>Panel de Cloudinary.</td></tr>
+      <tr><td><code>BREVO_API_KEY</code></td><td>Enviar correos (recuperar contraseña).</td><td>Panel de Brevo → SMTP &amp; API.</td></tr>
+      <tr><td><code>GOOGLE_CLIENT_ID</code></td><td>Validar el login con Google.</td><td>Google Cloud → Google Auth Platform → Clientes.</td></tr>
+      </tbody></table></div>
+
+    <!-- 12 -->
+    <h4 class="manual-seccion">12. Instalación local y despliegue</h4>
+    <div class="code-title">Backend</div>
+    <div class="code-block">cd backend
+npm install
+# crear backend/.env con las variables de la sección 11
+npm run dev        # http://localhost:3000</div>
+    <div class="code-title">App</div>
+    <div class="code-block">cd frontend
+flutter pub get
+flutter run --dart-define-from-file=env.json
+flutter build appbundle --dart-define-from-file=env.json   # AAB para Play</div>
+    <p><b>Despliegue:</b> cada <code>git push</code> a <code>main</code> redespliega el Web Service en Render (Root Directory <code>backend</code>, Build <code>npm install</code>, Start <code>npm start</code>).</p>
+
+    <!-- 13 -->
+    <h4 class="manual-seccion">13. Mantenimiento</h4>
+    <p><b>Cómo agregar una ruta nueva</b> (ejemplo: marcar un helado como agotado):</p>
+    <ol>
+      <li>Agregar la columna <code>disponible</code> (bool) a la tabla <code>helados</code> en Supabase.</li>
+      <li>Crear la función en <code>backend/controllers/heladoController.js</code>.</li>
+      <li>Registrar la ruta <code>PATCH /api/helados/:id/disponible</code> en <code>routes/</code>, protegida con <code>verificarToken</code>.</li>
+      <li>Agregar el campo a <code>lib/models/producto_model.dart</code> y el método en <code>producto_service.dart</code>.</li>
+      <li>Actualizar las secciones 8 y 9 de este manual y subir la versión del documento.</li>
+    </ol>
+    <div class="tabla-wrap"><table class="info">
+      <thead><tr><th scope="col">Error conocido</th><th scope="col">Causa</th><th scope="col">Solución</th></tr></thead>
+      <tbody>
+      <tr><td>La primera petición tarda cerca de un minuto</td><td>Render Free duerme el servicio tras 15 min sin uso.</td><td>Monitor de UptimeRobot o plan pago.</td></tr>
+      <tr><td>Las fotos desaparecen tras redesplegar</td><td>El disco de Render es efímero.</td><td>Guardar siempre en Cloudinary.</td></tr>
+      <tr><td><code>401</code> en rutas de administrador</td><td>Token vencido o ausente.</td><td>Volver a iniciar sesión; revisar el encabezado <code>Authorization</code>.</td></tr>
+      </tbody></table></div>
+    <p><b>Logs:</b> Render → servicio → <b>Logs</b>. Base de datos: Supabase → <b>Logs</b>.</p>
+
+    <!-- 14 -->
+    <h4 class="manual-seccion">14. Glosario y anexos</h4>
+    <div class="tabla-wrap"><table class="info">
+      <tbody>
+      <tr><th scope="row">API REST</th><td>Conjunto de rutas HTTP que la app usa para leer y guardar datos.</td></tr>
+      <tr><th scope="row">JWT</th><td>Token firmado que identifica al usuario en cada petición.</td></tr>
+      <tr><th scope="row">RLS</th><td>Row Level Security: reglas de Supabase que limitan qué filas puede leer cada llave.</td></tr>
+      <tr><th scope="row">AAB</th><td>Android App Bundle: formato que se sube a Google Play.</td></tr>
+      <tr><th scope="row">Anexos</th><td>Enlace al repositorio de GitHub, URL de la API en Render y nombre del proyecto en Supabase.</td></tr>
+      </tbody></table></div>
+  </article>
+</div></section>

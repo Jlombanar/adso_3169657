@@ -1,0 +1,30 @@
+<section class="slide" id="que-es" aria-labelledby="mt-que-es-titulo"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag verde">1 · CONCEPTO</div>
+    <h2 class="sec-titulo" id="mt-que-es-titulo">¿Qué es un manual técnico?</h2>
+    <p class="sec-desc">Es el documento que describe <b>cómo está construido</b> el software: su arquitectura, la base de datos, la API, la estructura de carpetas, la configuración y cómo se mantiene. Se escribe para quien va a <b>programar</b> sobre el sistema.</p></div>
+
+  <div class="alert verde"><div class="alert-icon" aria-hidden="true">🔧</div><div>
+    <div class="alert-titulo">Siguiendo con la licuadora</div>
+    <div class="alert-desc">El manual de usuario dice qué botón presionar. El manual técnico es el que usa el <b>técnico de reparación</b>: el plano del motor, qué pieza va conectada a cuál, el calibre del cable y cómo cambiar una pieza sin dañar las demás. En el software es lo mismo: <b>cómo está hecho por dentro y cómo se modifica sin romperlo</b>.</div>
+  </div></div>
+
+  <div class="grid-cards">
+    <article class="card"><div class="card-icon" aria-hidden="true">👨‍💻</div><h3 class="card-title">¿Para quién se escribe?</h3><p class="card-text">Para el <b>programador</b> que va a mantener, corregir o mejorar el sistema: un compañero nuevo, el equipo del próximo trimestre o ustedes mismos dentro de seis meses.</p></article>
+    <article class="card"><div class="card-icon" aria-hidden="true">🎯</div><h3 class="card-title">¿Qué responde?</h3><p class="card-text">"¿Cómo funciona…?" y "¿Dónde cambio…?" Qué tecnologías usa, cómo se conectan las piezas, qué hace cada ruta de la API, dónde está cada archivo.</p></article>
+    <article class="card"><div class="card-icon" aria-hidden="true">🚫</div><h3 class="card-title">¿Qué NO lleva?</h3><p class="card-text">Contraseñas, llaves secretas ni valores reales del <code>.env</code>. Se documenta el <b>nombre</b> de cada variable y para qué sirve, nunca su valor.</p></article>
+  </div>
+
+  <h3 class="code-title">Manual de usuario vs. manual técnico</h3>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th scope="col">Pregunta</th><th scope="col">📘 Manual de usuario</th><th scope="col">🛠️ Manual técnico</th></tr></thead>
+    <tbody>
+    <tr><td><b>Lector</b></td><td>La dueña de la heladería, el empleado.</td><td>El programador.</td></tr>
+    <tr><td><b>Lenguaje</b></td><td>Sin palabras técnicas.</td><td>Técnico y preciso: endpoint, JWT, tabla, middleware.</td></tr>
+    <tr><td><b>Imágenes</b></td><td>Capturas de pantalla señalizadas.</td><td>Diagramas de arquitectura, modelo de datos y fragmentos de código.</td></tr>
+    <tr><td><b>Ejemplo</b></td><td>"Presione <b>CREAR PRODUCTO</b>."</td><td>"<code>POST /api/helados</code> recibe <code>multipart/form-data</code> y requiere token de administrador."</td></tr>
+    </tbody></table></div>
+
+  <div class="reflexion"><b>💭 Para pensar</b>
+    <ul><li>Si un compañero clona hoy su repositorio, ¿cuánto tiempo tardaría en hacerlo funcionar sin preguntarles nada?</li>
+    <li>¿Recuerdan para qué sirve cada variable del <code>.env</code>? ¿La recordarán dentro de seis meses?</li></ul></div>
+</div></section>

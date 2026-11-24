@@ -1,0 +1,29 @@
+<section class="slide" id="redaccion" aria-labelledby="mt-redaccion-titulo"><div class="slide-content">
+  <div class="sec-header"><div class="sec-tag naranja">3 · REDACCIÓN</div>
+    <h2 class="sec-titulo" id="mt-redaccion-titulo">Cómo se escribe un buen manual técnico</h2>
+    <p class="sec-desc">Aquí sí se usan palabras técnicas, pero con precisión: el lector debe poder hacer el cambio solo con lo que dice el documento.</p></div>
+
+  <div class="pasos">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-text"><b>Nombres exactos.</b> Archivos, carpetas, rutas, tablas y variables se escriben tal como están en el código y en formato de código: <code>backend/controllers/heladoController.js</code>, no "el controlador de los helados".</div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-text"><b>Versiones siempre.</b> "Flutter 3.24" o "Node 20", no "la última versión". Con otra versión el proyecto puede no compilar.</div></div>
+    <div class="paso"><div class="paso-num">3</div><div class="paso-text"><b>Un diagrama vale más que tres párrafos.</b> La arquitectura y el modelo de datos se explican primero con una imagen y después con texto.</div></div>
+    <div class="paso"><div class="paso-num">4</div><div class="paso-text"><b>Ejemplos de petición y respuesta.</b> En cada endpoint, un JSON de ejemplo de lo que se envía y lo que se recibe, incluidos los errores (401, 404, 500).</div></div>
+    <div class="paso"><div class="paso-num">5</div><div class="paso-text"><b>Fragmentos cortos de código.</b> Solo las líneas que explican algo importante, con la ruta del archivo arriba. El código completo está en el repositorio.</div></div>
+    <div class="paso"><div class="paso-num">6</div><div class="paso-text"><b>Nunca secretos.</b> Ni contraseñas, ni llaves de Supabase, ni el <code>JWT_SECRET</code>, ni la clave del keystore. El manual puede terminar en manos de cualquiera.</div></div>
+  </div>
+
+  <h3 class="code-title">Así no / así sí</h3>
+  <div class="tabla-wrap"><table class="info">
+    <thead><tr><th scope="col">❌ Así no</th><th scope="col">✅ Así sí</th></tr></thead>
+    <tbody>
+    <tr><td>"El backend guarda los helados."</td><td>"<code>POST /api/helados</code> valida el token de administrador, sube la imagen a Cloudinary y guarda el registro en la tabla <code>helados</code> de Supabase."</td></tr>
+    <tr><td>"Instalar las dependencias."</td><td>"En la carpeta <code>backend/</code>, ejecutar <code>npm install</code>. Requiere Node 20 o superior."</td></tr>
+    <tr><td>"<code>SUPABASE_KEY=sb_secret_3fA9…</code>"</td><td>"<code>SUPABASE_KEY</code>: llave <i>secret</i> del proyecto. Se obtiene en Supabase → Project Settings → API Keys. Solo va en el backend."</td></tr>
+    <tr><td>"Si falla, revisar el código."</td><td>"Si Render responde <code>502</code>, revisar en <b>Logs</b> que el servidor use <code>process.env.PORT</code>."</td></tr>
+    </tbody></table></div>
+
+  <div class="alert verde"><div class="alert-icon" aria-hidden="true">🧪</div><div>
+    <div class="alert-titulo">La prueba del manual técnico</div>
+    <div class="alert-desc">Denle el manual y el enlace del repositorio a un compañero de <b>otro equipo</b>. Pídanle que lo haga funcionar en su computador y que agregue un campo nuevo a los helados. Donde se quede pegado, ahí le falta algo al manual.</div>
+  </div></div>
+</div></section>
